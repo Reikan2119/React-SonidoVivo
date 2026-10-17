@@ -16,3 +16,4 @@ function Boton ({ id }:BotonProps) {
     )
     
 }
+export default Boton;

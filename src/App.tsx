@@ -5,7 +5,7 @@ import Navbar from "./componentes/organismos/Navbar";
 
 function App() {
   return (
-    <>
+    <div className="min-vh-100" style={{ backgroundColor: "#1c1a17" }}>
       <Navbar/>
 
       <Routes>
@@ -21,7 +21,7 @@ function App() {
           />
 
       </Routes>
-    </>
+    </div>
   )
 }
 

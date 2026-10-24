@@ -11,7 +11,7 @@ interface CardProps{
 function CardProducto({id, titulo, descripcion, precio, imagen}: CardProps){
 
     return(
-        <div className="card" style={{width:'21rem'}}>
+        <div className="card" style={{width: '100%', maxWidth: '21rem', backgroundColor: "#ffffff", border: '1px solid #b5731e', color: "#000000"}}>
             <img src={imagen} 
             className="card-img-top"
             alt={titulo}
@@ -26,7 +26,7 @@ function CardProducto({id, titulo, descripcion, precio, imagen}: CardProps){
                     {descripcion}
                 </p>
 
-                <p className="card-test">
+                <p className="card-test" style={{ color: "#b5731e", fontWeight: "bold" }}>
                     ${precio}
                 </p>
 

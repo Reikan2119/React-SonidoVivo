@@ -1,4 +1,4 @@
-function inicio(){
+function paginaInicio(){
     return(
         <div className="container mt-4">
 
@@ -10,7 +10,9 @@ function inicio(){
 
 
         </div>
-    )
+      </footer>
+    </div>
+  );
 }
 
-export default inicio
+export default paginaInicio;

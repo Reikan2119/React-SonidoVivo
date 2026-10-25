@@ -5,8 +5,7 @@ import Inicio from "./componentes/paginas/inicio"
 
 function App() {
   return (
-    <>
-      
+    <div className="min-vh-100" style={{ backgroundColor: "#1c1a17" }}>
       <Navbar/>
       <Routes>
         <Route
@@ -14,7 +13,7 @@ function App() {
           element={<Inicio/>}
         />{/* Ruta dinamica para mostrar el detalle segun el id del producto */}
       </Routes>
-    </>
+    </div>
   )
 }
 

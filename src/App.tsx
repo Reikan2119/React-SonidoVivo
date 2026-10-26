@@ -1,17 +1,25 @@
-import { Routes, Route } from "react-router-dom"
-import Navbar from "./componentes/organismos/NavBar"
-import Inicio from "./componentes/paginas/inicio"
-
+import { Routes, Route } from "react-router-dom";
+import PaginaInicio from "./componentes/paginas/paginaInicio";
+import Intrumentos from "./componentes/paginas/paginaInstrumentos";
+import Navbar from "./componentes/organismos/Navbar";
 
 function App() {
   return (
     <div className="min-vh-100" style={{ backgroundColor: "#1c1a17" }}>
       <Navbar/>
+
       <Routes>
+
         <Route
           path="/"
-          element={<Inicio/>}
-        />{/* Ruta dinamica para mostrar el detalle segun el id del producto */}
+          element={<PaginaInicio/>}
+          />
+
+          <Route
+          path="/instrumentos"
+          element={<Intrumentos/>}
+          />
+
       </Routes>
     </div>
   )

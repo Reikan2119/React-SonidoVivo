@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import CardProducto from "../moleculas/CardProducto";
 
 const img = (name: string) => encodeURI(`/img/Instrumentos/${name}`);
@@ -41,14 +43,26 @@ const accesorios = [
 ];
 
 const secciones = [
-  { titulo: "Guitarras", items: guitarras },
-  { titulo: "Bajos", items: bajos },
-  { titulo: "Baterías", items: baterias },
-  { titulo: "Teclados", items: teclados },
-  { titulo: "Accesorios", items: accesorios },
+  { titulo: "Guitarras", slug: "guitarras", items: guitarras },
+  { titulo: "Bajos", slug: "bajos", items: bajos },
+  { titulo: "Baterías", slug: "baterias", items: baterias },
+  { titulo: "Teclados", slug: "teclados", items: teclados },
+  { titulo: "Accesorios", slug: "accesorios", items: accesorios },
 ];
 
 function Instrumentos() {
+  const location = useLocation();
+  const hash = location.hash.replace("#", "").toLowerCase();
+  const visibles = hash ? secciones.filter((s) => s.slug === hash) : secciones;
+
+  useEffect(() => {
+    if (hash) {
+      const el = document.getElementById(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [hash]);
   return (
     <div style={{ backgroundColor: "#1c1a17", color: "#f5f0e1" }}>
       <section className="py-5">
@@ -60,8 +74,8 @@ function Instrumentos() {
         </div>
       </section>
 
-      {secciones.map((sec) => (
-        <section className="py-4" key={sec.titulo}>
+      {visibles.map((sec) => (
+        <section className="py-4" id={sec.slug} key={sec.titulo}>
           <div className="container">
             <h2 className="fw-bold mb-3" style={{ color: "#d98e2f" }}>{sec.titulo}</h2>
             <div className="row g-4 justify-content-center">

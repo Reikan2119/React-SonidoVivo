@@ -77,7 +77,7 @@ function Instrumentos() {
       {visibles.map((sec) => (
         <section className="py-4" id={sec.slug} key={sec.titulo}>
           <div className="container">
-            <h2 className="fw-bold mb-3" style={{ color: "#d98e2f" }}>{sec.titulo}</h2>
+            <h2 className="text-center fw-bold mb-3" style={{ color: "#d98e2f" }}>{sec.titulo}</h2>
             <div className="row g-4 justify-content-center">
               {sec.items.map((p) => (
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center" key={p.id}>

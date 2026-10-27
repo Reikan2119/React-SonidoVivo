@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import PaginaInicio from "./componentes/paginas/paginaInicio";
 import Intrumentos from "./componentes/paginas/paginaInstrumentos";
+import Accesorios from "./componentes/paginas/paginaAccesorios";
 import Navbar from "./componentes/organismos/Navbar";
 
 function App() {
@@ -18,6 +19,11 @@ function App() {
           <Route
           path="/instrumentos"
           element={<Intrumentos/>}
+          />
+
+          <Route
+          path="/accesorios"
+          element={<Accesorios/>}
           />
 
       </Routes>

@@ -36,10 +36,10 @@ function PaginaInicio() {
               { nombre: "Bajos", slug: "bajos" },
               { nombre: "Baterías", slug: "baterias" },
               { nombre: "Teclados", slug: "teclados" },
-              { nombre: "Accesorios", slug: "accesorios" },
+              { nombre: "Accesorios", slug: "accesorios", href: "/accesorios" },
             ].map((cat) => (
               <div className="col-6 col-md-4 col-lg-2" key={cat.slug}>
-                <a href={`/instrumentos#${cat.slug}`} style={{ textDecoration: "none" }}>
+                <a href={cat.href || `/instrumentos#${cat.slug}`} style={{ textDecoration: "none" }}>
                   <div className="card text-center h-100" style={{ backgroundColor: "#2a241c", border: `1px solid ${AMARILLO}` }}>
                     <div className="card-body d-flex align-items-center justify-content-center">
                       <h5 className="card-title m-0" style={{ color: "#f5f0e1" }}>{cat.nombre}</h5>

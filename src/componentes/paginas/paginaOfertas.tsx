@@ -1,5 +1,15 @@
 import CardOferta from "../moleculas/CardOferta";
 
+const img = (name: string) => encodeURI(`/img/Instrumentos/${name}`);
+
+const ofertas = [
+  { id: 701, titulo: "Guitarra Eléctrica SG", descripcion: "Guitarra eléctrica de cuerpo sólido", precio: 249990, precioAnterior: 299990, imagen: img("Guitarra_Eléctrica_SG.webp") },
+  { id: 702, titulo: "Bajo Eléctrico Jazz Bass", descripcion: "Bajo de 4 cuerdas estilo jazz", precio: 299990, precioAnterior: 349990, imagen: img("BajoEléctricoJazzBass.webp") },
+  { id: 703, titulo: "Teclado Digital 61 teclas", descripcion: "Teclado con sonidos variados", precio: 199990, precioAnterior: 249990, imagen: img("TecladoDigital61teclas.webp") },
+  { id: 704, titulo: "Batería Acústica 5 piezas", descripcion: "Set completo para bateristas", precio: 499990, precioAnterior: 599990, imagen: img("BateríaAcústica5piezas.webp") },
+  { id: 705, titulo: "Afinador de Clip", descripcion: "Afinador cromático de clip", precio: 9990, precioAnterior: 14990, imagen: img("AfinadordeClip.webp") },
+];
+
 function Ofertas() {
   return (
     <div style={{ backgroundColor: "#1c1a17", color: "#f5f0e1" }}>
@@ -11,6 +21,25 @@ function Ofertas() {
           </p>
         </div>
       </section>
+
+      <section className="py-4">
+        <div className="container">
+          <h2 className="text-center fw-bold mb-3" style={{ color: "#d98e2f" }}>Descuentos destacados</h2>
+          <div className="row g-4 justify-content-center">
+            {ofertas.map((p) => (
+              <div className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center" key={p.id}>
+                <CardOferta {...p} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="text-center py-4" style={{ backgroundColor: "#000000" }}>
+        <div className="container">
+          <p className="mb-0" style={{ color: "#f5f0e1" }}>© 2026 SonidoVivo - Todos los derechos reservados</p>
+        </div>
+      </footer>
     </div>
   );
 }

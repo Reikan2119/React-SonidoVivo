@@ -27,7 +27,7 @@ function CardProducto({id, titulo, descripcion, precio, imagen}: CardProps){
                 </p>
 
                 <p className="card-test" style={{ color: "#b5731e", fontWeight: "bold" }}>
-                    ${precio}
+                    ${precio.toLocaleString("es-CL")}
                 </p>
 
                 <div className="mt-auto">

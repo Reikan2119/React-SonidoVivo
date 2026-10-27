@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import PaginaInicio from "./componentes/paginas/paginaInicio";
 import Intrumentos from "./componentes/paginas/paginaInstrumentos";
 import Accesorios from "./componentes/paginas/paginaAccesorios";
+import Ofertas from "./componentes/paginas/paginaOfertas";
 import Navbar from "./componentes/organismos/Navbar";
 
 function App() {
@@ -24,6 +25,11 @@ function App() {
           <Route
           path="/accesorios"
           element={<Accesorios/>}
+          />
+
+          <Route
+          path="/ofertas"
+          element={<Ofertas/>}
           />
 
       </Routes>

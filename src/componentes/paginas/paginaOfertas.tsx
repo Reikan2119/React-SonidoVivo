@@ -3,11 +3,11 @@ import CardOferta from "../moleculas/CardOferta";
 const img = (name: string) => encodeURI(`/img/Instrumentos/${name}`);
 
 const ofertas = [
-  { id: 701, titulo: "Guitarra Eléctrica SG", descripcion: "Guitarra eléctrica de cuerpo sólido", precio: 249990, precioAnterior: 299990, imagen: img("Guitarra_Eléctrica_SG.webp") },
-  { id: 702, titulo: "Bajo Eléctrico Jazz Bass", descripcion: "Bajo de 4 cuerdas estilo jazz", precio: 299990, precioAnterior: 349990, imagen: img("BajoEléctricoJazzBass.webp") },
-  { id: 703, titulo: "Teclado Digital 61 teclas", descripcion: "Teclado con sonidos variados", precio: 199990, precioAnterior: 249990, imagen: img("TecladoDigital61teclas.webp") },
-  { id: 704, titulo: "Batería Acústica 5 piezas", descripcion: "Set completo para bateristas", precio: 499990, precioAnterior: 599990, imagen: img("BateríaAcústica5piezas.webp") },
-  { id: 705, titulo: "Afinador de Clip", descripcion: "Afinador cromático de clip", precio: 9990, precioAnterior: 14990, imagen: img("AfinadordeClip.webp") },
+  { id: 104, titulo: "Guitarra Eléctrica SG", descripcion: "Guitarra eléctrica de cuerpo sólido", precio: 249990, precioAnterior: 299990, imagen: img("Guitarra_Eléctrica_SG.webp") },
+  { id: 201, titulo: "Bajo Eléctrico Jazz Bass", descripcion: "Bajo de 4 cuerdas estilo jazz", precio: 299990, precioAnterior: 349990, imagen: img("BajoEléctricoJazzBass.webp") },
+  { id: 402, titulo: "Teclado Digital 61 teclas", descripcion: "Teclado con sonidos variados", precio: 199990, precioAnterior: 249990, imagen: img("TecladoDigital61teclas.webp") },
+  { id: 301, titulo: "Batería Acústica 5 piezas", descripcion: "Set completo para bateristas", precio: 499990, precioAnterior: 599990, imagen: img("BateríaAcústica5piezas.webp") },
+  { id: 501, titulo: "Afinador de Clip", descripcion: "Afinador cromático de clip", precio: 9990, precioAnterior: 14990, imagen: img("AfinadordeClip.webp") },
 ];
 
 function Ofertas() {

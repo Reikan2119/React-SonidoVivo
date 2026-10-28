@@ -9,6 +9,7 @@ import DetalleProducto from "./componentes/paginas/paginaDetalleProducto";
 import Carrito from "./componentes/paginas/paginaCarrito";
 import Login from "./componentes/paginas/paginaLogin";
 import Registro from "./componentes/paginas/paginaRegistro";
+import Admin from "./componentes/paginas/paginaAdmin";
 import Navbar from "./componentes/organismos/Navbar";
 import Footer from "./componentes/organismos/Footer";
 
@@ -68,6 +69,11 @@ function App() {
           <Route
           path="/registro"
           element={<Registro/>}
+          />
+
+          <Route
+          path="/admin"
+          element={<Admin/>}
           />
 
         </Routes>

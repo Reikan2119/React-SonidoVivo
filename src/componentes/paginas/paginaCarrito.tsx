@@ -12,6 +12,13 @@ function Carrito() {
   }, []);
 
   const total = items.reduce((acc, i) => acc + i.precio * i.cantidad, 0);
+  const [comprado, setComprado] = useState(false);
+
+  const handleComprar = () => {
+    vaciarCarrito();
+    setItems([]);
+    setComprado(true);
+  };
 
   return (
     <div style={{ backgroundColor: "#1c1a17", color: "#f5f0e1" }}>
@@ -46,9 +53,13 @@ function Carrito() {
               </div>
               <div className="text-end mt-3">
                 <h4 style={{ color: "#d98e2f" }}>Total: ${total.toLocaleString("es-CL")}</h4>
-                <button className="btn mt-2" style={{ backgroundColor: "#b5731e", color: "#fff" }} onClick={() => { vaciarCarrito(); cargar(); }}>
+                <button className="btn mt-2 me-2" style={{ backgroundColor: "#b5731e", color: "#fff" }} onClick={() => { vaciarCarrito(); cargar(); }}>
                   Vaciar carrito
                 </button>
+                <button className="btn mt-2" style={{ backgroundColor: "#d98e2f", color: "#1c1a17", fontWeight: "bold" }} onClick={handleComprar}>
+                  Comprar
+                </button>
+                {comprado && <p className="mt-3" style={{ color: "#d98e2f" }}>¡Compra realizada con éxito!</p>}
               </div>
             </>
           )}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 function Navbar(){
 
     const linkStyle = { color: "#f5f0e1", fontSize: "1.15rem", fontWeight: 600, letterSpacing: "0.5px" };
@@ -48,7 +48,7 @@ function Navbar(){
                             Carrito
                         </Link>
 
-                        <Link className="nav-link" style={linkStyle} to="carrito">
+                        <Link className="nav-link" style={linkStyle} to="/login">
                             Iniciar Sesión
                         </Link>
 
@@ -63,3 +63,5 @@ function Navbar(){
 }
 
 export default Navbar
+
+

@@ -7,6 +7,8 @@ import Nosotros from "./componentes/paginas/paginaNosotros";
 import Contacto from "./componentes/paginas/paginaContacto";
 import DetalleProducto from "./componentes/paginas/paginaDetalleProducto";
 import Carrito from "./componentes/paginas/paginaCarrito";
+import Login from "./componentes/paginas/paginaLogin";
+import Registro from "./componentes/paginas/paginaRegistro";
 import Navbar from "./componentes/organismos/Navbar";
 import Footer from "./componentes/organismos/Footer";
 
@@ -56,6 +58,16 @@ function App() {
           <Route
           path="/carrito"
           element={<Carrito/>}
+          />
+
+          <Route
+          path="/login"
+          element={<Login/>}
+          />
+
+          <Route
+          path="/registro"
+          element={<Registro/>}
           />
 
         </Routes>

@@ -1,4 +1,5 @@
 import Boton from "../atomos/Boton";
+import { addToCarrito } from "../../utils/carrito";
 
 interface CardProps{
     id: number;
@@ -30,8 +31,14 @@ function CardProducto({id, titulo, descripcion, precio, imagen}: CardProps){
                     ${precio.toLocaleString("es-CL")}
                 </p>
 
-                <div className="mt-auto">
+                <div className="mt-auto d-flex gap-2">
                     <Boton id={id}/>
+                    <button
+                      className="btn btn-success"
+                      onClick={() => addToCarrito({ id, titulo, precio, imagen })}
+                    >
+                      Comprar
+                    </button>
                 </div>
             </div>
         </div>

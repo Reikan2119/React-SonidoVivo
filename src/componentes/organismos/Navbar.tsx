@@ -64,6 +64,12 @@ function Navbar(){
                             Carrito
                         </Link>
 
+                        {sesion?.rol === "admin" && (
+                            <Link className="nav-link" style={linkStyle} to="/admin">
+                                Panel Admin
+                            </Link>
+                        )}
+
                         {sesion ? (
                             <button className="nav-link btn btn-link" style={{ ...linkStyle, textDecoration: "none", border: "none", background: "none", padding: 0 }} onClick={handleLogout}>
                                 Cerrar Sesión

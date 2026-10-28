@@ -40,6 +40,10 @@ function Navbar(){
                             Nosotros
                         </Link>
 
+                        <Link className="nav-link" style={linkStyle} to="/contacto">
+                            Contacto
+                        </Link>
+
                         <Link className="nav-link" style={linkStyle} to="carrito">
                             Carrito
                         </Link>

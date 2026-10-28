@@ -8,10 +8,10 @@ function Navbar(){
 
             <div className="container">
 
-                <span className="navbar-brand" style={{ ...linkStyle, fontSize: "1.4rem" }}>
+                <Link to="/" className="navbar-brand" style={{ ...linkStyle, fontSize: "1.4rem", textDecoration: "none" }}>
                     <span style={{ color: "#1c1a17" }}>Sonido</span>
                     <span style={{ color: "#f5f0e1" }}>Vivo</span>
-                </span>
+                </Link>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style={{ borderColor: "#f5f0e1" }}>
                     <span className="navbar-toggler-icon"></span>

@@ -35,11 +35,6 @@ function Ofertas() {
         </div>
       </section>
 
-      <footer className="text-center py-4" style={{ backgroundColor: "#000000" }}>
-        <div className="container">
-          <p className="mb-0" style={{ color: "#f5f0e1" }}>© 2026 SonidoVivo - Todos los derechos reservados</p>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import Boton from "../atomos/Boton";
 import { addToCarrito, getCarrito } from "../../utils/carrito";
+import { getStock } from "../../utils/stock";
 
 interface CardOfertaProps {
   id: number;
@@ -12,6 +13,7 @@ interface CardOfertaProps {
 }
 
 function CardOferta({ id, titulo, descripcion, precio, precioAnterior, imagen, stock = 0 }: CardOfertaProps) {
+  const stockEfectivo = getStock(id, stock);
   return (
     <div className="card" style={{ width: "100%", maxWidth: "21rem", backgroundColor: "#ffffff", border: "1px solid #b5731e", color: "#000000" }}>
       <img src={imagen} className="card-img-top" alt={titulo} style={{ height: "200px", objectFit: "contain" }} />
@@ -25,23 +27,23 @@ function CardOferta({ id, titulo, descripcion, precio, precioAnterior, imagen, s
           ${precio.toLocaleString("es-CL")}
         </p>
         <p className="mb-2 small" style={{ color: "#555" }}>
-          Stock: {stock}
+          Stock: {stockEfectivo}
         </p>
         <div className="mt-auto d-flex gap-2">
           <Boton id={id} />
           <button
             className="btn btn-success"
-            disabled={stock <= 0}
+            disabled={stockEfectivo <= 0}
             onClick={() => {
               const actual = getCarrito().find((i) => i.id === id)?.cantidad || 0;
-              if (actual >= stock) {
+              if (actual >= stockEfectivo) {
                 alert("No puedes agregar más, stock insuficiente.");
                 return;
               }
               addToCarrito({ id, titulo, precio, imagen });
             }}
           >
-            {stock <= 0 ? "Sin stock" : "Comprar"}
+            {stockEfectivo <= 0 ? "Sin stock" : "Comprar"}
           </button>
         </div>
       </div>

@@ -26,6 +26,9 @@ export function setStock(id: number, value: number) {
 export function adjustStock(id: number, delta: number, defaultStock: number) {
   const actual = getStock(id, defaultStock);
   setStock(id, actual + delta);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("stock-updated", { detail: { id } }));
+  }
 }
 
 export function puedeAgregar(stock: number, cantidadActual: number): boolean {

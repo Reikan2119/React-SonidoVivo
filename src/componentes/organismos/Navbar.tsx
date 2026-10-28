@@ -16,7 +16,7 @@ function Navbar(){
     const handleLogout = () => {
         cerrarSesion();
         setSesion(null);
-        navigate("/");
+        navigate("/logout");
     };
 
     return(

@@ -5,6 +5,8 @@ import CardProducto from "../moleculas/CardProducto";
 export const guitarras = [
   { id: 101, titulo: "Affinity Stratocaster", descripcion: "Guitarra eléctrica estilo Stratocaster", precio: 399990, stock: 5, imagen: encodeURI("/img/Instrumentos/Affinity Stratocaster.png") },
   { id: 102, titulo: "Guitarra Acústica Folk", descripcion: "Guitarra acústica folk", precio: 199990, stock: 3, imagen: encodeURI("/img/Instrumentos/Guitarra Acústica Folk.jpg") },
+  { id: 110, titulo: "Guitarra Acústica Folk II", descripcion: "Guitarra acústica folk (modelo 2)", precio: 209990, stock: 2, imagen: encodeURI("/img/Instrumentos/Guitarra Acústica Folk_2.jpg") },
+  { id: 111, titulo: "Guitarra Acústica Folk III", descripcion: "Guitarra acústica folk (modelo 3)", precio: 219990, stock: 2, imagen: encodeURI("/img/Instrumentos/Guitarra Acústica Folk_3.jpg") },
   { id: 103, titulo: "Guitarra Dreadnought", descripcion: "Guitarra acústica dreadnought", precio: 229990, stock: 4, imagen: encodeURI("/img/Instrumentos/Guitarra_Dreadnought.png") },
   { id: 104, titulo: "Guitarra Eléctrica SG", descripcion: "Guitarra eléctrica de cuerpo sólido", precio: 299990, stock: 6, imagen: encodeURI("/img/Instrumentos/Guitarra_Eléctrica_SG.webp") },
   { id: 105, titulo: "Guitarra Eléctrica Telecaster", descripcion: "Guitarra eléctrica estilo Telecaster", precio: 329990, stock: 2, imagen: encodeURI("/img/Instrumentos/Guitarra_Eléctrica_Telecaster.webp") },

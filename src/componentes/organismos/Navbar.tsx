@@ -1,7 +1,18 @@
-﻿import { Link } from "react-router-dom";
-function Navbar(){
+﻿import { Link, useNavigate } from "react-router-dom";
+import { getSesion, cerrarSesion } from "../../utils/auth";
+import { useState } from "react";
 
-    const linkStyle = { color: "#f5f0e1", fontSize: "1.15rem", fontWeight: 600, letterSpacing: "0.5px" };
+function Navbar(){
+    const navigate = useNavigate();
+    const [sesion, setSesion] = useState(getSesion());
+
+    const linkStyle = { color: "#f5f0e1", fontSize: "1.15rem", fontWeight: 600, letterSpacing: "0.5px", marginRight: "1rem" };
+
+    const handleLogout = () => {
+        cerrarSesion();
+        setSesion(null);
+        navigate("/");
+    };
 
     return(
         <nav className="navbar navbar-expand-md" style={{ backgroundColor: "#d98e2f" }}>
@@ -48,9 +59,15 @@ function Navbar(){
                             Carrito
                         </Link>
 
-                        <Link className="nav-link" style={linkStyle} to="/login">
-                            Iniciar Sesión
-                        </Link>
+                        {sesion ? (
+                            <button className="nav-link btn btn-link" style={{ ...linkStyle, textDecoration: "none", border: "none", background: "none", padding: 0 }} onClick={handleLogout}>
+                                Cerrar Sesión
+                            </button>
+                        ) : (
+                            <Link className="nav-link" style={linkStyle} to="/login">
+                                Iniciar Sesión
+                            </Link>
+                        )}
 
                     </div>
                 </div>

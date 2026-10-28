@@ -10,6 +10,13 @@ function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Credenciales de administrador
+    if (email === "admin@sonidovivo.com" && password === "admin123") {
+      const admin = { nombre: "Admin", apellido: "", email, password, rol: "admin" };
+      setSesion(admin);
+      navigate("/admin");
+      return;
+    }
     const u = loginUsuario(email, password);
     if (u) {
       setSesion(u);

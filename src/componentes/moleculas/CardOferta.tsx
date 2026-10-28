@@ -1,4 +1,5 @@
 import Boton from "../atomos/Boton";
+import { addToCarrito } from "../../utils/carrito";
 
 interface CardOfertaProps {
   id: number;
@@ -22,8 +23,14 @@ function CardOferta({ id, titulo, descripcion, precio, precioAnterior, imagen }:
         <p className="card-test" style={{ color: "#b5731e", fontWeight: "bold" }}>
           ${precio.toLocaleString("es-CL")}
         </p>
-        <div className="mt-auto">
+        <div className="mt-auto d-flex gap-2">
           <Boton id={id} />
+          <button
+            className="btn btn-success"
+            onClick={() => addToCarrito({ id, titulo, precio, imagen })}
+          >
+            Comprar
+          </button>
         </div>
       </div>
     </div>

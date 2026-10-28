@@ -4,7 +4,7 @@ import CardProducto from "../moleculas/CardProducto";
 
 const img = (name: string) => encodeURI(`/img/Instrumentos/${name}`);
 
-const guitarras = [
+export const guitarras = [
   { id: 101, titulo: "Affinity Stratocaster", descripcion: "Guitarra eléctrica estilo Stratocaster", precio: 399990, imagen: img("Affinity Stratocaster.png") },
   { id: 102, titulo: "Guitarra Acústica Folk", descripcion: "Guitarra acústica folk", precio: 199990, imagen: img("Guitarra Acústica Folk.jpg") },
   { id: 103, titulo: "Guitarra Dreadnought", descripcion: "Guitarra acústica dreadnought", precio: 229990, imagen: img("Guitarra_Dreadnought.png") },
@@ -16,22 +16,22 @@ const guitarras = [
   { id: 109, titulo: "Yamaha JR1 3/4", descripcion: "Guitarra de tamaño 3/4", precio: 99990, imagen: img("Yamaha_JR1_3_4.png") },
 ];
 
-const bajos = [
+export const bajos = [
   { id: 201, titulo: "Bajo Eléctrico Jazz Bass", descripcion: "Bajo de 4 cuerdas estilo jazz", precio: 349990, imagen: img("BajoEléctricoJazzBass.webp") },
   { id: 202, titulo: "Bajo Eléctrico 4 Cuerdas", descripcion: "Bajo eléctrico de 4 cuerdas", precio: 299990, imagen: img("Bajo_Eléctrico_4_Cuerdas.webp") },
 ];
 
-const baterias = [
+export const baterias = [
   { id: 301, titulo: "Batería Acústica 5 piezas", descripcion: "Set completo para bateristas", precio: 599990, imagen: img("BateríaAcústica5piezas.webp") },
   { id: 302, titulo: "Caja Snare 14\"", descripcion: "Caja snare de 14 pulgadas", precio: 129990, imagen: img("CajaSnare14.webp") },
 ];
 
-const teclados = [
+export const teclados = [
   { id: 401, titulo: "Sintetizador 49 teclas", descripcion: "Sintetizador Arturia", precio: 279990, imagen: img("Sintetizador49teclasArturia.webp") },
   { id: 402, titulo: "Teclado Digital 61 teclas", descripcion: "Teclado con sonidos variados", precio: 249990, imagen: img("TecladoDigital61teclas.webp") },
 ];
 
-const accesorios = [
+export const accesorios = [
   { id: 501, titulo: "Afinador de Clip", descripcion: "Afinador cromático de clip", precio: 14990, imagen: img("AfinadordeClip.webp") },
   { id: 502, titulo: "Cable de Instrumento", descripcion: "Cable para instrumento", precio: 9990, imagen: img("CableInstrumento.webp") },
   { id: 503, titulo: "Capotraste", descripcion: "Capotraste para guitarra", precio: 7990, imagen: img("CapotrasteGuitarra.webp") },

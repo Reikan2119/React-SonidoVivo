@@ -2,13 +2,13 @@ import CardProducto from "../moleculas/CardProducto";
 
 const img = (name: string) => encodeURI(`/img/Instrumentos/${name}`);
 
-const cuerdas = [
+export const cuerdas = [
   { id: 601, titulo: "Cuerdas de Bajo", descripcion: "Set de cuerdas para bajo", precio: 12990, imagen: img("CuerdasBajo.webp") },
   { id: 602, titulo: "Cuerdas Guitarra Acústica", descripcion: "Set de cuerdas acústicas", precio: 9990, imagen: img("CuerdasGuitarraAcústica.webp") },
   { id: 603, titulo: "Cuerdas Guitarra Eléctrica", descripcion: "Set de cuerdas eléctricas", precio: 9990, imagen: img("CuerdasGuitarraEléctrica.webp") },
 ];
 
-const otros = [
+export const otros = [
   { id: 604, titulo: "Afinador de Clip", descripcion: "Afinador cromático de clip", precio: 14990, imagen: img("AfinadordeClip.webp") },
   { id: 605, titulo: "Cable de Instrumento", descripcion: "Cable para instrumento", precio: 9990, imagen: img("CableInstrumento.webp") },
   { id: 606, titulo: "Capotraste", descripcion: "Capotraste para guitarra", precio: 7990, imagen: img("CapotrasteGuitarra.webp") },

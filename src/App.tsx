@@ -5,6 +5,7 @@ import Accesorios from "./componentes/paginas/paginaAccesorios";
 import Ofertas from "./componentes/paginas/paginaOfertas";
 import Nosotros from "./componentes/paginas/paginaNosotros";
 import Contacto from "./componentes/paginas/paginaContacto";
+import DetalleProducto from "./componentes/paginas/paginaDetalleProducto";
 import Navbar from "./componentes/organismos/Navbar";
 import Footer from "./componentes/organismos/Footer";
 
@@ -44,6 +45,11 @@ function App() {
           <Route
           path="/contacto"
           element={<Contacto/>}
+          />
+
+          <Route
+          path="/producto/:id"
+          element={<DetalleProducto/>}
           />
 
         </Routes>

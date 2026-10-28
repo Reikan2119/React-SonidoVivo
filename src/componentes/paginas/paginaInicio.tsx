@@ -3,10 +3,10 @@ import CardProducto from "../moleculas/CardProducto";
 const AMARILLO = "#d98e2f";
 
 const destacados = [
-  { id: 104, titulo: "Guitarra Eléctrica SG", descripcion: "Guitarra eléctrica de cuerpo sólido", precio: 299990, imagen: "/img/Instrumentos/Guitarra_El%C3%A9ctrica_SG.webp" },
-  { id: 201, titulo: "Bajo Eléctrico Jazz Bass", descripcion: "Bajo de 4 cuerdas estilo jazz", precio: 349990, imagen: "/img/Instrumentos/BajoEl%C3%A9ctricoJazzBass.webp" },
-  { id: 301, titulo: "Batería Acústica 5 piezas", descripcion: "Set completo para bateristas", precio: 599990, imagen: "/img/Instrumentos/Bater%C3%ADaAc%C3%BAstica5piezas.webp" },
-  { id: 402, titulo: "Teclado Digital 61 teclas", descripcion: "Teclado con sonidos variados", precio: 249990, imagen: "/img/Instrumentos/TecladoDigital61teclas.webp" },
+  { id: 104, titulo: "Guitarra Eléctrica SG", descripcion: "Guitarra eléctrica de cuerpo sólido", precio: 299990, stock: 6, imagen: "/img/Instrumentos/Guitarra_El%C3%A9ctrica_SG.webp" },
+  { id: 201, titulo: "Bajo Eléctrico Jazz Bass", descripcion: "Bajo de 4 cuerdas estilo jazz", precio: 349990, stock: 4, imagen: "/img/Instrumentos/BajoEl%C3%A9ctricoJazzBass.webp" },
+  { id: 301, titulo: "Batería Acústica 5 piezas", descripcion: "Set completo para bateristas", precio: 599990, stock: 2, imagen: "/img/Instrumentos/Bater%C3%ADaAc%C3%BAstica5piezas.webp" },
+  { id: 402, titulo: "Teclado Digital 61 teclas", descripcion: "Teclado con sonidos variados", precio: 249990, stock: 5, imagen: "/img/Instrumentos/TecladoDigital61teclas.webp" },
 ];
 
 function PaginaInicio() {

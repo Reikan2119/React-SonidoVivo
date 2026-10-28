@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getCarrito, vaciarCarrito, ItemCarrito } from "../../utils/carrito";
+import { getCarrito, vaciarCarrito } from "../../utils/carrito";
+import type { ItemCarrito } from "../../utils/carrito";
 
 function Carrito() {
   const [items, setItems] = useState<ItemCarrito[]>([]);

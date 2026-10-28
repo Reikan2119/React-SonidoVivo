@@ -1,19 +1,17 @@
 import CardProducto from "../moleculas/CardProducto";
 
-const img = (name: string) => encodeURI(`/img/Instrumentos/${name}`);
-
 export const cuerdas = [
-  { id: 601, titulo: "Cuerdas de Bajo", descripcion: "Set de cuerdas para bajo", precio: 12990, imagen: img("CuerdasBajo.webp") },
-  { id: 602, titulo: "Cuerdas Guitarra Acústica", descripcion: "Set de cuerdas acústicas", precio: 9990, imagen: img("CuerdasGuitarraAcústica.webp") },
-  { id: 603, titulo: "Cuerdas Guitarra Eléctrica", descripcion: "Set de cuerdas eléctricas", precio: 9990, imagen: img("CuerdasGuitarraEléctrica.webp") },
+  { id: 601, titulo: "Cuerdas de Bajo", descripcion: "Set de cuerdas para bajo", precio: 12990, stock: 20, imagen: encodeURI("/img/Instrumentos/CuerdasBajo.webp") },
+  { id: 602, titulo: "Cuerdas Guitarra Acústica", descripcion: "Set de cuerdas acústicas", precio: 9990, stock: 20, imagen: encodeURI("/img/Instrumentos/CuerdasGuitarraAcústica.webp") },
+  { id: 603, titulo: "Cuerdas Guitarra Eléctrica", descripcion: "Set de cuerdas eléctricas", precio: 9990, stock: 20, imagen: encodeURI("/img/Instrumentos/CuerdasGuitarraEléctrica.webp") },
 ];
 
 export const otros = [
-  { id: 604, titulo: "Afinador de Clip", descripcion: "Afinador cromático de clip", precio: 14990, imagen: img("AfinadordeClip.webp") },
-  { id: 605, titulo: "Cable de Instrumento", descripcion: "Cable para instrumento", precio: 9990, imagen: img("CableInstrumento.webp") },
-  { id: 606, titulo: "Capotraste", descripcion: "Capotraste para guitarra", precio: 7990, imagen: img("CapotrasteGuitarra.webp") },
-  { id: 607, titulo: "Púas de Guitarra", descripcion: "Set de púas", precio: 3990, imagen: img("PúasdeGuitarra.webp") },
-  { id: 608, titulo: "Soporte de Guitarra", descripcion: "Soporte para guitarra", precio: 19990, imagen: img("SoporteGuitarra.webp") },
+  { id: 604, titulo: "Afinador de Clip", descripcion: "Afinador cromático de clip", precio: 14990, stock: 10, imagen: encodeURI("/img/Instrumentos/AfinadordeClip.webp") },
+  { id: 605, titulo: "Cable de Instrumento", descripcion: "Cable para instrumento", precio: 9990, stock: 15, imagen: encodeURI("/img/Instrumentos/CableInstrumento.webp") },
+  { id: 606, titulo: "Capotraste", descripcion: "Capotraste para guitarra", precio: 7990, stock: 12, imagen: encodeURI("/img/Instrumentos/CapotrasteGuitarra.webp") },
+  { id: 607, titulo: "Púas de Guitarra", descripcion: "Set de púas", precio: 3990, stock: 30, imagen: encodeURI("/img/Instrumentos/PúasdeGuitarra.webp") },
+  { id: 608, titulo: "Soporte de Guitarra", descripcion: "Soporte para guitarra", precio: 19990, stock: 7, imagen: encodeURI("/img/Instrumentos/SoporteGuitarra.webp") },
 ];
 
 const secciones = [
@@ -47,7 +45,6 @@ function Accesorios() {
           </div>
         </section>
       ))}
-
     </div>
   );
 }

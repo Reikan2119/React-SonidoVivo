@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
 import { addToCarrito, getCarrito } from "../../utils/carrito";
 import { getStock } from "../../utils/stock";
@@ -13,7 +14,16 @@ interface CardOfertaProps {
 }
 
 function CardOferta({ id, titulo, descripcion, precio, precioAnterior, imagen, stock = 0 }: CardOfertaProps) {
-  const stockEfectivo = getStock(id, stock);
+  const [stockEfectivo, setStockEfectivo] = useState(getStock(id, stock));
+  useEffect(() => {
+    const update = () => setStockEfectivo(getStock(id, stock));
+    window.addEventListener("stock-updated", update);
+    window.addEventListener("storage", update);
+    return () => {
+      window.removeEventListener("stock-updated", update);
+      window.removeEventListener("storage", update);
+    };
+  }, [id, stock]);
   return (
     <div className="card" style={{ width: "100%", maxWidth: "21rem", backgroundColor: "#ffffff", border: "1px solid #b5731e", color: "#000000" }}>
       <img src={imagen} className="card-img-top" alt={titulo} style={{ height: "200px", objectFit: "contain" }} />

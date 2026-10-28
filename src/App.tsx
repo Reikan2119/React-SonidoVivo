@@ -6,6 +6,7 @@ import Ofertas from "./componentes/paginas/paginaOfertas";
 import Nosotros from "./componentes/paginas/paginaNosotros";
 import Contacto from "./componentes/paginas/paginaContacto";
 import DetalleProducto from "./componentes/paginas/paginaDetalleProducto";
+import Carrito from "./componentes/paginas/paginaCarrito";
 import Navbar from "./componentes/organismos/Navbar";
 import Footer from "./componentes/organismos/Footer";
 
@@ -50,6 +51,11 @@ function App() {
           <Route
           path="/producto/:id"
           element={<DetalleProducto/>}
+          />
+
+          <Route
+          path="/carrito"
+          element={<Carrito/>}
           />
 
         </Routes>

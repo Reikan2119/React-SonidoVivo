@@ -1,10 +1,15 @@
-﻿import { Link, useNavigate } from "react-router-dom";
+﻿import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getSesion, cerrarSesion } from "../../utils/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Navbar(){
     const navigate = useNavigate();
+    const location = useLocation();
     const [sesion, setSesion] = useState(getSesion());
+
+    useEffect(() => {
+        setSesion(getSesion());
+    }, [location.pathname]);
 
     const linkStyle = { color: "#f5f0e1", fontSize: "1.15rem", fontWeight: 600, letterSpacing: "0.5px", marginRight: "1rem" };
 

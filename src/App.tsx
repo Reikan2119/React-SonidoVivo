@@ -3,6 +3,7 @@ import PaginaInicio from "./componentes/paginas/paginaInicio";
 import Intrumentos from "./componentes/paginas/paginaInstrumentos";
 import Accesorios from "./componentes/paginas/paginaAccesorios";
 import Ofertas from "./componentes/paginas/paginaOfertas";
+import Nosotros from "./componentes/paginas/paginaNosotros";
 import Navbar from "./componentes/organismos/Navbar";
 import Footer from "./componentes/organismos/Footer";
 
@@ -32,6 +33,11 @@ function App() {
           <Route
           path="/ofertas"
           element={<Ofertas/>}
+          />
+
+          <Route
+          path="/nosotros"
+          element={<Nosotros/>}
           />
 
         </Routes>

@@ -36,6 +36,10 @@ function Navbar(){
                             Ofertas
                         </Link>
 
+                        <Link className="nav-link" style={linkStyle} to="/nosotros">
+                            Nosotros
+                        </Link>
+
                         <Link className="nav-link" style={linkStyle} to="carrito">
                             Carrito
                         </Link>

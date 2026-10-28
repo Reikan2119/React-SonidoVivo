@@ -3,6 +3,7 @@ export interface Usuario {
   apellido: string;
   email: string;
   password: string;
+  rol?: string;
 }
 
 const KEY = "usuarios";

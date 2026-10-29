@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
 import BotonComprar from "../atomos/BotonComprar";
 import { addToCarrito, getCarrito } from "../../utils/carrito";
-import { getStock, adjustStock } from "../../utils/stock";
+import { getStock } from "../../utils/stock";
 
 interface CardProps{
     id: number;
@@ -59,7 +59,6 @@ function CardProducto({id, titulo, descripcion, precio, imagen, stock = 0}: Card
                           return;
                         }
                         addToCarrito({ id, titulo, precio, imagen });
-                        adjustStock(id, -1, stock);
                       }}
                     >
                       {stockEfectivo <= 0 ? "Sin stock" : "Comprar"}

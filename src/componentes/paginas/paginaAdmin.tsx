@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getSesion } from "../../utils/auth";
 import { getStock, adjustStock } from "../../utils/stock";
-import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaInstrumentos";
-import { cuerdas, otros } from "./paginaAccesorios";
+import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaProductos";
 
-const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios, ...cuerdas, ...otros];
+const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios];
 
 function Admin() {
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ function Admin() {
           <h1 className="text-center fw-bold" style={{ color: "#d98e2f" }}>Panel de Administrador</h1>
           <p className="text-center lead">Bienvenido, {sesion.nombre || "Admin"}</p>
           <div className="table-responsive mt-4">
-            <table className="table table-dark table-striped align-middle">
+            <table className="table table-dark table-striped align-middle" data-refresh={refresh}>
               <thead>
                 <tr>
                   <th>ID</th>

@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { getCarrito, vaciarCarrito } from "../../utils/carrito";
 import type { ItemCarrito } from "../../utils/carrito";
 import { adjustStock } from "../../utils/stock";
-import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaInstrumentos";
-import { cuerdas, otros } from "./paginaAccesorios";
+import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaProductos";
 
-const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios, ...cuerdas, ...otros];
+const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios];
 
 function Carrito() {
   const [items, setItems] = useState<ItemCarrito[]>([]);

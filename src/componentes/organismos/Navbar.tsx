@@ -53,16 +53,8 @@ function Navbar(){
                             Inicio
                         </Link>
 
-                        <Link className="nav-link" style={linkStyle} to="/instrumentos">
-                            Instrumentos
-                        </Link>
-
-                        <Link className="nav-link" style={linkStyle} to="/accesorios">
-                            Accesorios
-                        </Link>
-
-                        <Link className="nav-link" style={linkStyle} to="/ofertas">
-                            Ofertas
+                        <Link className="nav-link" style={linkStyle} to="/productos">
+                            Productos
                         </Link>
 
                         <Link className="nav-link" style={linkStyle} to="/nosotros">

@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import PaginaInicio from "./componentes/paginas/paginaInicio";
-import Intrumentos from "./componentes/paginas/paginaInstrumentos";
-import Accesorios from "./componentes/paginas/paginaAccesorios";
-import Ofertas from "./componentes/paginas/paginaOfertas";
+import Productos from "./componentes/paginas/paginaProductos";
 import Nosotros from "./componentes/paginas/paginaNosotros";
 import Contacto from "./componentes/paginas/paginaContacto";
 import DetalleProducto from "./componentes/paginas/paginaDetalleProducto";
@@ -23,70 +21,27 @@ function App() {
       <main className="flex-grow-1">
         <Routes>
 
-          <Route
-          path="/"
-          element={<PaginaInicio/>}
-          />
+          <Route path="/" element={<PaginaInicio/>} />
 
-          <Route
-          path="/instrumentos"
-          element={<Intrumentos/>}
-          />
+          <Route path="/productos" element={<Productos/>} />
 
-          <Route
-          path="/accesorios"
-          element={<Accesorios/>}
-          />
+          <Route path="/nosotros" element={<Nosotros/>} />
 
-          <Route
-          path="/ofertas"
-          element={<Ofertas/>}
-          />
+          <Route path="/contacto" element={<Contacto/>} />
 
-          <Route
-          path="/nosotros"
-          element={<Nosotros/>}
-          />
+          <Route path="/producto/:id" element={<DetalleProducto/>} />
 
-          <Route
-          path="/contacto"
-          element={<Contacto/>}
-          />
+          <Route path="/carrito" element={<Carrito/>} />
 
-          <Route
-          path="/producto/:id"
-          element={<DetalleProducto/>}
-          />
+          <Route path="/login" element={<Login/>} />
 
-          <Route
-          path="/carrito"
-          element={<Carrito/>}
-          />
+          <Route path="/registro" element={<Registro/>} />
 
-          <Route
-          path="/login"
-          element={<Login/>}
-          />
+          <Route path="/admin" element={<Admin/>} />
 
-          <Route
-          path="/registro"
-          element={<Registro/>}
-          />
+          <Route path="/logout" element={<Logout/>} />
 
-          <Route
-          path="/admin"
-          element={<Admin/>}
-          />
-
-          <Route
-          path="/logout"
-          element={<Logout/>}
-          />
-
-          <Route
-          path="/perfil"
-          element={<Perfil/>}
-          />
+          <Route path="/perfil" element={<Perfil/>} />
 
         </Routes>
       </main>

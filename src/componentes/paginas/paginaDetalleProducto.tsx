@@ -1,9 +1,8 @@
 import { useParams, Link } from "react-router-dom";
-import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaInstrumentos";
-import { cuerdas, otros } from "./paginaAccesorios";
+import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaProductos";
 
 const todos = [
-  ...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios, ...cuerdas, ...otros,
+  ...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios,
 ];
 
 function getCaracteristicas(titulo: string): string[] {

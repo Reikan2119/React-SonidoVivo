@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { getCarrito, vaciarCarrito } from "../../utils/carrito";
 import type { ItemCarrito } from "../../utils/carrito";
+import { adjustStock } from "../../utils/stock";
+import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaInstrumentos";
+import { cuerdas, otros } from "./paginaAccesorios";
+
+const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios, ...cuerdas, ...otros];
 
 function Carrito() {
   const [items, setItems] = useState<ItemCarrito[]>([]);
@@ -15,6 +20,10 @@ function Carrito() {
   const [comprado, setComprado] = useState(false);
 
   const handleComprar = () => {
+    items.forEach((i) => {
+      const prod = todos.find((p) => p.id === i.id);
+      if (prod) adjustStock(i.id, -i.cantidad, prod.stock);
+    });
     vaciarCarrito();
     setItems([]);
     setComprado(true);

@@ -70,6 +70,12 @@ function Navbar(){
                             </Link>
                         )}
 
+                        {sesion && (
+                            <Link className="nav-link" style={linkStyle} to="/perfil">
+                                Mi Perfil
+                            </Link>
+                        )}
+
                         {sesion ? (
                             <button className="nav-link btn btn-link" style={{ ...linkStyle, textDecoration: "none", border: "none", background: "none", padding: 0 }} onClick={handleLogout}>
                                 Cerrar Sesión

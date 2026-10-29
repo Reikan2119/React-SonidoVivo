@@ -11,6 +11,7 @@ import Login from "./componentes/paginas/paginaLogin";
 import Registro from "./componentes/paginas/paginaRegistro";
 import Admin from "./componentes/paginas/paginaAdmin";
 import Logout from "./componentes/paginas/paginaLogout";
+import Perfil from "./componentes/paginas/paginaPerfil";
 import Navbar from "./componentes/organismos/Navbar";
 import Footer from "./componentes/organismos/Footer";
 
@@ -80,6 +81,11 @@ function App() {
           <Route
           path="/logout"
           element={<Logout/>}
+          />
+
+          <Route
+          path="/perfil"
+          element={<Perfil/>}
           />
 
         </Routes>

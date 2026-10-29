@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getCarrito, vaciarCarrito } from "../../utils/carrito";
 import type { ItemCarrito } from "../../utils/carrito";
 import { adjustStock } from "../../utils/stock";
@@ -68,7 +69,14 @@ function Carrito() {
                 <button className="btn mt-2" style={{ backgroundColor: "#d98e2f", color: "#1c1a17", fontWeight: "bold" }} onClick={handleComprar}>
                   Comprar
                 </button>
-                {comprado && <p className="mt-3" style={{ color: "#d98e2f" }}>¡Compra realizada con éxito!</p>}
+                {comprado && (
+                  <div className="mt-3">
+                    <p style={{ color: "#d98e2f" }}>¡Compra realizada con éxito!</p>
+                    <Link to="/" className="btn" style={{ backgroundColor: "#d98e2f", color: "#1c1a17", fontWeight: "bold" }}>
+                      Volver a inicio
+                    </Link>
+                  </div>
+                )}
               </div>
             </>
           )}

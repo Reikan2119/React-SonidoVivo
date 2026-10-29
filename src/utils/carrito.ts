@@ -25,8 +25,14 @@ export function addToCarrito(item: Omit<ItemCarrito, "cantidad">) {
     carrito.push({ ...item, cantidad: 1 });
   }
   localStorage.setItem(KEY, JSON.stringify(carrito));
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("carrito-updated"));
+  }
 }
 
 export function vaciarCarrito() {
   localStorage.removeItem(KEY);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("carrito-updated"));
+  }
 }

@@ -28,7 +28,7 @@ function DetalleProducto() {
     return (
       <div style={{ backgroundColor: "#1c1a17", color: "#f5f0e1" }} className="py-5 text-center">
         <h2 style={{ color: "#d98e2f" }}>Producto no encontrado</h2>
-        <Link to="/instrumentos" style={{ color: "#f5f0e1" }}>Volver</Link>
+        <Link to="/" style={{ color: "#f5f0e1" }}>Volver</Link>
       </div>
     );
   }
@@ -54,7 +54,7 @@ function DetalleProducto() {
                     <li key={i}>{c}</li>
                   ))}
                 </ul>
-                <Link to="/instrumentos" className="btn mt-2" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
+                <Link to="/" className="btn mt-2" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
                   Volver
                 </Link>
               </div>

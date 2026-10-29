@@ -35,7 +35,14 @@ function Carrito() {
       <section className="py-5">
         <div className="container">
           <h1 className="text-center fw-bold" style={{ color: "#d98e2f" }}>Carrito</h1>
-          {items.length === 0 ? (
+          {comprado ? (
+            <div className="text-center mt-4">
+              <p style={{ color: "#d98e2f", fontSize: "1.25rem" }}>¡Compra realizada con éxito!</p>
+              <Link to="/" className="btn" style={{ backgroundColor: "#d98e2f", color: "#1c1a17", fontWeight: "bold" }}>
+                Volver a inicio
+              </Link>
+            </div>
+          ) : items.length === 0 ? (
             <p className="text-center lead">Tu carrito está vacío.</p>
           ) : (
             <>
@@ -69,14 +76,6 @@ function Carrito() {
                 <button className="btn mt-2" style={{ backgroundColor: "#d98e2f", color: "#1c1a17", fontWeight: "bold" }} onClick={handleComprar}>
                   Comprar
                 </button>
-                {comprado && (
-                  <div className="mt-3">
-                    <p style={{ color: "#d98e2f" }}>¡Compra realizada con éxito!</p>
-                    <Link to="/" className="btn" style={{ backgroundColor: "#d98e2f", color: "#1c1a17", fontWeight: "bold" }}>
-                      Volver a inicio
-                    </Link>
-                  </div>
-                )}
               </div>
             </>
           )}

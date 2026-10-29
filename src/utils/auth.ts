@@ -43,3 +43,16 @@ export function getSesion(): Usuario | null {
 export function cerrarSesion() {
   localStorage.removeItem(SESSION);
 }
+
+export function actualizarUsuario(email: string, cambios: Partial<Usuario>) {
+  const usuarios = getUsuarios();
+  const idx = usuarios.findIndex((u) => u.email === email);
+  if (idx === -1) return false;
+  usuarios[idx] = { ...usuarios[idx], ...cambios };
+  localStorage.setItem(KEY, JSON.stringify(usuarios));
+  const sesion = getSesion();
+  if (sesion && sesion.email === email) {
+    setSesion(usuarios[idx]);
+  }
+  return true;
+}

@@ -115,52 +115,48 @@ expect(puedeAgregar(0, 0)).toBe(false);
 **Resultado esperado (éxito):** `false`.  
 **Resultado con falla:** `true`.
 
-## 12. Productos - Formatea precio en CLP
-**Descripción:** Verifica formato de precio con separador de miles.
+## 12. Componente Boton - Muestra texto
+**Descripción:** Verifica que el botón muestre "Ver producto".
 **Código:**
-```ts
-expect((299990).toLocaleString("es-CL")).toBe("299.990");
+```tsx
+render(<MemoryRouter><Boton id={3} /></MemoryRouter>);
+expect(screen.getByText("Ver producto")).toBeInTheDocument();
 ```
-**Resultado esperado (éxito):** "299.990".  
-**Resultado con falla:** "299990".
+**Resultado esperado (éxito):** Texto visible.  
+**Resultado con falla:** No renderiza.
 
-## 13. Productos - Calcula total del carrito
-**Descripción:** Verifica cálculo de total.
+## 13. Componente Boton - Enlace correcto
+**Descripción:** Verifica que el botón enlace a `/producto/3`.
 **Código:**
-```ts
-const items = [{ precio: 100, cantidad: 2 }, { precio: 50, cantidad: 1 }];
-const total = items.reduce((a, i) => a + i.precio * i.cantidad, 0);
-expect(total).toBe(250);
+```tsx
+expect(screen.getByText("Ver producto")).toHaveAttribute("href", "/producto/3");
 ```
-**Resultado esperado (éxito):** 250.  
-**Resultado con falla:** Valor distinto.
+**Resultado esperado (éxito):** `href="/producto/3"`.  
+**Resultado con falla:** href distinto.
 
-## 14. Validación - Correo válido
-**Descripción:** Verifica validación de correo con @ y .com.
+## 14. Componente CardProducto - Muestra título
+**Descripción:** Verifica que la tarjeta muestre el título.
 **Código:**
-```ts
-const email = "user@dominio.com";
-const valido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.includes(".com");
-expect(valido).toBe(true);
+```tsx
+render(<MemoryRouter><CardProducto id={1} titulo="Guitarra Test" descripcion="desc" precio={1000} imagen="/img/test.png" stock={5} /></MemoryRouter>);
+expect(screen.getByText("Guitarra Test")).toBeInTheDocument();
 ```
-**Resultado esperado (éxito):** `true`.  
-**Resultado con falla:** `false`.
+**Resultado esperado (éxito):** Título visible.  
+**Resultado con falla:** No renderiza.
 
-## 15. Validación - Contraseñas que no coinciden
-**Descripción:** Verifica detección de contraseñas distintas.
+## 15. Componente CardProducto - Muestra precio
+**Descripción:** Verifica que la tarjeta muestre el precio formateado.
 **Código:**
-```ts
-const p1 = "abc123";
-const p2 = "abc124";
-expect(p1 === p2).toBe(false);
+```tsx
+expect(screen.getByText("$1.000")).toBeInTheDocument();
 ```
-**Resultado esperado (éxito):** `false`.  
-**Resultado con falla:** `true`.
+**Resultado esperado (éxito):** "$1.000" visible.  
+**Resultado con falla:** No aparece.
 
 ---
 
 ## Resultado global
 ```
-Test Files  4 passed (4)
+Test Files  5 passed (5)
 Tests  15 passed (15)
 ```

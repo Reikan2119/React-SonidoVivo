@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:karma": "tsc -p tsconfig.test.json && karma start karma.conf.cjs --single-run",
     "preview": "vite preview"
   },
   "dependencies": {

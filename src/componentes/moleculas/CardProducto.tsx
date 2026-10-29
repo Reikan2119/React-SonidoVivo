@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
 import BotonComprar from "../atomos/BotonComprar";
-import { addToCarrito, getCarrito } from "../paginas/paginaCarrito";
-import { getStock } from "../paginas/paginaCarrito";
+import { addToCarrito, getCarrito } from "../../paginas/paginaCarrito";
+import { getStock } from "../../paginas/paginaCarrito";
 
 interface CardProps{
     id: number;
@@ -53,7 +53,7 @@ function CardProducto({id, titulo, descripcion, precio, imagen, stock = 0}: Card
                     <BotonComprar
                       disabled={stockEfectivo <= 0}
                       onClick={() => {
-                        const actual = getCarrito().find((i) => i.id === id)?.cantidad || 0;
+                        const actual = getCarrito().find((i: any) => i.id === id)?.cantidad || 0;
                         if (actual >= stockEfectivo) {
                           alert("No puedes agregar más, stock insuficiente.");
                           return;

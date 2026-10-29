@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import CardProducto from "../moleculas/CardProducto";
-import CardOferta from "../moleculas/CardOferta";
+import CardProducto from "../componentes/moleculas/CardProducto";
+import CardOferta from "../componentes/moleculas/CardOferta";
 
 export const guitarras = [
   { id: 101, titulo: "Affinity Stratocaster", descripcion: "Guitarra eléctrica estilo Stratocaster", precio: 399990, stock: 5, imagen: encodeURI("/img/Instrumentos/Affinity Stratocaster.png") },
@@ -108,3 +108,4 @@ function Productos() {
 }
 
 export default Productos;
+

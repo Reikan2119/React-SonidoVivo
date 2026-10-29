@@ -1,4 +1,4 @@
-import CardProducto from "../moleculas/CardProducto";
+import CardProducto from "../componentes/moleculas/CardProducto";
 
 const AMARILLO = "#d98e2f";
 
@@ -70,3 +70,4 @@ function PaginaInicio() {
 }
 
 export default PaginaInicio;
+

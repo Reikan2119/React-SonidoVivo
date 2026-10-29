@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { puedeAgregar, getStock, setStock } from "../componentes/paginas/paginaCarrito";
+import { puedeAgregar, getStock, setStock } from "../paginas/paginaCarrito";
 
 describe("stock", () => {
   beforeEach(() => localStorage.clear());

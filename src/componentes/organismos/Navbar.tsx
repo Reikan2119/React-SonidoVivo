@@ -1,21 +1,21 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { getSesion, cerrarSesion } from "../paginas/paginaLogin";
-import { getCarrito } from "../paginas/paginaCarrito";
+import { getSesion, cerrarSesion } from "../../paginas/paginaLogin";
+import { getCarrito } from "../../paginas/paginaCarrito";
 import { useState, useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [sesion, setSesion] = useState(getSesion());
-  const [cartCount, setCartCount] = useState(getCarrito().reduce((a, i) => a + i.cantidad, 0));
+  const [cartCount, setCartCount] = useState(getCarrito().reduce((a: number, i: any) => a + i.cantidad, 0));
 
   useEffect(() => {
     setSesion(getSesion());
-    setCartCount(getCarrito().reduce((a, i) => a + i.cantidad, 0));
+    setCartCount(getCarrito().reduce((a: number, i: any) => a + i.cantidad, 0));
   }, [location.pathname]);
 
   useEffect(() => {
-    const update = () => setCartCount(getCarrito().reduce((a, i) => a + i.cantidad, 0));
+    const update = () => setCartCount(getCarrito().reduce((a: number, i: any) => a + i.cantidad, 0));
     window.addEventListener("carrito-updated", update);
     window.addEventListener("storage", update);
     return () => {

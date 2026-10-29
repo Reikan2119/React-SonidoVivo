@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import PaginaInicio from "./componentes/paginas/paginaInicio";
-import Productos from "./componentes/paginas/paginaProductos";
-import Nosotros from "./componentes/paginas/paginaNosotros";
-import Contacto from "./componentes/paginas/paginaContacto";
-import DetalleProducto from "./componentes/paginas/paginaDetalleProducto";
-import Carrito from "./componentes/paginas/paginaCarrito";
-import Login from "./componentes/paginas/paginaLogin";
-import Registro from "./componentes/paginas/paginaRegistro";
-import Admin from "./componentes/paginas/paginaAdmin";
-import Logout from "./componentes/paginas/paginaLogout";
-import Perfil from "./componentes/paginas/paginaPerfil";
+import PaginaInicio from "./paginas/paginaInicio";
+import Productos from "./paginas/paginaProductos";
+import Nosotros from "./paginas/paginaNosotros";
+import Contacto from "./paginas/paginaContacto";
+import DetalleProducto from "./paginas/paginaDetalleProducto";
+import Carrito from "./paginas/paginaCarrito";
+import Login from "./paginas/paginaLogin";
+import Registro from "./paginas/paginaRegistro";
+import Admin from "./paginas/paginaAdmin";
+import Logout from "./paginas/paginaLogout";
+import Perfil from "./paginas/paginaPerfil";
 import Navbar from "./componentes/organismos/Navbar";
 import Footer from "./componentes/organismos/Footer";
 

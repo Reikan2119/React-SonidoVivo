@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getCarrito, vaciarCarrito } from "../../utils/carrito";
-import type { ItemCarrito } from "../../utils/carrito";
-import { adjustStock } from "../../utils/stock";
+import { getCarrito, vaciarCarrito } from "../servicios/carrito";
+import type { ItemCarrito } from "../servicios/carrito";
+import { adjustStock } from "../servicios/stock";
 import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaProductos";
 
 const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios];

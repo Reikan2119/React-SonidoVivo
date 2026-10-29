@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSesion, actualizarUsuario } from "../../utils/auth";
+import { getSesion, actualizarUsuario } from "../servicios/auth";
 
 function Perfil() {
   const navigate = useNavigate();

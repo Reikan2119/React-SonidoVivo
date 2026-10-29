@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSesion } from "../../utils/auth";
-import { getStock, adjustStock } from "../../utils/stock";
+import { getSesion } from "../servicios/auth";
+import { getStock, adjustStock } from "../servicios/stock";
 import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaProductos";
 
 const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios];

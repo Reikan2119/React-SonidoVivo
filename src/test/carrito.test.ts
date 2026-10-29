@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { addToCarrito, getCarrito, vaciarCarrito } from "../utils/carrito";
+import { addToCarrito, getCarrito, vaciarCarrito } from "../componentes/servicios/carrito";
 
 describe("carrito", () => {
   beforeEach(() => {

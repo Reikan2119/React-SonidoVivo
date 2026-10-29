@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { registrarUsuario } from "../../utils/auth";
+import { registrarUsuario } from "../servicios/auth";
 
 function Registro() {
   const [nombre, setNombre] = useState("");

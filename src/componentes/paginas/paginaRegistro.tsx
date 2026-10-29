@@ -28,6 +28,7 @@ function Registro() {
       return;
     }
     registrarUsuario({ nombre, apellido, email, password });
+    alert("Usuario registrado correctamente.");
     navigate("/login");
   };
 

@@ -5,7 +5,7 @@
 - Configuración: `vitest.config.ts` (entorno jsdom)
 - Comando: `npm run test`
 
-## Pruebas implementadas (11)
+## Pruebas implementadas (15)
 
 ### Auth (3)
 1. Registra y encuentra un usuario
@@ -24,11 +24,18 @@
 10. No permite agregar si se alcanzó el stock
 11. No permite agregar si no hay stock
 
+### Componentes (4)
+12. El boton muestra el texto Ver producto
+13. El boton enlaza a la pagina ver producto
+14. La tarjeta muestra el titulo del producto
+15. La tarjeta muestra el precio del producto
+
 ## Mocks
 - `localStorage.clear()` en `beforeEach` para aislar pruebas.
+- `MemoryRouter` para componentes con enrutamiento.
 
 ## Resultado
 ```
-Test Files  3 passed (3)
-Tests  11 passed (11)
+Test Files  5 passed (5)
+Tests  15 passed (15)
 ```

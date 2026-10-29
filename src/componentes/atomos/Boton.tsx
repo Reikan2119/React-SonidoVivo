@@ -11,7 +11,7 @@ function Boton ({ id }:BotonProps) {
             to={`/producto/${id}`}
             className="btn btn-primary"
         >
-        Ver
+        Ver producto
         </Link>
     )
     

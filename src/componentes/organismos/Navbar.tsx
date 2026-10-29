@@ -1,15 +1,28 @@
 ﻿import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getSesion, cerrarSesion } from "../../utils/auth";
+import { getCarrito } from "../../utils/carrito";
 import { useState, useEffect } from "react";
 
 function Navbar(){
     const navigate = useNavigate();
     const location = useLocation();
     const [sesion, setSesion] = useState(getSesion());
+    const [cartCount, setCartCount] = useState(getCarrito().reduce((a, i) => a + i.cantidad, 0));
 
     useEffect(() => {
         setSesion(getSesion());
+        setCartCount(getCarrito().reduce((a, i) => a + i.cantidad, 0));
     }, [location.pathname]);
+
+    useEffect(() => {
+        const update = () => setCartCount(getCarrito().reduce((a, i) => a + i.cantidad, 0));
+        window.addEventListener("carrito-updated", update);
+        window.addEventListener("storage", update);
+        return () => {
+            window.removeEventListener("carrito-updated", update);
+            window.removeEventListener("storage", update);
+        };
+    }, []);
 
     const linkStyle = { color: "#f5f0e1", fontSize: "1.15rem", fontWeight: 600, letterSpacing: "0.5px", marginRight: "1rem" };
 
@@ -60,8 +73,13 @@ function Navbar(){
                             Contacto
                         </Link>
 
-                        <Link className="nav-link" style={linkStyle} to="carrito">
+                        <Link className="nav-link d-flex align-items-center" style={linkStyle} to="/carrito">
                             Carrito
+                            {cartCount > 0 && (
+                                <span className="badge rounded-pill bg-danger ms-2" style={{ fontSize: "0.75rem" }}>
+                                    {cartCount}
+                                </span>
+                            )}
                         </Link>
 
                         {sesion?.rol === "admin" && (

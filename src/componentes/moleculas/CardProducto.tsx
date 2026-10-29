@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
+import BotonComprar from "../atomos/BotonComprar";
 import { addToCarrito, getCarrito } from "../../utils/carrito";
-import { getStock } from "../../utils/stock";
+import { getStock, adjustStock } from "../../utils/stock";
 
 interface CardProps{
     id: number;
@@ -49,8 +50,7 @@ function CardProducto({id, titulo, descripcion, precio, imagen, stock = 0}: Card
 
                 <div className="mt-auto d-flex gap-2">
                     <Boton id={id}/>
-                    <button
-                      className="btn btn-success"
+                    <BotonComprar
                       disabled={stockEfectivo <= 0}
                       onClick={() => {
                         const actual = getCarrito().find((i) => i.id === id)?.cantidad || 0;
@@ -59,10 +59,11 @@ function CardProducto({id, titulo, descripcion, precio, imagen, stock = 0}: Card
                           return;
                         }
                         addToCarrito({ id, titulo, precio, imagen });
+                        adjustStock(id, -1, stock);
                       }}
                     >
                       {stockEfectivo <= 0 ? "Sin stock" : "Comprar"}
-                    </button>
+                    </BotonComprar>
                 </div>
             </div>
         </div>

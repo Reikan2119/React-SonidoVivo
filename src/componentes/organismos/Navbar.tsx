@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { getSesion, cerrarSesion } from "../servicios/auth";
-import { getCarrito } from "../servicios/carrito";
+import { getSesion, cerrarSesion } from "../paginas/paginaLogin";
+import { getCarrito } from "../paginas/paginaCarrito";
 import { useState, useEffect } from "react";
 
 function Navbar() {

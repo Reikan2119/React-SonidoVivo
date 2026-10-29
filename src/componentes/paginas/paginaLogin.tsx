@@ -1,6 +1,64 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUsuario, setSesion } from "../servicios/auth";
+
+export interface Usuario {
+  nombre: string;
+  apellido: string;
+  email: string;
+  password: string;
+  rol?: string;
+}
+
+const KEY = "usuarios";
+const SESSION = "usuarioActivo";
+
+export function getUsuarios(): Usuario[] {
+  try {
+    return JSON.parse(localStorage.getItem(KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+export function registrarUsuario(u: Usuario) {
+  const usuarios = getUsuarios();
+  usuarios.push(u);
+  localStorage.setItem(KEY, JSON.stringify(usuarios));
+}
+
+export function loginUsuario(email: string, password: string): Usuario | null {
+  const usuarios = getUsuarios();
+  return usuarios.find((u) => u.email === email && u.password === password) || null;
+}
+
+export function setSesion(u: Usuario) {
+  localStorage.setItem(SESSION, JSON.stringify(u));
+}
+
+export function getSesion(): Usuario | null {
+  try {
+    return JSON.parse(localStorage.getItem(SESSION) || "null");
+  } catch {
+    return null;
+  }
+}
+
+export function cerrarSesion() {
+  localStorage.removeItem(SESSION);
+}
+
+export function actualizarUsuario(email: string, cambios: Partial<Usuario>) {
+  const usuarios = getUsuarios();
+  const idx = usuarios.findIndex((u) => u.email === email);
+  if (idx === -1) return false;
+  usuarios[idx] = { ...usuarios[idx], ...cambios };
+  localStorage.setItem(KEY, JSON.stringify(usuarios));
+  const sesion = getSesion();
+  if (sesion && sesion.email === email) {
+    setSesion(usuarios[idx]);
+  }
+  return true;
+}
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -10,7 +68,6 @@ function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Credenciales de administrador
     if (email === "admin@sonidovivo.com" && password === "admin123") {
       const admin = { nombre: "Admin", apellido: "", email, password, rol: "admin" };
       setSesion(admin);

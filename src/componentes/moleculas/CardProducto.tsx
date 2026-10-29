@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
 import BotonComprar from "../atomos/BotonComprar";
-import { addToCarrito, getCarrito } from "../servicios/carrito";
-import { getStock } from "../servicios/stock";
+import { addToCarrito, getCarrito } from "../paginas/paginaCarrito";
+import { getStock } from "../paginas/paginaCarrito";
 
 interface CardProps{
     id: number;
@@ -69,3 +69,4 @@ function CardProducto({id, titulo, descripcion, precio, imagen, stock = 0}: Card
     )
 }
 export default CardProducto;
+

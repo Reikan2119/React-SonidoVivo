@@ -2,7 +2,7 @@
 
 Framework: **Vitest** (entorno jsdom)  
 Comando: `npm run test`  
-Resultado global: **15/15 pruebas pasando**
+Resultado global: **20/20 pruebas pasando**
 
 ---
 
@@ -153,10 +153,63 @@ expect(screen.getByText("$1.000")).toBeInTheDocument();
 **Resultado esperado (éxito):** "$1.000" visible.  
 **Resultado con falla:** No aparece.
 
+## 16. FormularioContacto - Errores al enviar vacío
+**Descripción:** Verifica que los campos vacíos se marquen en rojo y muestren un mensaje.
+**Código:**
+```tsx
+fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+expect(screen.getByText("El nombre es obligatorio. Escribe cómo te llamas.")).toBeInTheDocument();
+expect(nombre).toHaveClass("campo-error");
+```
+**Resultado esperado (éxito):** Mensajes visibles y campos con clase `campo-error`.  
+**Resultado con falla:** El formulario se envía sin validar.
+
+## 17. FormularioContacto - Rechaza espacios
+**Descripción:** Verifica que un campo con solo espacios se considere vacío.
+**Código:**
+```tsx
+fireEvent.change(screen.getByLabelText(/nombre/i), { target: { value: "   " } });
+fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+expect(screen.getByText("El nombre es obligatorio. Escribe cómo te llamas.")).toBeInTheDocument();
+```
+**Resultado esperado (éxito):** Se muestra el error de campo obligatorio.  
+**Resultado con falla:** Se acepta el valor con espacios.
+
+## 18. FormularioContacto - Envío válido
+**Descripción:** Verifica el envío correcto y la limpieza de los campos.
+**Código:**
+```tsx
+fireEvent.change(screen.getByLabelText(/correo/i), { target: { value: "ana@correo.cl" } });
+fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
+expect(screen.getByText(/Mensaje enviado correctamente/)).toBeInTheDocument();
+```
+**Resultado esperado (éxito):** Mensaje de éxito y campos vacíos.  
+**Resultado con falla:** No muestra confirmación o conserva los valores.
+
+## 19. Auth - Detecta correo duplicado
+**Descripción:** Verifica la detección de correos ya registrados sin distinguir mayúsculas.
+**Código:**
+```ts
+registrarUsuario({ nombre: "Ana", apellido: "Paz", email: "ana@test.com", password: "1234" });
+expect(existeUsuario("ANA@TEST.COM")).toBe(true);
+```
+**Resultado esperado (éxito):** `true` para el correo existente.  
+**Resultado con falla:** Permite registrar dos cuentas con el mismo correo.
+
+## 20. Auth - Login normaliza correo
+**Descripción:** Verifica que el inicio de sesión ignore espacios y mayúsculas del correo.
+**Código:**
+```ts
+const u = loginUsuario("  ANA@TEST.COM  ", "1234");
+expect(u).not.toBeNull();
+```
+**Resultado esperado (éxito):** Usuario encontrado.  
+**Resultado con falla:** `null` por diferencia de formato.
+
 ---
 
 ## Resultado global
 ```
-Test Files  5 passed (5)
-Tests  15 passed (15)
+Test Files  6 passed (6)
+Tests  20 passed (20)
 ```

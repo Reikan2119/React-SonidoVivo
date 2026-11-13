@@ -5,30 +5,37 @@
 - Configuración: `vitest.config.ts` (entorno jsdom)
 - Comando: `npm run test`
 
-## Pruebas implementadas (15)
+## Pruebas implementadas (20)
 
-### Auth (3)
+### Auth (5)
 1. Registra y encuentra un usuario
 2. Rechaza credenciales incorrectas
 3. Lista usuarios registrados
+4. Detecta un correo ya registrado sin distinguir mayúsculas
+5. Permite iniciar sesión ignorando mayúsculas y espacios del correo
 
 ### Carrito (3)
-4. Agrega un producto
-5. Incrementa cantidad si ya existe
-6. Vacía el carrito
+6. Agrega un producto
+7. Incrementa cantidad si ya existe
+8. Vacía el carrito
 
 ### Stock (5)
-7. Retorna stock por defecto si no hay override
-8. Retorna stock sobrescrito si existe
-9. Permite agregar si hay stock disponible
-10. No permite agregar si se alcanzó el stock
-11. No permite agregar si no hay stock
+9. Retorna stock por defecto si no hay override
+10. Retorna stock sobrescrito si existe
+11. Permite agregar si hay stock disponible
+12. No permite agregar si se alcanzó el stock
+13. No permite agregar si no hay stock
 
 ### Componentes (4)
-12. El boton muestra el texto Ver producto
-13. El boton enlaza a la pagina ver producto
-14. La tarjeta muestra el titulo del producto
-15. La tarjeta muestra el precio del producto
+14. El boton muestra el texto Ver producto
+15. El boton enlaza a la pagina ver producto
+16. La tarjeta muestra el titulo del producto
+17. La tarjeta muestra el precio del producto
+
+### Formulario de contacto (3)
+18. Muestra errores en rojo al enviar vacío
+19. Rechaza campos que solo contienen espacios
+20. Envía correctamente cuando todos los campos son válidos
 
 ## Mocks
 - `localStorage.clear()` en `beforeEach` para aislar pruebas.
@@ -36,6 +43,6 @@
 
 ## Resultado
 ```
-Test Files  5 passed (5)
-Tests  15 passed (15)
+Test Files  6 passed (6)
+Tests  20 passed (20)
 ```

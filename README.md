@@ -1,75 +1,67 @@
-# React + TypeScript + Vite
+# SonidoVivo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tienda de instrumentos musicales construida con **React**, **TypeScript** y **Vite**, organizada con **Atomic Design**.
 
-Currently, two official plugins are available:
+## Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- TypeScript
+- Vite
+- React Router
+- Bootstrap 5
+- Vitest + Testing Library
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Estructura del proyecto
 
 ```
+src/
+├── componentes/
+│   ├── atomos/        # Elementos mínimos: Alerta, Boton, BotonComprar, BotonVolver
+│   ├── moleculas/     # Combinaciones de átomos: CardProducto, CampoFormulario, TarjetaContenido...
+│   └── organismos/    # Secciones completas: Navbar, formularios, SeccionCatalogo
+│       └── nosotros/  # Organismos específicos de la página Nosotros
+├── datos/             # Catálogo de productos y contenido de Nosotros
+├── estilos/           # CSS por dominio: formularios.css, nosotros.css
+├── paginas/           # Composición de organismos por ruta
+├── servicios/         # Lógica de auth, carrito y stock sobre localStorage
+├── test/              # Pruebas unitarias y de componentes
+├── tipos/             # Interfaces y tipos compartidos
+└── utilidades/        # Funciones reutilizables (validación)
+```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+### Flujo de dependencias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+`paginas → organismos → moléculas → átomos`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Las páginas solo componen organismos. Los organismos consumen datos y servicios, las moléculas reutilizan átomos y los átomos no dependen de otras capas.
 
+## Scripts
+
+```bash
+npm run dev      # Servidor de desarrollo
+npm run build    # Compilación de TypeScript + build de Vite
+npm run test     # Pruebas con Vitest
+npm run lint     # Análisis con ESLint
+npm run preview  # Vista previa del build
+```
+
+## Rutas principales
+
+| Ruta | Descripción |
+| --- | --- |
+| `/` | Inicio, categorías y productos destacados |
+| `/productos` | Catálogo completo con filtros por sección |
+| `/producto/:id` | Detalle de producto |
+| `/nosotros` | Historia, valores, servicios y equipo |
+| `/contacto` | Formulario de contacto con validación |
+| `/carrito` | Carrito y compra |
+| `/login`, `/registro`, `/perfil` | Autenticación y perfil |
+| `/admin` | Panel de administración de stock |
+
+## Pruebas
+
+El proyecto cuenta con **20 pruebas** distribuidas en 6 archivos. Revisa `INFORME_TEST.md` y `TESTING_COVERAGE.md` para el detalle.
+
+```bash
+npm run test
 ```

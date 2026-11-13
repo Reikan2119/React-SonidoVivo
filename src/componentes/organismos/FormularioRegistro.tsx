@@ -1,5 +1,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Alerta from "../atomos/Alerta";
+import CampoFormulario from "../moleculas/CampoFormulario";
 import { existeUsuario, registrarUsuario } from "../../servicios/auth";
 import { esCorreoValido } from "../../utilidades/validacion";
 
@@ -63,8 +65,6 @@ function FormularioRegistro() {
   const password2Ref = useRef<HTMLInputElement>(null);
 
   const mostrarError = (campo: CampoRegistro) => Boolean(tocados[campo] && errores[campo]);
-  const claseCampo = (campo: CampoRegistro) =>
-    `form-control${mostrarError(campo) ? " is-invalid campo-error" : ""}`;
   const tieneErrores = CAMPOS.some((campo) => Boolean(errores[campo]));
 
   const validarTodos = (valoresActuales: ValoresRegistro): ErroresRegistro => {
@@ -152,136 +152,79 @@ function FormularioRegistro() {
       </p>
 
       {intentoEnviar && tieneErrores && (
-        <div
-          className="alert py-2 px-3 mb-3"
-          role="alert"
-          style={{ backgroundColor: "#3a1f1f", border: "1px solid #dc3545", color: "#ffb3b3" }}
-        >
-          Revisa los campos marcados en rojo para completar tu registro.
-        </div>
+        <Alerta tipo="error">Revisa los campos marcados en rojo para completar tu registro.</Alerta>
       )}
 
       <div className="row">
-        <div className="col-12 col-sm-6 mb-3">
-          <label className="form-label" htmlFor="registro-nombre">
-            Nombre <span style={{ color: "#ff9b91" }}>*</span>
-          </label>
-          <input
+        <div className="col-12 col-sm-6">
+          <CampoFormulario
             id="registro-nombre"
-            ref={nombreRef}
-            type="text"
-            className={claseCampo("nombre")}
-            value={valores.nombre}
-            onChange={(e) => handleChange("nombre", e.target.value)}
-            onBlur={() => handleBlur("nombre")}
-            aria-invalid={mostrarError("nombre")}
-            aria-describedby={mostrarError("nombre") ? "error-registro-nombre" : undefined}
+            etiqueta="Nombre"
+            obligatorio
+            valor={valores.nombre}
+            onCambio={(valor) => handleChange("nombre", valor)}
+            onDesenfoque={() => handleBlur("nombre")}
+            error={mostrarError("nombre") ? errores.nombre : undefined}
             autoComplete="given-name"
+            refInput={nombreRef}
           />
-          {mostrarError("nombre") && (
-            <p id="error-registro-nombre" className="mensaje-error mt-1 mb-0" role="alert">
-              {errores.nombre}
-            </p>
-          )}
         </div>
 
-        <div className="col-12 col-sm-6 mb-3">
-          <label className="form-label" htmlFor="registro-apellido">
-            Apellido <span style={{ color: "#ff9b91" }}>*</span>
-          </label>
-          <input
+        <div className="col-12 col-sm-6">
+          <CampoFormulario
             id="registro-apellido"
-            ref={apellidoRef}
-            type="text"
-            className={claseCampo("apellido")}
-            value={valores.apellido}
-            onChange={(e) => handleChange("apellido", e.target.value)}
-            onBlur={() => handleBlur("apellido")}
-            aria-invalid={mostrarError("apellido")}
-            aria-describedby={mostrarError("apellido") ? "error-registro-apellido" : undefined}
+            etiqueta="Apellido"
+            obligatorio
+            valor={valores.apellido}
+            onCambio={(valor) => handleChange("apellido", valor)}
+            onDesenfoque={() => handleBlur("apellido")}
+            error={mostrarError("apellido") ? errores.apellido : undefined}
             autoComplete="family-name"
+            refInput={apellidoRef}
           />
-          {mostrarError("apellido") && (
-            <p id="error-registro-apellido" className="mensaje-error mt-1 mb-0" role="alert">
-              {errores.apellido}
-            </p>
-          )}
         </div>
       </div>
 
-      <div className="mb-3">
-        <label className="form-label" htmlFor="registro-email">
-          Correo electrónico <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <input
-          id="registro-email"
-          ref={emailRef}
-          type="email"
-          className={claseCampo("email")}
-          value={valores.email}
-          onChange={(e) => handleChange("email", e.target.value)}
-          onBlur={() => handleBlur("email")}
-          aria-invalid={mostrarError("email")}
-          aria-describedby={mostrarError("email") ? "error-registro-email" : undefined}
-          placeholder="nombre@correo.cl"
-          autoComplete="email"
-        />
-        {mostrarError("email") && (
-          <p id="error-registro-email" className="mensaje-error mt-1 mb-0" role="alert">
-            {errores.email}
-          </p>
-        )}
-      </div>
+      <CampoFormulario
+        id="registro-email"
+        etiqueta="Correo electrónico"
+        obligatorio
+        tipo="email"
+        valor={valores.email}
+        onCambio={(valor) => handleChange("email", valor)}
+        onDesenfoque={() => handleBlur("email")}
+        error={mostrarError("email") ? errores.email : undefined}
+        placeholder="nombre@correo.cl"
+        autoComplete="email"
+        refInput={emailRef}
+      />
 
-      <div className="mb-3">
-        <label className="form-label" htmlFor="registro-password">
-          Contraseña <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <input
-          id="registro-password"
-          ref={passwordRef}
-          type="password"
-          className={claseCampo("password")}
-          value={valores.password}
-          onChange={(e) => handleChange("password", e.target.value)}
-          onBlur={() => handleBlur("password")}
-          aria-invalid={mostrarError("password")}
-          aria-describedby={mostrarError("password") ? "error-registro-password" : "ayuda-registro-password"}
-          autoComplete="new-password"
-        />
-        {mostrarError("password") ? (
-          <p id="error-registro-password" className="mensaje-error mt-1 mb-0" role="alert">
-            {errores.password}
-          </p>
-        ) : (
-          <span id="ayuda-registro-password" className="small" style={{ color: "#c9bca8" }}>
-            Usa al menos 6 caracteres.
-          </span>
-        )}
-      </div>
+      <CampoFormulario
+        id="registro-password"
+        etiqueta="Contraseña"
+        obligatorio
+        tipo="password"
+        valor={valores.password}
+        onCambio={(valor) => handleChange("password", valor)}
+        onDesenfoque={() => handleBlur("password")}
+        error={mostrarError("password") ? errores.password : undefined}
+        ayuda="Usa al menos 6 caracteres."
+        autoComplete="new-password"
+        refInput={passwordRef}
+      />
 
-      <div className="mb-3">
-        <label className="form-label" htmlFor="registro-password2">
-          Repetir contraseña <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <input
-          id="registro-password2"
-          ref={password2Ref}
-          type="password"
-          className={claseCampo("password2")}
-          value={valores.password2}
-          onChange={(e) => handleChange("password2", e.target.value)}
-          onBlur={() => handleBlur("password2")}
-          aria-invalid={mostrarError("password2")}
-          aria-describedby={mostrarError("password2") ? "error-registro-password2" : undefined}
-          autoComplete="new-password"
-        />
-        {mostrarError("password2") && (
-          <p id="error-registro-password2" className="mensaje-error mt-1 mb-0" role="alert">
-            {errores.password2}
-          </p>
-        )}
-      </div>
+      <CampoFormulario
+        id="registro-password2"
+        etiqueta="Repetir contraseña"
+        obligatorio
+        tipo="password"
+        valor={valores.password2}
+        onCambio={(valor) => handleChange("password2", valor)}
+        onDesenfoque={() => handleBlur("password2")}
+        error={mostrarError("password2") ? errores.password2 : undefined}
+        autoComplete="new-password"
+        refInput={password2Ref}
+      />
 
       <button type="submit" className="btn w-100 fw-bold" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
         Registrarse

@@ -1,4 +1,6 @@
 import { useRef, useState, type FormEvent } from "react";
+import Alerta from "../atomos/Alerta";
+import CampoFormulario from "../moleculas/CampoFormulario";
 import { esCorreoValido } from "../../utilidades/validacion";
 
 type CampoContacto = "nombre" | "correo" | "mensaje";
@@ -56,9 +58,6 @@ function FormularioContacto() {
 
   const tieneErrores = CAMPOS.some((campo) => Boolean(errores[campo]));
   const mostrarError = (campo: CampoContacto) => Boolean(tocados[campo] && errores[campo]);
-
-  const claseCampo = (campo: CampoContacto) =>
-    `form-control${mostrarError(campo) ? " is-invalid campo-error" : ""}`;
 
   const validarTodos = (): ErroresContacto => {
     const nuevosErrores: ErroresContacto = {};
@@ -125,108 +124,60 @@ function FormularioContacto() {
       </p>
 
       {intentoEnviar && tieneErrores && (
-        <div
-          className="alert py-2 px-3 mb-3"
-          role="alert"
-          style={{ backgroundColor: "#3a1f1f", border: "1px solid #dc3545", color: "#ffb3b3" }}
-        >
-          Revisa los campos marcados en rojo antes de enviar el mensaje.
-        </div>
+        <Alerta tipo="error">Revisa los campos marcados en rojo antes de enviar el mensaje.</Alerta>
       )}
 
-      <div className="mb-3">
-        <label className="form-label" htmlFor="contacto-nombre">
-          Nombre <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <input
-          id="contacto-nombre"
-          ref={nombreRef}
-          type="text"
-          className={claseCampo("nombre")}
-          value={valores.nombre}
-          onChange={(e) => handleChange("nombre", e.target.value)}
-          onBlur={() => handleBlur("nombre")}
-          aria-invalid={mostrarError("nombre")}
-          aria-describedby={mostrarError("nombre") ? "error-contacto-nombre" : undefined}
-          placeholder="Tu nombre y apellido"
-          autoComplete="name"
-        />
-        {mostrarError("nombre") && (
-          <p id="error-contacto-nombre" className="mensaje-error mt-1 mb-0" role="alert">
-            {errores.nombre}
-          </p>
-        )}
-      </div>
+      <CampoFormulario
+        id="contacto-nombre"
+        etiqueta="Nombre"
+        obligatorio
+        valor={valores.nombre}
+        onCambio={(valor) => handleChange("nombre", valor)}
+        onDesenfoque={() => handleBlur("nombre")}
+        error={mostrarError("nombre") ? errores.nombre : undefined}
+        placeholder="Tu nombre y apellido"
+        autoComplete="name"
+        refInput={nombreRef}
+      />
 
-      <div className="mb-3">
-        <label className="form-label" htmlFor="contacto-correo">
-          Correo <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <input
-          id="contacto-correo"
-          ref={correoRef}
-          type="email"
-          className={claseCampo("correo")}
-          value={valores.correo}
-          onChange={(e) => handleChange("correo", e.target.value)}
-          onBlur={() => handleBlur("correo")}
-          aria-invalid={mostrarError("correo")}
-          aria-describedby={mostrarError("correo") ? "error-contacto-correo" : undefined}
-          placeholder="nombre@correo.cl"
-          autoComplete="email"
-        />
-        {mostrarError("correo") && (
-          <p id="error-contacto-correo" className="mensaje-error mt-1 mb-0" role="alert">
-            {errores.correo}
-          </p>
-        )}
-      </div>
+      <CampoFormulario
+        id="contacto-correo"
+        etiqueta="Correo"
+        obligatorio
+        tipo="email"
+        valor={valores.correo}
+        onCambio={(valor) => handleChange("correo", valor)}
+        onDesenfoque={() => handleBlur("correo")}
+        error={mostrarError("correo") ? errores.correo : undefined}
+        placeholder="nombre@correo.cl"
+        autoComplete="email"
+        refInput={correoRef}
+      />
 
-      <div className="mb-3">
-        <label className="form-label" htmlFor="contacto-mensaje">
-          Mensaje <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <textarea
-          id="contacto-mensaje"
-          ref={mensajeRef}
-          className={claseCampo("mensaje")}
-          rows={4}
-          value={valores.mensaje}
-          onChange={(e) => handleChange("mensaje", e.target.value)}
-          onBlur={() => handleBlur("mensaje")}
-          aria-invalid={mostrarError("mensaje")}
-          aria-describedby={mostrarError("mensaje") ? "error-contacto-mensaje" : "contador-contacto-mensaje"}
-          placeholder="Cuéntanos qué instrumento buscas o qué duda tienes."
-          maxLength={500}
-        />
-        <div className="d-flex justify-content-between align-items-start gap-3">
-          {mostrarError("mensaje") ? (
-            <p id="error-contacto-mensaje" className="mensaje-error mt-1 mb-0" role="alert">
-              {errores.mensaje}
-            </p>
-          ) : (
-            <span id="contador-contacto-mensaje" className="small mt-1" style={{ color: "#c9bca8" }}>
-              Mínimo 10 caracteres.
-            </span>
-          )}
-          <span className="small mt-1" style={{ color: "#c9bca8" }}>
-            {valores.mensaje.length}/500
-          </span>
-        </div>
-      </div>
+      <CampoFormulario
+        id="contacto-mensaje"
+        etiqueta="Mensaje"
+        obligatorio
+        multilinea
+        filas={4}
+        valor={valores.mensaje}
+        onCambio={(valor) => handleChange("mensaje", valor)}
+        onDesenfoque={() => handleBlur("mensaje")}
+        error={mostrarError("mensaje") ? errores.mensaje : undefined}
+        placeholder="Cuéntanos qué instrumento buscas o qué duda tienes."
+        ayuda="Mínimo 10 caracteres."
+        maxLength={500}
+        refTextarea={mensajeRef}
+      />
 
       <button type="submit" className="btn fw-bold" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
         Enviar
       </button>
 
       {enviado && (
-        <div
-          className="mt-3 mb-0 py-2 px-3"
-          role="status"
-          style={{ backgroundColor: "#1f3d2b", border: "1px solid #4caf50", color: "#b9f6ca", borderRadius: "0.375rem" }}
-        >
+        <Alerta tipo="exito" className="mt-3 mb-0">
           ¡Mensaje enviado correctamente! Te responderemos a la brevedad.
-        </div>
+        </Alerta>
       )}
     </form>
   );

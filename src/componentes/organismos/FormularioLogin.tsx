@@ -1,5 +1,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Alerta from "../atomos/Alerta";
+import CampoFormulario from "../moleculas/CampoFormulario";
 import { loginUsuario, setSesion } from "../../servicios/auth";
 import { esCorreoValido } from "../../utilidades/validacion";
 
@@ -30,8 +32,6 @@ function FormularioLogin() {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const mostrarError = (campo: CampoLogin) => Boolean(tocados[campo] && errores[campo]);
-  const claseCampo = (campo: CampoLogin) =>
-    `form-control${mostrarError(campo) ? " is-invalid campo-error" : ""}`;
 
   const handleChange = (campo: CampoLogin, valor: string) => {
     if (campo === "email") setEmail(valor);
@@ -82,9 +82,9 @@ function FormularioLogin() {
       return;
     }
 
-    const u = loginUsuario(emailLimpio, password);
-    if (u) {
-      setSesion(u);
+    const usuario = loginUsuario(emailLimpio, password);
+    if (usuario) {
+      setSesion(usuario);
       navigate("/");
     } else {
       setError("Correo o contraseña incorrectos.");
@@ -98,58 +98,34 @@ function FormularioLogin() {
       className="card p-4"
       style={{ backgroundColor: "#2a241c", border: "1px solid #d98e2f", color: "#f5f0e1" }}
     >
-      <div className="mb-3">
-        <label className="form-label" htmlFor="login-email">
-          Correo electrónico <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <input
-          id="login-email"
-          ref={emailRef}
-          type="email"
-          className={claseCampo("email")}
-          value={email}
-          onChange={(e) => handleChange("email", e.target.value)}
-          onBlur={() => handleBlur("email")}
-          aria-invalid={mostrarError("email")}
-          aria-describedby={mostrarError("email") ? "error-login-email" : undefined}
-          placeholder="nombre@correo.cl"
-          autoComplete="email"
-        />
-        {mostrarError("email") && (
-          <p id="error-login-email" className="mensaje-error mt-1 mb-0" role="alert">
-            {errores.email}
-          </p>
-        )}
-      </div>
+      <CampoFormulario
+        id="login-email"
+        etiqueta="Correo electrónico"
+        obligatorio
+        tipo="email"
+        valor={email}
+        onCambio={(valor) => handleChange("email", valor)}
+        onDesenfoque={() => handleBlur("email")}
+        error={mostrarError("email") ? errores.email : undefined}
+        placeholder="nombre@correo.cl"
+        autoComplete="email"
+        refInput={emailRef}
+      />
 
-      <div className="mb-3">
-        <label className="form-label" htmlFor="login-password">
-          Contraseña <span style={{ color: "#ff9b91" }}>*</span>
-        </label>
-        <input
-          id="login-password"
-          ref={passwordRef}
-          type="password"
-          className={claseCampo("password")}
-          value={password}
-          onChange={(e) => handleChange("password", e.target.value)}
-          onBlur={() => handleBlur("password")}
-          aria-invalid={mostrarError("password")}
-          aria-describedby={mostrarError("password") ? "error-login-password" : undefined}
-          autoComplete="current-password"
-        />
-        {mostrarError("password") && (
-          <p id="error-login-password" className="mensaje-error mt-1 mb-0" role="alert">
-            {errores.password}
-          </p>
-        )}
-      </div>
+      <CampoFormulario
+        id="login-password"
+        etiqueta="Contraseña"
+        obligatorio
+        tipo="password"
+        valor={password}
+        onCambio={(valor) => handleChange("password", valor)}
+        onDesenfoque={() => handleBlur("password")}
+        error={mostrarError("password") ? errores.password : undefined}
+        autoComplete="current-password"
+        refInput={passwordRef}
+      />
 
-      {error && (
-        <p className="mensaje-error mb-3" role="alert">
-          {error}
-        </p>
-      )}
+      {error && <Alerta tipo="error">{error}</Alerta>}
 
       <button type="submit" className="btn w-100 fw-bold" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
         Entrar

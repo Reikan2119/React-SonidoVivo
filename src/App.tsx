@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import './App.css'
+import './estilos/formularios.css'
 import PaginaInicio from "./paginas/paginaInicio";
 import Productos from "./paginas/paginaProductos";
 import Nosotros from "./paginas/paginaNosotros";

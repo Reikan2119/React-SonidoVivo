@@ -1,4 +1,5 @@
-﻿import FormularioLogin from "../componentes/organismos/FormularioLogin";
+﻿import { useLocation } from "react-router-dom";
+import FormularioLogin from "../componentes/organismos/FormularioLogin";
 
 export interface Usuario {
   nombre: string;
@@ -19,15 +20,25 @@ export function getUsuarios(): Usuario[] {
   }
 }
 
+function normalizarEmail(email: string) {
+  return email.trim().toLowerCase();
+}
+
 export function registrarUsuario(u: Usuario) {
   const usuarios = getUsuarios();
-  usuarios.push(u);
+  usuarios.push({ ...u, email: normalizarEmail(u.email) });
   localStorage.setItem(KEY, JSON.stringify(usuarios));
+}
+
+export function existeUsuario(email: string): boolean {
+  const buscado = normalizarEmail(email);
+  return getUsuarios().some((u) => normalizarEmail(u.email) === buscado);
 }
 
 export function loginUsuario(email: string, password: string): Usuario | null {
   const usuarios = getUsuarios();
-  return usuarios.find((u) => u.email === email && u.password === password) || null;
+  const buscado = normalizarEmail(email);
+  return usuarios.find((u) => normalizarEmail(u.email) === buscado && u.password === password) || null;
 }
 
 export function setSesion(u: Usuario) {
@@ -48,18 +59,22 @@ export function cerrarSesion() {
 
 export function actualizarUsuario(email: string, cambios: Partial<Usuario>) {
   const usuarios = getUsuarios();
-  const idx = usuarios.findIndex((u) => u.email === email);
+  const buscado = normalizarEmail(email);
+  const idx = usuarios.findIndex((u) => normalizarEmail(u.email) === buscado);
   if (idx === -1) return false;
   usuarios[idx] = { ...usuarios[idx], ...cambios };
   localStorage.setItem(KEY, JSON.stringify(usuarios));
   const sesion = getSesion();
-  if (sesion && sesion.email === email) {
+  if (sesion && normalizarEmail(sesion.email) === buscado) {
     setSesion(usuarios[idx]);
   }
   return true;
 }
 
 function Login() {
+  const location = useLocation();
+  const registrado = Boolean((location.state as { registrado?: boolean } | null)?.registrado);
+
   return (
     <div style={{ backgroundColor: "#1c1a17", color: "#f5f0e1" }}>
       <section className="py-5">
@@ -67,6 +82,15 @@ function Login() {
           <div className="row justify-content-center">
             <div className="col-12 col-md-6 col-lg-4">
               <h1 className="text-center fw-bold mb-3" style={{ color: "#d98e2f" }}>Iniciar sesión</h1>
+              {registrado && (
+                <div
+                  className="alert py-2 px-3 mb-3"
+                  role="status"
+                  style={{ backgroundColor: "#1f3d2b", border: "1px solid #4caf50", color: "#b9f6ca" }}
+                >
+                  Tu cuenta fue creada correctamente. Ya puedes iniciar sesión.
+                </div>
+              )}
               <FormularioLogin />
             </div>
           </div>

@@ -97,3 +97,31 @@ div img {
     transform: translateX(-50%);
   }
 }
+
+/* Validación de formularios */
+.campo-error,
+.form-control.campo-error {
+  border-color: #dc3545 !important;
+  background-color: #fff5f5 !important;
+  color: #842029 !important;
+}
+
+.campo-error:focus,
+.form-control.campo-error:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.form-control.campo-error::placeholder {
+  color: #c96b72;
+}
+
+.mensaje-error {
+  color: #ff9b91;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.form-label {
+  font-weight: 600;
+}

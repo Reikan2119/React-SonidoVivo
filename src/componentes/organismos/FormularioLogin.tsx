@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUsuario, setSesion } from "../../paginas/paginaLogin";
+import { loginUsuario, setSesion } from "../../servicios/auth";
 import { esCorreoValido } from "../../utilidades/validacion";
 
 type CampoLogin = "email" | "password";

@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSesion, actualizarUsuario } from "./paginaLogin";
+import { getSesion, actualizarUsuario } from "../servicios/auth";
 
 type CampoPerfil = "nombre" | "password" | "password2";
 type ErroresPerfil = Partial<Record<CampoPerfil, string>>;

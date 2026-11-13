@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { existeUsuario, registrarUsuario } from "../../paginas/paginaLogin";
+import { existeUsuario, registrarUsuario } from "../../servicios/auth";
 import { esCorreoValido } from "../../utilidades/validacion";
 
 type CampoRegistro = "nombre" | "apellido" | "email" | "password" | "password2";

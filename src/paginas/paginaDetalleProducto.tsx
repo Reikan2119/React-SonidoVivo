@@ -1,9 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaProductos";
-
-const todos = [
-  ...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios,
-];
+import { todosLosProductos } from "../datos/productos";
 
 function getCaracteristicas(titulo: string): string[] {
   const t = titulo.toLowerCase();
@@ -22,7 +18,7 @@ function getCaracteristicas(titulo: string): string[] {
 
 function DetalleProducto() {
   const { id } = useParams();
-  const producto = todos.find((p) => String(p.id) === String(id));
+  const producto = todosLosProductos.find((p) => String(p.id) === String(id));
 
   if (!producto) {
     return (

@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSesion } from "./paginaLogin";
-import { getStock, adjustStock } from "./paginaCarrito";
-import { guitarras, bajos, baterias, teclados, accesorios } from "./paginaProductos";
-
-const todos = [...guitarras, ...bajos, ...baterias, ...teclados, ...accesorios];
+import { getSesion } from "../servicios/auth";
+import { getStock, adjustStock } from "../servicios/carrito";
+import { todosLosProductos } from "../datos/productos";
 
 function Admin() {
   const navigate = useNavigate();
@@ -37,7 +35,7 @@ function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {todos.map((p) => {
+                {todosLosProductos.map((p) => {
                   const stock = getStock(p.id, p.stock);
                   return (
                     <tr key={p.id}>

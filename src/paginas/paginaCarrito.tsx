@@ -1,18 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { todosLosProductos } from "../datos/productos";
 import { getCarrito, vaciarCarrito, adjustStock } from "../servicios/carrito";
 import type { ItemCarrito } from "../tipos/carrito";
 
 function Carrito() {
-  const [items, setItems] = useState<ItemCarrito[]>([]);
+  const [items, setItems] = useState<ItemCarrito[]>(() => getCarrito());
   const [comprado, setComprado] = useState(false);
 
   const cargar = () => setItems(getCarrito());
-
-  useEffect(() => {
-    cargar();
-  }, []);
 
   const total = items.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 

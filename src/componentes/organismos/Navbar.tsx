@@ -1,26 +1,31 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getSesion, cerrarSesion } from "../../servicios/auth";
 import { contarItems } from "../../servicios/carrito";
 import { useState, useEffect } from "react";
+import type { Usuario } from "../../tipos/usuario";
 
 function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [sesion, setSesion] = useState(getSesion());
+  const [sesion, setSesion] = useState<Usuario | null>(() => getSesion());
   const [cartCount, setCartCount] = useState(contarItems());
 
   useEffect(() => {
-    setSesion(getSesion());
-    setCartCount(contarItems());
-  }, [location.pathname]);
+    const actualizarSesion = () => setSesion(getSesion());
+    window.addEventListener("sesion-updated", actualizarSesion);
+    window.addEventListener("storage", actualizarSesion);
+    return () => {
+      window.removeEventListener("sesion-updated", actualizarSesion);
+      window.removeEventListener("storage", actualizarSesion);
+    };
+  }, []);
 
   useEffect(() => {
-    const update = () => setCartCount(contarItems());
-    window.addEventListener("carrito-updated", update);
-    window.addEventListener("storage", update);
+    const actualizarCarrito = () => setCartCount(contarItems());
+    window.addEventListener("carrito-updated", actualizarCarrito);
+    window.addEventListener("storage", actualizarCarrito);
     return () => {
-      window.removeEventListener("carrito-updated", update);
-      window.removeEventListener("storage", update);
+      window.removeEventListener("carrito-updated", actualizarCarrito);
+      window.removeEventListener("storage", actualizarCarrito);
     };
   }, []);
 
@@ -28,7 +33,6 @@ function Navbar() {
 
   const handleLogout = () => {
     cerrarSesion();
-    setSesion(null);
     navigate("/logout");
   };
 

@@ -7,6 +7,12 @@ function normalizarEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
+function emitirCambioSesion(): void {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("sesion-updated"));
+  }
+}
+
 export function getUsuarios(): Usuario[] {
   try {
     return JSON.parse(localStorage.getItem(KEY) || "[]");
@@ -37,6 +43,7 @@ export function loginUsuario(email: string, password: string): Usuario | null {
 
 export function setSesion(usuario: Usuario): void {
   localStorage.setItem(SESSION, JSON.stringify(usuario));
+  emitirCambioSesion();
 }
 
 export function getSesion(): Usuario | null {
@@ -49,6 +56,7 @@ export function getSesion(): Usuario | null {
 
 export function cerrarSesion(): void {
   localStorage.removeItem(SESSION);
+  emitirCambioSesion();
 }
 
 export function actualizarUsuario(email: string, cambios: CambiosUsuario): boolean {

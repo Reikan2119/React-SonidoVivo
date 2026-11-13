@@ -134,6 +134,12 @@ export const equipo: MiembroEquipo[] = [
   },
 ];
 
+export const parrafosHistoria: string[] = [
+  "SonidoVivo nació en Viña del Mar con una idea simple: que cada músico encuentre el instrumento y el sonido que está buscando, sin importar si está dando sus primeros acordes o si lleva años sobre el escenario.",
+  "Durante más de una década hemos crecido junto a nuestros clientes. Hoy nuestro catálogo reúne 340 referencias entre guitarras, bajos, baterías, teclados, amplificadores, micrófonos, pedales de efectos y accesorios. También ofrecemos reparación de instrumentos de cuerda, porque sabemos que un instrumento bien cuidado suena mejor y dura más.",
+  "En los últimos tres años empezamos a recibir pedidos por WhatsApp e Instagram de clientes de otras ciudades. Esa confianza nos impulsó a crear esta tienda en línea: un espacio para que puedas conocer el catálogo, revisar disponibilidad y contactarnos desde donde estés, con el mismo trato cercano de siempre.",
+];
+
 export const galeria: ItemGaleria[] = [
   {
     id: 101,

@@ -1,9 +1,9 @@
 import CardProducto from "../moleculas/CardProducto";
 import CardOferta from "../moleculas/CardOferta";
-import type { SeccionCatalogo as SeccionCatalogoTipo } from "../../tipos/producto";
+import type { SeccionCatalogoData } from "../../paginas/paginaProductos";
 
 interface SeccionCatalogoProps {
-  seccion: SeccionCatalogoTipo;
+  seccion: SeccionCatalogoData;
 }
 
 function SeccionCatalogo({ seccion }: SeccionCatalogoProps) {

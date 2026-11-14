@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { todosLosProductos } from "../datos/productos";
+import { todosLosProductos } from "./paginaProductos";
 
 function getCaracteristicas(titulo: string): string[] {
   const t = titulo.toLowerCase();
@@ -41,6 +41,11 @@ function DetalleProducto() {
               <div className="card p-4" style={{ backgroundColor: "#2a241c", border: "1px solid #d98e2f", color: "#f5f0e1" }}>
                 <h1 className="fw-bold" style={{ color: "#d98e2f" }}>{producto.titulo}</h1>
                 <p className="lead" style={{ color: "#f5f0e1" }}>{producto.descripcion}</p>
+                {"precioAnterior" in producto && (
+                  <p className="mb-1" style={{ color: "#888", textDecoration: "line-through" }}>
+                    ${producto.precioAnterior.toLocaleString("es-CL")}
+                  </p>
+                )}
                 <p className="fs-3 fw-bold" style={{ color: "#b5731e" }}>
                   ${producto.precio.toLocaleString("es-CL")}
                 </p>

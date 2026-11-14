@@ -2,8 +2,9 @@ import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
-import { existeUsuario, registrarUsuario } from "../../servicios/auth";
-import { esCorreoValido } from "../../utilidades/validacion";
+import { existeUsuario, registrarUsuario } from "../../paginas/paginaLogin";
+const esCorreoValido = (valor: string): boolean =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
 
 type CampoRegistro = "nombre" | "apellido" | "email" | "password" | "password2";
 type ValoresRegistro = Record<CampoRegistro, string>;

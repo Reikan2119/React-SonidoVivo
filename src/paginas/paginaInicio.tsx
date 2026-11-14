@@ -1,5 +1,5 @@
 import CardProducto from "../componentes/moleculas/CardProducto";
-import { categorias, destacados } from "../datos/productos";
+import { categorias, destacados } from "./paginaProductos";
 
 const AMARILLO = "#d98e2f";
 

@@ -1,7 +1,8 @@
 import { useRef, useState, type FormEvent } from "react";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
-import { esCorreoValido } from "../../utilidades/validacion";
+const esCorreoValido = (valor: string): boolean =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
 
 type CampoContacto = "nombre" | "correo" | "mensaje";
 

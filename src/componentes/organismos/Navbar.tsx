@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { getSesion, cerrarSesion } from "../../servicios/auth";
-import { contarItems } from "../../servicios/carrito";
+import { getSesion, cerrarSesion } from "../../paginas/paginaLogin";
+import { contarItems } from "../../paginas/paginaCarrito";
 import { useState, useEffect } from "react";
-import type { Usuario } from "../../tipos/usuario";
+import type { Usuario } from "../../paginas/paginaLogin";
 
 function Navbar() {
   const navigate = useNavigate();

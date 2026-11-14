@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
-import { getSesion, actualizarUsuario } from "../../servicios/auth";
+import { getSesion, actualizarUsuario } from "../../paginas/paginaLogin";
 
 type CampoPerfil = "nombre" | "password" | "password2";
 type ErroresPerfil = Partial<Record<CampoPerfil, string>>;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSesion } from "../servicios/auth";
-import { getStock, adjustStock } from "../servicios/carrito";
-import { todosLosProductos } from "../datos/productos";
+import { getSesion } from "./paginaLogin";
+import { getStock, adjustStock } from "./paginaCarrito";
+import { todosLosProductos } from "./paginaProductos";
 
 function Admin() {
   const navigate = useNavigate();

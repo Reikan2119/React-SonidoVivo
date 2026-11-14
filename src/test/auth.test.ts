@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { registrarUsuario, loginUsuario, getUsuarios, existeUsuario } from "../servicios/auth";
+import { registrarUsuario, loginUsuario, getUsuarios, existeUsuario } from "../paginas/paginaLogin";
 
 describe("auth", () => {
   beforeEach(() => {

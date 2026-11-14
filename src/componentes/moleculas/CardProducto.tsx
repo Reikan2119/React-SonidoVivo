@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
 import BotonComprar from "../atomos/BotonComprar";
-import { addToCarrito, getCarrito, getStock } from "../../servicios/carrito";
+import { addToCarrito, getCarrito, getStock } from "../../paginas/paginaCarrito";
 
 interface CardProps{
     id: number;

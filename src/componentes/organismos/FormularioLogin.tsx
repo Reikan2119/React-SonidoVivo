@@ -2,8 +2,9 @@ import { useRef, useState, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
-import { loginUsuario, setSesion } from "../../servicios/auth";
-import { esCorreoValido } from "../../utilidades/validacion";
+import { loginUsuario, setSesion } from "../../paginas/paginaLogin";
+const esCorreoValido = (valor: string): boolean =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
 
 type CampoLogin = "email" | "password";
 type ErroresLogin = Partial<Record<CampoLogin, string>>;

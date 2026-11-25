@@ -30,16 +30,20 @@ function AdminProductos() {
     if (r.ok) { cargar(); window.dispatchEvent(new Event("stockActualizado")); } else alert("No se pudo eliminar");
   };
 
-  const reponer = async (id: number) => {
-    const cantidad = prompt("Cantidad de stock a agregar:");
+  const ajustarStock = async (id: number, delta: number) => {
+    const r = await fetch(`${API}/productos/${id}/stock?delta=${delta}`, { method: "PUT" });
+    if (r.ok) { cargar(); window.dispatchEvent(new Event("stockActualizado")); } else alert("No se pudo ajustar el stock");
+  };
+
+  const agregarCantidad = async (id: number) => {
+    const cantidad = prompt("Cantidad a agregar o quitar (usa negativo para quitar):");
     if (cantidad === null) return;
     const n = Number(cantidad);
-    if (!Number.isInteger(n) || n <= 0) {
-      alert("Ingresa una cantidad válida mayor a 0");
+    if (isNaN(n) || n === 0) {
+      alert("Ingresa un número válido distinto de 0");
       return;
     }
-    const r = await fetch(`${API}/productos/${id}/reponer?cantidad=${n}`, { method: "PUT" });
-    if (r.ok) { cargar(); window.dispatchEvent(new Event("stockActualizado")); } else alert("No se pudo agregar stock");
+    await ajustarStock(id, n);
   };
 
   const agregar = async (e: React.FormEvent) => {
@@ -133,8 +137,10 @@ function AdminProductos() {
                   <td>{p.categoria?.nombre}</td>
                   <td>${p.precio.toLocaleString("es-CL")}</td>
                   <td>{p.stock}</td>
-                  <td className="d-flex gap-1">
-                    <button className="btn btn-outline-secondary btn-sm" onClick={() => reponer(p.id)}>+ Stock</button>
+                  <td className="d-flex gap-1 flex-wrap">
+                    <button className="btn btn-outline-secondary btn-sm" onClick={() => ajustarStock(p.id, 1)}>+1</button>
+                    <button className="btn btn-outline-secondary btn-sm" onClick={() => ajustarStock(p.id, -1)} disabled={p.stock <= 0}>-1</button>
+                    <button className="btn btn-outline-secondary btn-sm" onClick={() => agregarCantidad(p.id)}>Cantidad</button>
                     <button className="btn btn-outline-danger btn-sm" onClick={() => eliminar(p.id)}>Eliminar</button>
                   </td>
                 </tr>

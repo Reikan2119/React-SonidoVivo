@@ -1,55 +1,61 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
-import PaginaInicio from "./paginas/paginaInicio";
-import Productos from "./paginas/paginaProductos";
-import Nosotros from "./paginas/paginaNosotros";
-import Contacto from "./paginas/paginaContacto";
-import DetalleProducto from "./paginas/paginaDetalleProducto";
-import Carrito from "./paginas/paginaCarrito";
-import Login from "./paginas/paginaLogin";
-import Registro from "./paginas/paginaRegistro";
-import Admin from "./paginas/paginaAdmin";
-import Logout from "./paginas/paginaLogout";
-import Perfil from "./paginas/paginaPerfil";
-import Navbar from "./componentes/organismos/Navbar";
-import Footer from "./componentes/organismos/Footer";
+import Navbar from './componentes/organismos/Navbar'
+import Inicio from './paginas/Inicio'
+import Login from './paginas/Login'
+import Registro from './paginas/Registro'
+import Productos from './paginas/Productos'
+import DetalleProducto from './paginas/DetalleProducto'
+import Admin from './paginas/Admin'
+import Nosotros from './paginas/Nosotros'
+import Footer from './componentes/organismos/Footer'
+import Contacto from './paginas/Contacto'
+import Carrito from './paginas/Carrito'
+import ListadoContactos from './paginas/ListadoContactos'
+import MisPedidos from './paginas/MisPedidos'
+import AdminPedidos from './paginas/AdminPedidos'
+import AdminUsuarios from './paginas/AdminUsuarios'
+import AdminProductos from './paginas/AdminProductos'
+import RutaProtegida from './componentes/organismos/RutaProtegida'
+import LayoutAdmin from './componentes/organismos/LayoutAdmin'
 
 function App() {
-  return (
-    <div className="min-vh-100 d-flex flex-column" style={{ backgroundColor: "#1c1a17" }}>
-      <Navbar/>
+  const { pathname } = useLocation();
+  const enPanelAdmin = pathname === "/admin" || pathname.startsWith("/admin/");
+
+  return(
+    <div className="d-flex flex-column min-vh-100">
+      {!enPanelAdmin && <Navbar />}
 
       <main className="flex-grow-1">
         <Routes>
+          {/* Públicas */}
+          <Route path="/" element={<Inicio />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/productos" element={<Productos />} />
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/contacto" element={<Contacto />} />
+          <Route path="/producto/:id" element={<DetalleProducto />} />
+          <Route path="/carrito" element={<Carrito />} />
 
-          <Route path="/" element={<PaginaInicio/>} />
+          {/* Requieren haber iniciado sesión */}
+          <Route path="/mis-pedidos" element={<RutaProtegida><MisPedidos /></RutaProtegida>} />
 
-          <Route path="/productos" element={<Productos/>} />
-
-          <Route path="/nosotros" element={<Nosotros/>} />
-
-          <Route path="/contacto" element={<Contacto/>} />
-
-          <Route path="/producto/:id" element={<DetalleProducto/>} />
-
-          <Route path="/carrito" element={<Carrito/>} />
-
-          <Route path="/login" element={<Login/>} />
-
-          <Route path="/registro" element={<Registro/>} />
-
-          <Route path="/admin" element={<Admin/>} />
-
-          <Route path="/logout" element={<Logout/>} />
-
-          <Route path="/perfil" element={<Perfil/>} />
-
+          {/* Panel de administración: solo ADMIN */}
+          <Route path="/admin" element={<RutaProtegida soloAdmin><LayoutAdmin /></RutaProtegida>}>
+            <Route index element={<Admin />} />
+            <Route path="productos" element={<AdminProductos />} />
+            <Route path="pedidos" element={<AdminPedidos />} />
+            <Route path="mensajes" element={<ListadoContactos />} />
+            <Route path="usuarios" element={<AdminUsuarios />} />
+          </Route>
         </Routes>
       </main>
 
-      <Footer />
+      {!enPanelAdmin && <Footer />}
     </div>
   )
 }
 
-export default App
+export default App;

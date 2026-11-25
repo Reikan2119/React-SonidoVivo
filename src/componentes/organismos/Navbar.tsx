@@ -1,88 +1,82 @@
-import { Link, useNavigate } from "react-router-dom";
-import { getSesion, cerrarSesion } from "../../paginas/paginaLogin";
-import { contarItems } from "../../paginas/paginaCarrito";
-import { useState, useEffect } from "react";
-import type { Usuario } from "../../paginas/paginaLogin";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { obtenerUsuario, cerrarSesion as borrarSesion } from "../../api/sesion";
+import { useEffect, useState } from "react";
+import { obtenerCarrito } from "../../api/carrito";
 
 function Navbar() {
-  const navigate = useNavigate();
-  const [sesion, setSesion] = useState<Usuario | null>(() => getSesion());
-  const [cartCount, setCartCount] = useState(contarItems());
+  const ubicacion = useLocation();
+  const navegacion = useNavigate();
+
+  const usuario = obtenerUsuario();
+  const esAdmin = usuario?.rol === "ADMINISTRADOR";
+  const usuarioId = usuario?.id;
+  const [cantidad, setCantidad] = useState(0);
 
   useEffect(() => {
-    const actualizarSesion = () => setSesion(getSesion());
-    window.addEventListener("sesion-updated", actualizarSesion);
-    window.addEventListener("storage", actualizarSesion);
-    return () => {
-      window.removeEventListener("sesion-updated", actualizarSesion);
-      window.removeEventListener("storage", actualizarSesion);
+    if (!usuarioId) {
+      setCantidad(0);
+      return;
+    }
+    const actualizar = () => {
+      obtenerCarrito(usuarioId)
+        .then((c) => setCantidad(c.items.reduce((sum, p) => sum + p.cantidad, 0)))
+        .catch(() => setCantidad(0));
     };
-  }, []);
+    actualizar();
+    window.addEventListener("carritoActualizado", actualizar);
+    return () => window.removeEventListener("carritoActualizado", actualizar);
+  }, [usuarioId, ubicacion.pathname]);
 
-  useEffect(() => {
-    const actualizarCarrito = () => setCartCount(contarItems());
-    window.addEventListener("carrito-updated", actualizarCarrito);
-    window.addEventListener("storage", actualizarCarrito);
-    return () => {
-      window.removeEventListener("carrito-updated", actualizarCarrito);
-      window.removeEventListener("storage", actualizarCarrito);
-    };
-  }, []);
-
-  const linkStyle = { color: "#f5f0e1", fontSize: "1.15rem", fontWeight: 600, letterSpacing: "0.5px", marginRight: "1rem" };
-
-  const handleLogout = () => {
-    cerrarSesion();
-    navigate("/logout");
+  const cerrar = () => {
+    borrarSesion();
+    navegacion("/");
   };
 
   return (
-    <nav className="navbar navbar-expand-md" style={{ backgroundColor: "#d98e2f" }}>
-      <div className="container">
-        <Link to="/" className="navbar-brand" style={{ ...linkStyle, fontSize: "1.4rem", textDecoration: "none" }}>
-          <span style={{ color: "#1c1a17" }}>Sonido</span>
-          <span style={{ color: "#f5f0e1" }}>Vivo</span>
-        </Link>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-1 px-3">
+      <Link className="navbar-brand logo" to="/" style={{ color: "#d98e2f", fontWeight: "bold" }}>
+        SonidoVivo
+      </Link>
 
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style={{ borderColor: "#f5f0e1" }}>
-          <span className="navbar-toggler-icon"></span>
-        </button>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <div className="navbar-nav ms-auto">
-            <Link className="nav-link" style={linkStyle} to="/">Inicio</Link>
-            <Link className="nav-link" style={linkStyle} to="/productos">Productos</Link>
-            <Link className="nav-link" style={linkStyle} to="/nosotros">Nosotros</Link>
-            <Link className="nav-link" style={linkStyle} to="/contacto">Contacto</Link>
-
-            {sesion?.rol === "admin" && (
-              <Link className="nav-link" style={linkStyle} to="/admin">Panel Admin</Link>
-            )}
-
-            {sesion && (
-              <Link className="nav-link" style={linkStyle} to="/perfil">Mi Perfil</Link>
-            )}
-
-            <Link className="nav-link d-flex align-items-center" style={linkStyle} to="/carrito">
-              Carrito
-              {cartCount > 0 && (
-                <span className="badge rounded-pill bg-danger ms-2" style={{ fontSize: "0.75rem" }}>
-                  {cartCount}
-                </span>
-              )}
+      <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul className="navbar-nav links">
+          <li className="nav-item"><Link className="nav-link" to="/">Inicio</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/productos">Productos</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/nosotros">Nosotros</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/contacto">Contacto</Link></li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/carrito">
+              Carrito {cantidad > 0 && (<span className="badge rounded-pill bg-danger ms-1">{cantidad}</span>)}
             </Link>
-
-            {sesion ? (
-              <button className="nav-link btn btn-link" style={{ ...linkStyle, textDecoration: "none", border: "none", background: "none", padding: 0 }} onClick={handleLogout}>
-                Cerrar Sesión
-              </button>
+          </li>
+          {usuario && usuario.rol !== "ADMINISTRADOR" && (
+            <li className="nav-item"><Link className="nav-link" to="/mis-pedidos">Mis pedidos</Link></li>
+          )}
+          {esAdmin && (
+            <li className="nav-item"><Link className="nav-link fw-bold text-warning" to="/admin">Panel admin</Link></li>
+          )}
+          <li className="nav-item">
+            {usuario ? (
+              <a href="#logout" className="nav-link" onClick={(e) => { e.preventDefault(); cerrar(); }}>
+                Cerrar Sesión ({usuario.nombre})
+              </a>
             ) : (
-              <Link className="nav-link" style={linkStyle} to="/login">
-                Iniciar Sesión
-              </Link>
+              <Link className="nav-link" to="/login">Iniciar Sesión</Link>
             )}
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </nav>
   );

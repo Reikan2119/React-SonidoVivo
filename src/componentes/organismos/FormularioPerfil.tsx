@@ -2,7 +2,8 @@ import { useRef, useState, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
-import { getSesion, actualizarUsuario } from "../../paginas/paginaLogin";
+import { obtenerUsuario, guardarUsuario } from "../../api/sesion";
+import { actualizarUsuario } from "../../api/usuarios";
 
 type CampoPerfil = "nombre" | "password" | "password2";
 type ErroresPerfil = Partial<Record<CampoPerfil, string>>;
@@ -10,7 +11,7 @@ type CamposTocados = Partial<Record<CampoPerfil, boolean>>;
 
 function FormularioPerfil() {
   const navigate = useNavigate();
-  const sesion = getSesion();
+  const sesion = obtenerUsuario();
   const [nombre, setNombre] = useState(sesion?.nombre || "");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -96,7 +97,7 @@ function FormularioPerfil() {
     setErrores((anteriores) => ({ ...anteriores, [campo]: validarCampo(campo) }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const nuevosErrores: ErroresPerfil = {
       nombre: validarCampo("nombre"),
@@ -124,22 +125,21 @@ function FormularioPerfil() {
       return;
     }
 
-    const cambios: { nombre?: string; password?: string } = { nombre: nombre.trim() };
-    if (password) cambios.password = password;
+    if (!sesion) return;
 
-    const actualizado = actualizarUsuario(sesion.email, cambios);
-    if (!actualizado) {
-      setMensaje("No se pudo actualizar el perfil. Vuelve a iniciar sesión.");
+    try {
+      const actualizado = await actualizarUsuario(sesion.id, { nombre: nombre.trim() });
+      guardarUsuario({ ...sesion, nombre: actualizado.nombre });
+      setMensaje("Perfil actualizado correctamente.");
+      setMensajeError(false);
+      setPassword("");
+      setPassword2("");
+      setErrores({});
+      setTocados({});
+    } catch (error) {
+      setMensaje(error instanceof Error ? error.message : "No se pudo actualizar el perfil.");
       setMensajeError(true);
-      return;
     }
-
-    setMensaje("Perfil actualizado correctamente.");
-    setMensajeError(false);
-    setPassword("");
-    setPassword2("");
-    setErrores({});
-    setTocados({});
   };
 
   return (

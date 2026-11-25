@@ -1,5 +1,4 @@
-// @vitest-environment jsdom
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import FormularioContacto from "../componentes/organismos/FormularioContacto";
@@ -43,7 +42,12 @@ describe("FormularioContacto", () => {
     ).toBeInTheDocument();
   });
 
-  it("envía correctamente cuando todos los campos son válidos", () => {
+  it("envía correctamente cuando todos los campos son válidos", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ id: 1, nombre: "Ana Pérez", email: "ana@correo.cl", asunto: "Consulta general", mensaje: "msg", estado: "PENDIENTE", fechaEnvio: "2024-01-01" }),
+    }));
+
     render(<FormularioContacto />);
 
     fireEvent.change(screen.getByLabelText(/nombre/i), { target: { value: "Ana Pérez" } });
@@ -53,9 +57,14 @@ describe("FormularioContacto", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
 
+    // esperar a que se resuelva la promesa
+    await new Promise((r) => setTimeout(r, 0));
+
     expect(screen.getByText(/Mensaje enviado correctamente/)).toBeInTheDocument();
     expect(screen.getByLabelText(/nombre/i)).toHaveValue("");
     expect(screen.getByLabelText(/correo/i)).toHaveValue("");
     expect(screen.getByLabelText(/mensaje/i)).toHaveValue("");
+
+    vi.unstubAllGlobals();
   });
 });

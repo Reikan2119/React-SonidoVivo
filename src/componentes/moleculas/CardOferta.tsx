@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
 import BotonComprar from "../atomos/BotonComprar";
-import { addToCarrito, getCarrito, getStock } from "../../paginas/paginaCarrito";
+import { agregarAlCarrito } from "../../api/carrito";
+import { obtenerUsuario } from "../../api/sesion";
 
 interface CardOfertaProps {
   id: number;
@@ -14,16 +14,22 @@ interface CardOfertaProps {
 }
 
 function CardOferta({ id, titulo, descripcion, precio, precioAnterior, imagen, stock = 0 }: CardOfertaProps) {
-  const [stockEfectivo, setStockEfectivo] = useState(getStock(id, stock));
-  useEffect(() => {
-    const update = () => setStockEfectivo(getStock(id, stock));
-    window.addEventListener("stock-updated", update);
-    window.addEventListener("storage", update);
-    return () => {
-      window.removeEventListener("stock-updated", update);
-      window.removeEventListener("storage", update);
-    };
-  }, [id, stock]);
+  const usuario = obtenerUsuario();
+
+  const handleComprar = async () => {
+    if (!usuario) {
+      alert("Inicia sesión para agregar al carrito");
+      return;
+    }
+    try {
+      await agregarAlCarrito(usuario.id, id, 1);
+      window.dispatchEvent(new Event("carritoActualizado"));
+      alert("Agregado al carrito");
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "No se pudo agregar");
+    }
+  };
+
   return (
     <div className="card" style={{ width: "100%", maxWidth: "21rem", backgroundColor: "#ffffff", border: "1px solid #b5731e", color: "#000000" }}>
       <img src={imagen} className="card-img-top" alt={titulo} style={{ height: "200px", objectFit: "contain" }} />
@@ -36,23 +42,11 @@ function CardOferta({ id, titulo, descripcion, precio, precioAnterior, imagen, s
         <p className="card-test" style={{ color: "#b5731e", fontWeight: "bold" }}>
           ${precio.toLocaleString("es-CL")}
         </p>
-        <p className="mb-2 small" style={{ color: "#555" }}>
-          Stock: {stockEfectivo}
-        </p>
+        <p className="mb-2 small" style={{ color: "#555" }}>Stock: {stock}</p>
         <div className="mt-auto d-flex gap-2">
           <Boton id={id} />
-          <BotonComprar
-            disabled={stockEfectivo <= 0}
-            onClick={() => {
-              const actual = getCarrito().find((item) => item.id === id)?.cantidad || 0;
-              if (actual >= stockEfectivo) {
-                alert("No puedes agregar más, stock insuficiente.");
-                return;
-              }
-              addToCarrito({ id, titulo, precio, imagen });
-            }}
-          >
-            {stockEfectivo <= 0 ? "Sin stock" : "Comprar"}
+          <BotonComprar disabled={stock <= 0} onClick={handleComprar}>
+            {stock <= 0 ? "Sin stock" : "Comprar"}
           </BotonComprar>
         </div>
       </div>
@@ -61,4 +55,3 @@ function CardOferta({ id, titulo, descripcion, precio, precioAnterior, imagen, s
 }
 
 export default CardOferta;
-

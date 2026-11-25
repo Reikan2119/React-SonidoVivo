@@ -1,139 +1,54 @@
-import { useRef, useState, type FormEvent } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Alerta from "../atomos/Alerta";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CampoFormulario from "../moleculas/CampoFormulario";
-import { loginUsuario, setSesion } from "../../paginas/paginaLogin";
-const esCorreoValido = (valor: string): boolean =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
-
-type CampoLogin = "email" | "password";
-type ErroresLogin = Partial<Record<CampoLogin, string>>;
-type CamposTocados = Partial<Record<CampoLogin, boolean>>;
-
-function validarCampo(campo: CampoLogin, valor: string): string {
-  if (campo === "email") {
-    if (!valor.trim()) return "El correo electrónico es obligatorio.";
-    if (!esCorreoValido(valor)) return "Ingresa un correo válido, por ejemplo: nombre@correo.cl";
-    return "";
-  }
-
-  if (!valor) return "La contraseña es obligatoria.";
-  return "";
-}
+import { loginUsuario } from "../../api/usuarios";
+import { guardarUsuario, type UsuarioSesion } from "../../api/sesion";
 
 function FormularioLogin() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errores, setErrores] = useState<ErroresLogin>({});
-  const [tocados, setTocados] = useState<CamposTocados>({});
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [contraseña, setContraseña] = useState("");
+  const [enviando, setEnviando] = useState(false);
+  const navegacion = useNavigate();
 
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
-  const mostrarError = (campo: CampoLogin) => Boolean(tocados[campo] && errores[campo]);
-
-  const handleChange = (campo: CampoLogin, valor: string) => {
-    if (campo === "email") setEmail(valor);
-    else setPassword(valor);
-
-    setError("");
-
-    if (tocados[campo]) {
-      setErrores((anteriores) => ({ ...anteriores, [campo]: validarCampo(campo, valor) }));
-    }
-  };
-
-  const handleBlur = (campo: CampoLogin) => {
-    setTocados((anteriores) => ({ ...anteriores, [campo]: true }));
-    setErrores((anteriores) => ({
-      ...anteriores,
-      [campo]: validarCampo(campo, campo === "email" ? email : password),
-    }));
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const manejarEnvio = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (enviando) return;
+    if (email.trim() === "") { alert("Debe ingresar su correo"); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert("Ingresar un correo valido"); return; }
+    if (contraseña.trim() === "") { alert("Debe ingresar su contraseña"); return; }
 
-    const nuevosErrores: ErroresLogin = {
-      email: validarCampo("email", email),
-      password: validarCampo("password", password),
-    };
-
-    setErrores(nuevosErrores);
-    setTocados({ email: true, password: true });
-    setError("");
-
-    if (nuevosErrores.email) {
-      emailRef.current?.focus();
-      return;
-    }
-
-    if (nuevosErrores.password) {
-      passwordRef.current?.focus();
-      return;
-    }
-
-    const emailLimpio = email.trim().toLowerCase();
-
-    if (emailLimpio === "admin@sonidovivo.com" && password === "admin123") {
-      setSesion({ nombre: "Admin", apellido: "", email: emailLimpio, password, rol: "admin" });
-      navigate("/admin");
-      return;
-    }
-
-    const usuario = loginUsuario(emailLimpio, password);
-    if (usuario) {
-      setSesion(usuario);
-      navigate("/");
-    } else {
-      setError("Correo o contraseña incorrectos.");
+    setEnviando(true);
+    try {
+      const usuario = await loginUsuario(email.trim(), contraseña);
+      const sesion: UsuarioSesion = {
+        id: usuario.id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol as UsuarioSesion["rol"],
+      };
+      guardarUsuario(sesion);
+      if (usuario.rol === "ADMINISTRADOR") {
+        alert("¡Acceso de administrador!");
+        navegacion("/admin");
+      } else {
+        alert("¡Inicio de sesión exitoso!");
+        navegacion("/");
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      alert(error instanceof Error ? error.message : "No se pudo conectar con el servidor. Intente nuevamente.");
+    } finally {
+      setEnviando(false);
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      noValidate
-      className="card p-4"
-      style={{ backgroundColor: "#2a241c", border: "1px solid #d98e2f", color: "#f5f0e1" }}
-    >
-      <CampoFormulario
-        id="login-email"
-        etiqueta="Correo electrónico"
-        obligatorio
-        tipo="email"
-        valor={email}
-        onCambio={(valor) => handleChange("email", valor)}
-        onDesenfoque={() => handleBlur("email")}
-        error={mostrarError("email") ? errores.email : undefined}
-        placeholder="nombre@correo.cl"
-        autoComplete="email"
-        refInput={emailRef}
-      />
-
-      <CampoFormulario
-        id="login-password"
-        etiqueta="Contraseña"
-        obligatorio
-        tipo="password"
-        valor={password}
-        onCambio={(valor) => handleChange("password", valor)}
-        onDesenfoque={() => handleBlur("password")}
-        error={mostrarError("password") ? errores.password : undefined}
-        autoComplete="current-password"
-        refInput={passwordRef}
-      />
-
-      {error && <Alerta tipo="error">{error}</Alerta>}
-
-      <button type="submit" className="btn w-100 fw-bold" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
-        Entrar
+    <form onSubmit={manejarEnvio} noValidate>
+      <CampoFormulario etiqueta="Correo electronico" tipo="email" id="login-email" valor={email} onCambio={setEmail} />
+      <CampoFormulario etiqueta="Contraseña" tipo="password" id="login-password" valor={contraseña} onCambio={setContraseña} />
+      <button type="submit" className="btn btn-warning w-100 fw-bold mt-3" disabled={enviando}>
+        {enviando ? "Ingresando..." : "Iniciar Sesión"}
       </button>
-      <p className="text-center mt-3 mb-0">
-        ¿No tienes cuenta? <Link to="/registro" style={{ color: "#d98e2f" }}>Regístrate</Link>
-      </p>
     </form>
   );
 }

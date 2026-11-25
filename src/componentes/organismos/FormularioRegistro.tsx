@@ -2,7 +2,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
-import { existeUsuario, registrarUsuario } from "../../paginas/paginaLogin";
+import { registrarUsuario } from "../../api/usuarios";
 const esCorreoValido = (valor: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
 
@@ -107,15 +107,11 @@ function FormularioRegistro() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const nuevosErrores = validarTodos(valores);
     const emailLimpio = valores.email.trim().toLowerCase();
-
-    if (!nuevosErrores.email && existeUsuario(emailLimpio)) {
-      nuevosErrores.email = "Ya existe una cuenta registrada con este correo. Inicia sesión.";
-    }
 
     setErrores(nuevosErrores);
     setTocados({ nombre: true, apellido: true, email: true, password: true, password2: true });
@@ -131,14 +127,22 @@ function FormularioRegistro() {
       return;
     }
 
-    registrarUsuario({
-      nombre: valores.nombre.trim(),
-      apellido: valores.apellido.trim(),
-      email: emailLimpio,
-      password: valores.password,
-    });
-
-    navigate("/login", { state: { registrado: true } });
+    try {
+      await registrarUsuario({
+        nombre: valores.nombre.trim(),
+        apellido: valores.apellido.trim(),
+        email: emailLimpio,
+        password: valores.password,
+      });
+      navigate("/login", { state: { registrado: true } });
+    } catch (error) {
+      const mensaje = error instanceof Error ? error.message : "No se pudo registrar";
+      if (mensaje.toLowerCase().includes("registrado") || mensaje.toLowerCase().includes("correo")) {
+        setErrores((prev) => ({ ...prev, email: mensaje }));
+      } else {
+        alert(mensaje);
+      }
+    }
   };
 
   return (

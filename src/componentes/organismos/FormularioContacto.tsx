@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
+import { enviarContacto } from "../../api/contacto";
 const esCorreoValido = (valor: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
 
@@ -90,7 +91,7 @@ function FormularioContacto() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const nuevosErrores = validarTodos();
 
@@ -107,10 +108,20 @@ function FormularioContacto() {
       return;
     }
 
-    setEnviado(true);
-    setValores(VALORES_INICIALES);
-    setTocados({});
-    setIntentoEnviar(false);
+    try {
+      await enviarContacto({
+        nombre: valores.nombre.trim(),
+        email: valores.correo.trim(),
+        asunto: "Consulta general",
+        mensaje: valores.mensaje.trim(),
+      });
+      setEnviado(true);
+      setValores(VALORES_INICIALES);
+      setTocados({});
+      setIntentoEnviar(false);
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "No se pudo enviar el mensaje");
+    }
   };
 
   return (

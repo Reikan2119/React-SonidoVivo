@@ -1,71 +1,55 @@
-import { useEffect, useState } from "react";
 import Boton from "../atomos/Boton";
 import BotonComprar from "../atomos/BotonComprar";
-import { addToCarrito, getCarrito, getStock } from "../../paginas/paginaCarrito";
+import { agregarAlCarrito } from "../../api/carrito";
+import { obtenerUsuario } from "../../api/sesion";
 
-interface CardProps{
-    id: number;
-    titulo: string;
-    descripcion: string;
-    precio: number;
-    imagen: string;
-    stock?: number;
+interface CardProps {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  precio: number;
+  imagen: string;
+  stock?: number;
 }
 
-function CardProducto({id, titulo, descripcion, precio, imagen, stock = 0}: CardProps){
-    const [stockEfectivo, setStockEfectivo] = useState(getStock(id, stock));
-    useEffect(() => {
-        const update = () => setStockEfectivo(getStock(id, stock));
-        window.addEventListener("stock-updated", update);
-        window.addEventListener("storage", update);
-        return () => {
-            window.removeEventListener("stock-updated", update);
-            window.removeEventListener("storage", update);
-        };
-    }, [id, stock]);
+function CardProducto({ id, titulo, descripcion, precio, imagen, stock = 0 }: CardProps) {
+  const usuario = obtenerUsuario();
 
-    return(
-        <div className="card" style={{width: '100%', maxWidth: '21rem', backgroundColor: "#ffffff", border: '1px solid #b5731e', color: "#000000"}}>
-            <img src={imagen} 
-            className="card-img-top"
-            alt={titulo}
-            style={{height: '200px', objectFit: 'contain'}} />
-            <div className="card-body d-flex flex-column">
+  const handleComprar = async () => {
+    if (!usuario) {
+      alert("Inicia sesión para agregar al carrito");
+      return;
+    }
+    try {
+      await agregarAlCarrito(usuario.id, id, 1);
+      window.dispatchEvent(new Event("carritoActualizado"));
+      alert("Agregado al carrito");
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "No se pudo agregar");
+    }
+  };
 
-                <h5 className="card-body">
-                    {titulo}
-                </h5>
-
-                <p className="card-text">
-                    {descripcion}
-                </p>
-
-                <p className="card-test" style={{ color: "#b5731e", fontWeight: "bold" }}>
-                    ${precio.toLocaleString("es-CL")}
-                </p>
-                <p className="mb-2 small" style={{ color: "#555" }}>
-                    Stock: {stockEfectivo}
-                </p>
-
-                <div className="mt-auto d-flex gap-2">
-                    <Boton id={id}/>
-                    <BotonComprar
-                      disabled={stockEfectivo <= 0}
-                      onClick={() => {
-                        const actual = getCarrito().find((item) => item.id === id)?.cantidad || 0;
-                        if (actual >= stockEfectivo) {
-                          alert("No puedes agregar más, stock insuficiente.");
-                          return;
-                        }
-                        addToCarrito({ id, titulo, precio, imagen });
-                      }}
-                    >
-                      {stockEfectivo <= 0 ? "Sin stock" : "Comprar"}
-                    </BotonComprar>
-                </div>
-            </div>
+  return (
+    <div className="card" style={{ width: "100%", maxWidth: "21rem", backgroundColor: "#ffffff", border: "1px solid #b5731e", color: "#000000" }}>
+      <img src={imagen} className="card-img-top" alt={titulo} style={{ height: "200px", objectFit: "contain" }} />
+      <div className="card-body d-flex flex-column">
+        <h5 className="card-body">{titulo}</h5>
+        <p className="card-text">{descripcion}</p>
+        <p className="card-test" style={{ color: "#b5731e", fontWeight: "bold" }}>
+          ${precio.toLocaleString("es-CL")}
+        </p>
+        <p className="mb-2 small" style={{ color: "#555" }}>Stock: {stock}</p>
+        <div className="mt-auto d-flex gap-2">
+          <Boton id={id} />
+          <BotonComprar
+            disabled={stock <= 0}
+            onClick={handleComprar}
+          >
+            {stock <= 0 ? "Sin stock" : "Comprar"}
+          </BotonComprar>
         </div>
-    )
+      </div>
+    </div>
+  );
 }
 export default CardProducto;
-

@@ -23,11 +23,31 @@ function Carrito() {
   const [metodoPago, setMetodoPago] = useState("TARJETA");
   const [tipoEntrega, setTipoEntrega] = useState("DESPACHO");
   const [pagando, setPagando] = useState(false);
+  const [validacionStock, setValidacionStock] = useState<string | null>(null);
+
+  const validarStock = async (datos: CarritoDatos | null) => {
+    const items = datos?.items ?? [];
+    const problemas: string[] = [];
+    for (const item of items) {
+      try {
+        const r = await fetch(`${API}/productos/${item.productoId}`);
+        if (r.ok) {
+          const prod = await r.json();
+          if (item.cantidad > prod.stock) {
+            problemas.push(`${item.nombre} (disponible: ${prod.stock})`);
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }
+    setValidacionStock(problemas.length > 0 ? `Stock insuficiente para: ${problemas.join(", ")}. Ajusta las cantidades o elimina el producto.` : null);
+  };
 
   useEffect(() => {
     if (!usuarioId) { setCargando(false); return; }
     obtenerCarrito(usuarioId)
-      .then((datos) => setCarrito(datos))
+      .then((datos) => { setCarrito(datos); validarStock(datos); })
       .catch(() => alert("No se pudo cargar el carrito"))
       .finally(() => setCargando(false));
   }, [usuarioId]);
@@ -54,7 +74,9 @@ function Carrito() {
 
   const actualizar = async (accion: () => Promise<CarritoDatos>) => {
     try {
-      setCarrito(await accion());
+      const datos = await accion();
+      setCarrito(datos);
+      validarStock(datos);
       window.dispatchEvent(new Event("carritoActualizado"));
     } catch (error) {
       alert(mensajeError(error, "No se pudo actualizar el carrito"));
@@ -68,6 +90,7 @@ function Carrito() {
     try {
       await vaciarCarrito(usuarioId);
       setCarrito({ usuarioId, items: [], total: 0 });
+      setValidacionStock(null);
       window.dispatchEvent(new Event("carritoActualizado"));
     } catch (error) {
       alert(mensajeError(error, "No se pudo vaciar el carrito"));
@@ -76,13 +99,17 @@ function Carrito() {
 
   const pagar = async () => {
     if (pagando) return;
+    if (validacionStock) { alert(validacionStock); return; }
     if (tipoEntrega === "DESPACHO" && direccion.trim() === "") { alert("Debe ingresar la dirección de entrega"); return; }
     setPagando(true);
     const descontados: ItemCarrito[] = [];
     try {
       for (const p of items) {
         const res = await fetch(`${API}/productos/${p.productoId}/descontar?cantidad=${p.cantidad}`, { method: "PUT" });
-        if (!res.ok) throw new Error(await leerError(res, `No hay stock suficiente de ${p.nombre}`));
+        if (!res.ok) {
+          const msg = await leerError(res, `Stock insuficiente para ${p.nombre}: quedan 0`);
+          throw new Error(msg.includes("quedan") ? `El producto ${p.nombre} ya no tiene stock disponible. Elimínalo del carrito para continuar.` : msg);
+        }
         descontados.push(p);
       }
       const res = await fetch(`${API}/pedidos`, {
@@ -92,7 +119,6 @@ function Carrito() {
           usuarioId,
           tipoEntrega,
           direccionEntrega: tipoEntrega === "DESPACHO" ? direccion.trim() : "",
-          metodoPago,
           items: items.map((p) => ({ productoId: p.productoId, cantidad: p.cantidad })),
         }),
       });
@@ -191,12 +217,17 @@ function Carrito() {
                 <input id="direccion" type="text" className="form-control" value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Ej: Av. Providencia 1234, Santiago" disabled={tipoEntrega === "RETIRO_TIENDA"} />
               </div>
             </div>
+            {validacionStock && (
+              <div className="alert alert-warning mt-3 mb-0" role="alert">
+                {validacionStock}
+              </div>
+            )}
             <div className="carrito-resumen">
               <button className="btn btn-outline-danger btn-sm" onClick={vaciar} disabled={pagando}>Vaciar Carrito</button>
               <h4 className="carrito-total">
                 Total a pagar: <span>${(carrito?.total ?? 0).toLocaleString("es-CL")}</span>
               </h4>
-              <button className="btn btn-warning fw-bold px-4" onClick={pagar} disabled={pagando}>
+              <button className="btn btn-warning fw-bold px-4" onClick={pagar} disabled={pagando || !!validacionStock}>
                 {pagando ? "Procesando..." : "Pagar"}
               </button>
             </div>

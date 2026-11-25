@@ -1,4 +1,5 @@
 import { API, leerError } from "../api/config";
+import { mensajeError } from "../api/config";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { obtenerUsuario } from "../api/sesion";
@@ -55,7 +56,7 @@ function Carrito() {
       setCarrito(await accion());
       window.dispatchEvent(new Event("carritoActualizado"));
     } catch (error) {
-      alert(error instanceof Error ? error.message : "No se pudo actualizar el carrito");
+      alert(mensajeError(error, "No se pudo actualizar el carrito"));
     }
   };
 
@@ -68,7 +69,7 @@ function Carrito() {
       setCarrito({ usuarioId, items: [], total: 0 });
       window.dispatchEvent(new Event("carritoActualizado"));
     } catch (error) {
-      alert(error instanceof Error ? error.message : "No se pudo vaciar el carrito");
+      alert(mensajeError(error, "No se pudo vaciar el carrito"));
     }
   };
 
@@ -108,7 +109,7 @@ function Carrito() {
         )
       );
       console.error("Error al pagar:", error);
-      alert(error instanceof Error && error.message !== "Failed to fetch" ? error.message : "No se pudo conectar con el servidor. Intente nuevamente.");
+      alert(mensajeError(error, "No se pudo conectar con el servidor. Intente nuevamente."));
     } finally {
       setPagando(false);
     }

@@ -1,4 +1,5 @@
 import { useRef, useState, type FormEvent } from "react";
+import { mensajeError } from "../../api/config";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
 import { enviarContacto } from "../../api/contacto";
@@ -120,7 +121,7 @@ function FormularioContacto() {
       setTocados({});
       setIntentoEnviar(false);
     } catch (error) {
-      alert(error instanceof Error ? error.message : "No se pudo enviar el mensaje");
+      alert(mensajeError(error, "No se pudo enviar el mensaje"));
     }
   };
 

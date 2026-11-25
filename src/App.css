@@ -14,7 +14,7 @@
   --sv-texto-tenue: #8a8377;
   --sv-borde: rgba(217, 142, 47, 0.22);
   --sv-borde-fuerte: rgba(217, 142, 47, 0.55);
-  --sv-sombra: 0 20px 45px rgba(0, 0, 0, 0.32);
+  --sv-sombra: 0 12px 30px rgba(0, 0, 0, 0.28);
   --sv-radio: 1.25rem;
   --bs-body-font-family: "Saira", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
@@ -226,7 +226,7 @@ img {
   border: 1px solid var(--sv-dorado);
   background: linear-gradient(135deg, var(--sv-dorado), var(--sv-dorado-oscuro));
   color: #1c1a17;
-  box-shadow: 0 12px 26px rgba(217, 142, 47, 0.24);
+  box-shadow: 0 8px 18px rgba(217, 142, 47, 0.2);
 }
 
 .btn-sonido:hover,
@@ -253,7 +253,7 @@ img {
   position: sticky;
   top: 0;
   z-index: 1030;
-  padding: 0.8rem 0;
+  padding: 0.6rem 0;
   background: rgba(27, 30, 33, 0.96);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--sv-borde);
@@ -350,7 +350,7 @@ img {
 .hero-sonido {
   position: relative;
   overflow: hidden;
-  padding: clamp(4.5rem, 11vw, 8.5rem) 0;
+  padding: clamp(3rem, 7vw, 5.5rem) 0;
   text-align: center;
   background:
     radial-gradient(circle at 50% -10%, rgba(217, 142, 47, 0.22), transparent 34rem),
@@ -393,7 +393,7 @@ img {
 
 .hero-titulo {
   margin-bottom: 1rem;
-  font-size: clamp(3rem, 9vw, 6.2rem);
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.06em;
@@ -418,14 +418,14 @@ img {
   max-width: 38rem;
   margin: 0 auto 2.2rem;
   color: var(--sv-texto-suave);
-  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
   line-height: 1.7;
 }
 
 .encabezado-pagina {
   position: relative;
   overflow: hidden;
-  padding: clamp(3.5rem, 7vw, 5.5rem) 0 clamp(2rem, 4vw, 3rem);
+  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(1.5rem, 3vw, 2.5rem);
   text-align: center;
   background: radial-gradient(circle at 50% 0%, rgba(217, 142, 47, 0.14), transparent 26rem);
 }
@@ -454,7 +454,7 @@ img {
 }
 
 .seccion-sonido {
-  padding: clamp(3rem, 6vw, 5rem) 0;
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
 }
 
 .seccion-sonido + .seccion-sonido {
@@ -523,21 +523,21 @@ img {
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 45%),
     var(--sv-superficie);
   color: var(--sv-crema);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
   transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .tarjeta-producto:hover {
-  transform: translateY(-6px);
+  transform: translateY(-3px);
   border-color: var(--sv-borde-fuerte);
-  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
 }
 
 .tarjeta-imagen {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 210px;
+  height: 180px;
   padding: 1rem;
   overflow: hidden;
   background: #ffffff;
@@ -1059,7 +1059,7 @@ img {
 }
 
 .pie-sonido {
-  padding: clamp(2.5rem, 5vw, 3.5rem) 0 1.5rem;
+  padding: clamp(2rem, 4vw, 2.5rem) 0 1.25rem;
   border-top: 1px solid var(--sv-borde);
   background: var(--sv-negro);
   color: var(--sv-texto-suave);

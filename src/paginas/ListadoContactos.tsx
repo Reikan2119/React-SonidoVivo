@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { mensajeError } from "../api/config";
 import { listarContactos, cambiarEstadoContacto, type Contacto } from "../api/contacto";
 
 function ListadoContactos() {
@@ -10,7 +11,7 @@ function ListadoContactos() {
 
   const cambiar = async (id: number, estado: string) => {
     try { await cambiarEstadoContacto(id, estado); cargar(); }
-    catch (e) { alert(e instanceof Error ? e.message : "Error"); }
+    catch (e) { alert(mensajeError(e, "Error")); }
   };
 
   return (

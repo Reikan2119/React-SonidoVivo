@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { mensajeError } from "../api/config";
 import { listarPedidos, cambiarEstadoPedido, cancelarPedido, type Pedido } from "../api/pedidos";
 
 function AdminPedidos() {
@@ -13,13 +14,13 @@ function AdminPedidos() {
 
   const cambiar = async (id: number, estado: string) => {
     try { await cambiarEstadoPedido(id, estado); cargar(); }
-    catch (e) { alert(e instanceof Error ? e.message : "Error"); }
+    catch (e) { alert(mensajeError(e, "Error")); }
   };
 
   const cancelar = async (id: number) => {
     if (!confirm("¿Cancelar pedido?")) return;
     try { await cancelarPedido(id); cargar(); }
-    catch (e) { alert(e instanceof Error ? e.message : "Error"); }
+    catch (e) { alert(mensajeError(e, "Error")); }
   };
 
   return (

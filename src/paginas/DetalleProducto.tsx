@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { mensajeError } from "../api/config";
 import { useParams, Link } from "react-router-dom";
 import { obtenerProducto, type Producto } from "../api/productos";
 import { agregarAlCarrito } from "../api/carrito";
@@ -34,7 +35,7 @@ function DetalleProducto() {
       await agregarAlCarrito(usuario.id, producto.id, 1);
       alert("Agregado al carrito");
     } catch (e) {
-      alert(e instanceof Error ? e.message : "No se pudo agregar");
+      alert(mensajeError(e, "No se pudo agregar"));
     } finally {
       setAgregando(false);
     }

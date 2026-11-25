@@ -10,3 +10,14 @@ export async function leerError(respuesta: Response, porDefecto: string): Promis
     return porDefecto;
   }
 }
+
+export function mensajeError(error: unknown, porDefecto: string): string {
+  if (error instanceof Error) {
+    const texto = error.message.trim();
+    if (texto === "" || texto.toLowerCase() === "failed to fetch") {
+      return "No se pudo conectar con el servidor. Verifica tu conexión e intenta nuevamente.";
+    }
+    return texto;
+  }
+  return porDefecto;
+}

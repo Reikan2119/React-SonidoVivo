@@ -1,4 +1,5 @@
 import Boton from "../atomos/Boton";
+import { mensajeError } from "../../api/config";
 import BotonComprar from "../atomos/BotonComprar";
 import { agregarAlCarrito } from "../../api/carrito";
 import { obtenerUsuario } from "../../api/sesion";
@@ -25,7 +26,7 @@ function CardProducto({ id, titulo, descripcion, precio, imagen, stock = 0 }: Ca
       window.dispatchEvent(new Event("carritoActualizado"));
       alert("Agregado al carrito");
     } catch (e) {
-      alert(e instanceof Error ? e.message : "No se pudo agregar");
+      alert(mensajeError(e, "No se pudo agregar"));
     }
   };
 

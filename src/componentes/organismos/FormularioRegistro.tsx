@@ -1,4 +1,5 @@
 import { useRef, useState, type FormEvent } from "react";
+import { mensajeError } from "../../api/config";
 import { Link, useNavigate } from "react-router-dom";
 import Alerta from "../atomos/Alerta";
 import CampoFormulario from "../moleculas/CampoFormulario";
@@ -136,7 +137,7 @@ function FormularioRegistro() {
       });
       navigate("/login", { state: { registrado: true } });
     } catch (error) {
-      const mensaje = error instanceof Error ? error.message : "No se pudo registrar";
+      const mensaje = mensajeError(error, "No se pudo registrar");
       if (mensaje.toLowerCase().includes("registrado") || mensaje.toLowerCase().includes("correo")) {
         setErrores((prev) => ({ ...prev, email: mensaje }));
       } else {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { mensajeError } from "../../api/config";
 import { useNavigate } from "react-router-dom";
 import CampoFormulario from "../moleculas/CampoFormulario";
 import { loginUsuario } from "../../api/usuarios";
@@ -36,7 +37,7 @@ function FormularioLogin() {
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
-      alert(error instanceof Error ? error.message : "No se pudo conectar con el servidor. Intente nuevamente.");
+      alert(mensajeError(error, "No se pudo conectar con el servidor. Intente nuevamente."));
     } finally {
       setEnviando(false);
     }

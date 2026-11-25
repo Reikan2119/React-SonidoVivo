@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { obtenerProductos, obtenerCategorias, type Producto, type Categoria } from "../api/productos";
+import { obtenerProductos, obtenerCategorias, obtenerOfertas, type Producto, type Categoria, type Oferta } from "../api/productos";
 import { cantidadesPorProducto, obtenerCarrito } from "../api/carrito";
 import { obtenerUsuario } from "../api/sesion";
 
@@ -8,6 +8,7 @@ function Productos() {
   const location = useLocation();
   const [productos, setProductos] = useState<Producto[]>([]);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [ofertas, setOfertas] = useState<Oferta[]>([]);
   const [enCarrito, setEnCarrito] = useState<Record<number, number>>({});
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,10 +17,11 @@ function Productos() {
   const usuarioId = usuario?.id;
 
   useEffect(() => {
-    Promise.all([obtenerProductos(), obtenerCategorias()])
-      .then(([ps, cs]) => {
+    Promise.all([obtenerProductos(), obtenerCategorias(), obtenerOfertas()])
+      .then(([ps, cs, os]) => {
         setProductos(ps);
         setCategorias(cs);
+        setOfertas(os);
       })
       .catch((e) => setError(e.message))
       .finally(() => setCargando(false));
@@ -60,7 +62,9 @@ function Productos() {
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                 {items.map((p) => {
                   const stockDisponible = p.stock - (enCarrito[p.id] || 0);
-                  const precioMostrar = p.precioOferta ?? p.precio;
+                  const oferta = ofertas.find((o) => (o.producto?.id ?? o.idProducto ?? o.id_producto) === p.id);
+                  const precioOferta = p.precioOferta ?? oferta?.precioOferta ?? null;
+                  const precioMostrar = precioOferta ?? p.precio;
                   return (
                     <div className="col" key={p.id}>
                       <article className="tarjeta-producto">
@@ -72,7 +76,7 @@ function Productos() {
                           <p className="tarjeta-descripcion">{p.descripcion}</p>
                           <p className="tarjeta-precio">
                             ${precioMostrar.toLocaleString("es-CL")}
-                            {p.precioOferta && (
+                            {precioOferta && (
                               <span className="tarjeta-precio-anterior">
                                 ${p.precio.toLocaleString("es-CL")}
                               </span>

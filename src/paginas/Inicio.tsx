@@ -48,6 +48,14 @@ function Inicio() {
                           ${o.precioAnterior.toLocaleString("es-CL")}
                         </span>
                       </p>
+                      <span className={`stock-pill ${(o.producto?.stock ?? 0) <= 0 ? "agotado" : ""}`}>
+                        Stock: {o.producto?.stock ?? 0}
+                      </span>
+                      <div className="tarjeta-acciones">
+                        <Link to={`/producto/${o.producto?.id ?? o.idProducto ?? o.id_producto}`} className="btn btn-warning">
+                          Ver detalle
+                        </Link>
+                      </div>
                     </div>
                   </article>
                 </div>

@@ -88,9 +88,14 @@ function DetalleProducto() {
                 )}
               </p>
               <div className="detalle-meta">
-                <span className={`stock-pill ${stockDisponible <= 0 ? "agotado" : ""}`}>
-                  Stock: {stockDisponible}
+                <span className={`stock-pill ${producto.stock <= 0 ? "agotado" : ""}`}>
+                  Stock: {producto.stock}
                 </span>
+                {stockDisponible < producto.stock && stockDisponible >= 0 && (
+                  <span className="texto-tenue small d-block mt-1">
+                    {stockDisponible === 0 ? "Ya está en tu carrito" : `${stockDisponible} disponible(s) para agregar`}
+                  </span>
+                )}
               </div>
               <div className="detalle-acciones">
                 <button
@@ -98,7 +103,7 @@ function DetalleProducto() {
                   onClick={handleAgregar}
                   disabled={agregando || stockDisponible <= 0}
                 >
-                  {agregando ? "Agregando..." : stockDisponible <= 0 ? "Sin stock disponible" : "Agregar al carrito"}
+                  {agregando ? "Agregando..." : producto.stock <= 0 ? "Sin stock" : stockDisponible <= 0 ? "Ya en tu carrito" : "Agregar al carrito"}
                 </button>
                 <Link to="/productos" className="btn-sonido-outline">
                   Volver

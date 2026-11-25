@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { obtenerProductos, obtenerCategorias, obtenerOfertas, type Producto, type Categoria, type Oferta } from "../api/productos";
-import { cantidadesPorProducto, obtenerCarrito } from "../api/carrito";
-import { obtenerUsuario } from "../api/sesion";
+
 
 function Productos() {
   const location = useLocation();
   const [productos, setProductos] = useState<Producto[]>([]);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
-  const [enCarrito, setEnCarrito] = useState<Record<number, number>>({});
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const usuario = obtenerUsuario();
-  const usuarioId = usuario?.id;
 
   const cargar = () => {
     Promise.all([obtenerProductos(), obtenerCategorias(), obtenerOfertas()])
@@ -34,13 +29,6 @@ function Productos() {
     window.addEventListener("stockActualizado", handler);
     return () => window.removeEventListener("stockActualizado", handler);
   }, []);
-
-  useEffect(() => {
-    if (!usuarioId) return;
-    obtenerCarrito(usuarioId)
-      .then((c) => setEnCarrito(cantidadesPorProducto(c)))
-      .catch(() => {});
-  }, [usuarioId]);
 
   const hash = location.hash.replace("#", "").toLowerCase();
   const visibles = hash
@@ -69,7 +57,6 @@ function Productos() {
               </div>
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                 {items.map((p) => {
-                  const stockDisponible = p.stock - (enCarrito[p.id] || 0);
                   const oferta = ofertas.find((o) => (o.producto?.id ?? o.idProducto ?? o.id_producto) === p.id);
                   const precioOferta = p.precioOferta ?? oferta?.precioOferta ?? null;
                   const precioMostrar = precioOferta ?? p.precio;
@@ -90,8 +77,8 @@ function Productos() {
                               </span>
                             )}
                           </p>
-                          <span className={`stock-pill ${stockDisponible <= 0 ? "agotado" : ""}`}>
-                            Stock: {stockDisponible}
+                          <span className={`stock-pill ${p.stock <= 0 ? "agotado" : ""}`}>
+                            Stock: {p.stock}
                           </span>
                           <div className="tarjeta-acciones">
                             <a href={`/producto/${p.id}`} className="btn btn-warning">

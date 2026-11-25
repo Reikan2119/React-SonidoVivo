@@ -38,10 +38,10 @@ function Inicio() {
                 <div className="col" key={o.id}>
                   <article className="tarjeta-producto">
                     <div className="tarjeta-imagen">
-                      <img src={encodeURI(o.imagen)} alt={o.tituloProducto || o.titulo} />
+                      <img src={encodeURI(o.producto?.imagen ?? o.imagen ?? "")} alt={o.producto?.titulo || o.tituloProducto || o.titulo} />
                     </div>
                     <div className="tarjeta-cuerpo">
-                      <h5 className="tarjeta-titulo">{o.tituloProducto || o.titulo}</h5>
+                      <h5 className="tarjeta-titulo">{o.producto?.titulo || o.tituloProducto || o.titulo}</h5>
                       <p className="tarjeta-precio">
                         ${o.precioOferta.toLocaleString("es-CL")}
                         <span className="tarjeta-precio-anterior">

@@ -25,11 +25,18 @@ export interface Oferta {
   id_producto?: number;
   tituloProducto?: string;
   titulo?: string;
-  imagen: string;
+  imagen?: string;
   precio: number;
   precioOferta: number;
   precioAnterior: number;
   stock: number;
+  producto?: {
+    id: number;
+    titulo: string;
+    imagen: string;
+    precio: number;
+    stock: number;
+  };
 }
 
 export async function obtenerProductos(): Promise<Producto[]> {

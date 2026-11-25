@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { mensajeError } from "../api/config";
 import { useParams, Link } from "react-router-dom";
 import { obtenerProducto, obtenerOfertas, type Producto } from "../api/productos";
-import { agregarAlCarrito } from "../api/carrito";
+import { agregarAlCarrito, obtenerCarrito, cantidadesPorProducto } from "../api/carrito";
 import { obtenerUsuario } from "../api/sesion";
 
 function DetalleProducto() {
@@ -11,6 +11,7 @@ function DetalleProducto() {
   const [error, setError] = useState<string | null>(null);
   const [agregando, setAgregando] = useState(false);
   const [ofertaPrecio, setOfertaPrecio] = useState<number | null>(null);
+  const [enCarrito, setEnCarrito] = useState<Record<number, number>>({});
 
   const usuario = obtenerUsuario();
 
@@ -25,6 +26,11 @@ function DetalleProducto() {
         setOfertaPrecio(o?.precioOferta ?? null);
       })
       .catch(() => {});
+    if (usuario?.id) {
+      obtenerCarrito(usuario.id)
+        .then((c) => setEnCarrito(cantidadesPorProducto(c)))
+        .catch(() => {});
+    }
   };
 
   useEffect(() => {
@@ -39,6 +45,7 @@ function DetalleProducto() {
 
   const precioOferta = ofertaPrecio ?? producto.precioOferta ?? null;
   const precioMostrar = precioOferta ?? producto.precio;
+  const stockDisponible = producto.stock - (enCarrito[producto.id] || 0);
 
   const handleAgregar = async () => {
     if (!usuario) {
@@ -48,6 +55,8 @@ function DetalleProducto() {
     setAgregando(true);
     try {
       await agregarAlCarrito(usuario.id, producto.id, 1);
+      setEnCarrito((prev) => ({ ...prev, [producto.id]: (prev[producto.id] || 0) + 1 }));
+      window.dispatchEvent(new Event("carritoActualizado"));
       alert("Agregado al carrito");
     } catch (e) {
       alert(mensajeError(e, "No se pudo agregar"));
@@ -79,17 +88,17 @@ function DetalleProducto() {
                 )}
               </p>
               <div className="detalle-meta">
-                <span className={`stock-pill ${producto.stock <= 0 ? "agotado" : ""}`}>
-                  Stock: {producto.stock}
+                <span className={`stock-pill ${stockDisponible <= 0 ? "agotado" : ""}`}>
+                  Stock: {stockDisponible}
                 </span>
               </div>
               <div className="detalle-acciones">
                 <button
                   className="btn btn-warning fw-bold px-4"
                   onClick={handleAgregar}
-                  disabled={agregando || producto.stock <= 0}
+                  disabled={agregando || stockDisponible <= 0}
                 >
-                  {agregando ? "Agregando..." : "Agregar al carrito"}
+                  {agregando ? "Agregando..." : stockDisponible <= 0 ? "Sin stock disponible" : "Agregar al carrito"}
                 </button>
                 <Link to="/productos" className="btn-sonido-outline">
                   Volver

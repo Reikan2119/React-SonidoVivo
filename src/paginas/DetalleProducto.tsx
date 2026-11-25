@@ -14,7 +14,7 @@ function DetalleProducto() {
 
   const usuario = obtenerUsuario();
 
-  useEffect(() => {
+  const cargar = () => {
     if (!id) return;
     obtenerProducto(Number(id))
       .then(setProducto)
@@ -25,6 +25,13 @@ function DetalleProducto() {
         setOfertaPrecio(o?.precioOferta ?? null);
       })
       .catch(() => {});
+  };
+
+  useEffect(() => {
+    cargar();
+    const handler = () => cargar();
+    window.addEventListener("stockActualizado", handler);
+    return () => window.removeEventListener("stockActualizado", handler);
   }, [id]);
 
   if (error) return <div className="pagina"><p className="estado-carga text-danger">{error}</p></div>;

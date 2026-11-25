@@ -27,7 +27,7 @@ function AdminProductos() {
   const eliminar = async (id: number) => {
     if (!confirm("¿Eliminar producto?")) return;
     const r = await fetch(`${API}/productos/${id}`, { method: "DELETE" });
-    if (r.ok) cargar(); else alert("No se pudo eliminar");
+    if (r.ok) { cargar(); window.dispatchEvent(new Event("stockActualizado")); } else alert("No se pudo eliminar");
   };
 
   const reponer = async (id: number) => {
@@ -39,7 +39,7 @@ function AdminProductos() {
       return;
     }
     const r = await fetch(`${API}/productos/${id}/reponer?cantidad=${n}`, { method: "PUT" });
-    if (r.ok) cargar(); else alert("No se pudo agregar stock");
+    if (r.ok) { cargar(); window.dispatchEvent(new Event("stockActualizado")); } else alert("No se pudo agregar stock");
   };
 
   const agregar = async (e: React.FormEvent) => {
@@ -70,6 +70,7 @@ function AdminProductos() {
       setStock("");
       setImagen("");
       cargar();
+      window.dispatchEvent(new Event("stockActualizado"));
       alert("Producto agregado correctamente");
     } catch (error) {
       alert(mensajeError(error, "No se pudo agregar el producto"));

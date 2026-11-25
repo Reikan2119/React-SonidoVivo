@@ -16,15 +16,23 @@ function Productos() {
   const usuario = obtenerUsuario();
   const usuarioId = usuario?.id;
 
-  useEffect(() => {
+  const cargar = () => {
     Promise.all([obtenerProductos(), obtenerCategorias(), obtenerOfertas()])
       .then(([ps, cs, os]) => {
         setProductos(ps);
         setCategorias(cs);
         setOfertas(os);
+        setError(null);
       })
       .catch((e) => setError(e.message))
       .finally(() => setCargando(false));
+  };
+
+  useEffect(() => {
+    cargar();
+    const handler = () => cargar();
+    window.addEventListener("stockActualizado", handler);
+    return () => window.removeEventListener("stockActualizado", handler);
   }, []);
 
   useEffect(() => {

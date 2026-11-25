@@ -21,6 +21,7 @@ function Carrito() {
   const [cargando, setCargando] = useState(true);
   const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("TARJETA");
+  const [tipoEntrega, setTipoEntrega] = useState("DESPACHO");
   const [pagando, setPagando] = useState(false);
 
   useEffect(() => {
@@ -75,7 +76,7 @@ function Carrito() {
 
   const pagar = async () => {
     if (pagando) return;
-    if (direccion.trim() === "") { alert("Debe ingresar la dirección de entrega"); return; }
+    if (tipoEntrega === "DESPACHO" && direccion.trim() === "") { alert("Debe ingresar la dirección de entrega"); return; }
     setPagando(true);
     const descontados: ItemCarrito[] = [];
     try {
@@ -89,7 +90,8 @@ function Carrito() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           usuarioId,
-          direccionEntrega: direccion.trim(),
+          tipoEntrega,
+          direccionEntrega: tipoEntrega === "DESPACHO" ? direccion.trim() : "",
           metodoPago,
           items: items.map((p) => ({ productoId: p.productoId, cantidad: p.cantidad })),
         }),
@@ -169,9 +171,12 @@ function Carrito() {
               </table>
             </div>
             <div className="row g-3 mt-1">
-              <div className="col-12 col-md-8">
-                <label className="form-label" htmlFor="direccion">Dirección de entrega</label>
-                <input id="direccion" type="text" className="form-control" value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Ej: Av. Providencia 1234, Santiago" />
+              <div className="col-12 col-md-4">
+                <label className="form-label" htmlFor="tipoEntrega">Tipo de entrega</label>
+                <select id="tipoEntrega" className="form-select" value={tipoEntrega} onChange={(e) => setTipoEntrega(e.target.value)}>
+                  <option value="DESPACHO">Despacho a domicilio</option>
+                  <option value="RETIRO_TIENDA">Retiro en tienda</option>
+                </select>
               </div>
               <div className="col-12 col-md-4">
                 <label className="form-label" htmlFor="metodoPago">Método de pago</label>
@@ -180,6 +185,10 @@ function Carrito() {
                   <option value="TRANSFERENCIA">Transferencia</option>
                   <option value="EFECTIVO">Efectivo</option>
                 </select>
+              </div>
+              <div className="col-12 col-md-4">
+                <label className="form-label" htmlFor="direccion">Dirección de entrega</label>
+                <input id="direccion" type="text" className="form-control" value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Ej: Av. Providencia 1234, Santiago" disabled={tipoEntrega === "RETIRO_TIENDA"} />
               </div>
             </div>
             <div className="carrito-resumen">

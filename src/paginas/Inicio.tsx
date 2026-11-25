@@ -72,7 +72,10 @@ function Inicio() {
               <h2 className="titulo-seccion">Destacados</h2>
             </div>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-              {destacados.map((p) => (
+              {destacados.map((p) => {
+                const oferta = ofertas.find((o) => (o.producto?.id ?? o.idProducto ?? o.id_producto) === p.id);
+                const precioMostrar = oferta?.precioOferta ?? p.precio;
+                return (
                 <div className="col" key={p.id}>
                   <article className="tarjeta-producto">
                     <div className="tarjeta-imagen">
@@ -80,7 +83,14 @@ function Inicio() {
                     </div>
                     <div className="tarjeta-cuerpo">
                       <h5 className="tarjeta-titulo">{p.titulo}</h5>
-                      <p className="tarjeta-precio">${p.precio.toLocaleString("es-CL")}</p>
+                      <p className="tarjeta-precio">
+                        ${precioMostrar.toLocaleString("es-CL")}
+                        {oferta && (
+                          <span className="tarjeta-precio-anterior">
+                            ${p.precio.toLocaleString("es-CL")}
+                          </span>
+                        )}
+                      </p>
                       <div className="tarjeta-acciones">
                         <Link to={`/producto/${p.id}`} className="btn btn-warning">
                           Ver detalle
@@ -89,7 +99,8 @@ function Inicio() {
                     </div>
                   </article>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

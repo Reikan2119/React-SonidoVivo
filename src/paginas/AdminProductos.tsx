@@ -30,6 +30,18 @@ function AdminProductos() {
     if (r.ok) cargar(); else alert("No se pudo eliminar");
   };
 
+  const reponer = async (id: number) => {
+    const cantidad = prompt("Cantidad de stock a agregar:");
+    if (cantidad === null) return;
+    const n = Number(cantidad);
+    if (!Number.isInteger(n) || n <= 0) {
+      alert("Ingresa una cantidad válida mayor a 0");
+      return;
+    }
+    const r = await fetch(`${API}/productos/${id}/reponer?cantidad=${n}`, { method: "PUT" });
+    if (r.ok) cargar(); else alert("No se pudo agregar stock");
+  };
+
   const agregar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!titulo.trim() || !descripcion.trim() || !precio || !stock || !imagen.trim() || !categoriaId) {
@@ -120,7 +132,8 @@ function AdminProductos() {
                   <td>{p.categoria?.nombre}</td>
                   <td>${p.precio.toLocaleString("es-CL")}</td>
                   <td>{p.stock}</td>
-                  <td>
+                  <td className="d-flex gap-1">
+                    <button className="btn btn-outline-secondary btn-sm" onClick={() => reponer(p.id)}>+ Stock</button>
                     <button className="btn btn-outline-danger btn-sm" onClick={() => eliminar(p.id)}>Eliminar</button>
                   </td>
                 </tr>

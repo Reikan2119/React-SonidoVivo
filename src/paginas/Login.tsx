@@ -3,15 +3,19 @@ import { Link } from "react-router-dom";
 
 function Login() {
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-8 col-lg-6">
-          <div className="card shadow-sm p-4">
-            <h2 className="mb-4 text-center">Inicio De Sesion</h2>
-            <FormularioLogin />
-            <div className="text-center mt-3">
-              <p className="mb-1 text-muted">¿No tienes una cuenta?</p>
-              <Link to="/registro" className="btn btn-outline-secondary w-100 fw-bold">Registrarse</Link>
+    <div className="pagina pagina-auth">
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-8 col-lg-5">
+            <div className="panel-formulario panel-auth">
+              <h1 className="titulo-formulario">Inicio de sesión</h1>
+              <p className="subtitulo-formulario">Accede a tu cuenta para comprar y revisar tus pedidos.</p>
+              <FormularioLogin />
+              <div className="separador-formulario">o</div>
+              <div className="text-center">
+                <p className="texto-suave mb-2">¿No tienes una cuenta?</p>
+                <Link to="/registro" className="btn btn-sonido-outline w-100 fw-bold">Registrarse</Link>
+              </div>
             </div>
           </div>
         </div>

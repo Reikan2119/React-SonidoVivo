@@ -1,20 +1,21 @@
 function Footer() {
   return (
-    <footer className="text-center py-4" style={{ backgroundColor: "#000000" }}>
+    <footer className="pie-sonido">
       <div className="container">
-        <h5 className="mb-2" style={{ color: "#d98e2f" }}>SonidoVivo</h5>
-        <p className="mb-3" style={{ color: "#f5f0e1" }}>
-          Tu tienda de instrumentos y accesorios musicales.
-        </p>
-        <div className="d-flex justify-content-center gap-3 small mb-3">
-          <a href="/" style={{ color: "#f5f0e1", textDecoration: "underline" }}>Inicio</a>
-          <a href="/productos" style={{ color: "#f5f0e1", textDecoration: "underline" }}>Productos</a>
-          <a href="/nosotros" style={{ color: "#f5f0e1", textDecoration: "underline" }}>Nosotros</a>
-          <a href="/contacto" style={{ color: "#f5f0e1", textDecoration: "underline" }}>Contacto</a>
+        <div className="pie-superior">
+          <div>
+            <h5 className="pie-marca">SonidoVivo</h5>
+            <p className="pie-texto">Tu tienda de instrumentos y accesorios musicales.</p>
+          </div>
+          <nav className="pie-enlaces" aria-label="Enlaces del pie de página">
+            <a href="/">Inicio</a>
+            <a href="/productos">Productos</a>
+            <a href="/nosotros">Nosotros</a>
+            <a href="/contacto">Contacto</a>
+          </nav>
         </div>
-        <p className="mb-0 small" style={{ color: "#f5f0e1" }}>
-          © 2026 SonidoVivo. Todos los derechos reservados.
-        </p>
+        <hr className="pie-divisor" />
+        <p className="pie-copy">© 2026 SonidoVivo. Todos los derechos reservados.</p>
       </div>
     </footer>
   );

@@ -128,11 +128,10 @@ function FormularioContacto() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="card p-4"
-      style={{ backgroundColor: "#2a241c", border: "1px solid #d98e2f", color: "#f5f0e1" }}
+      className="panel-formulario"
     >
-      <p className="small mb-3" style={{ color: "#c9bca8" }}>
-        Los campos marcados con <span style={{ color: "#ff9b91" }}>*</span> son obligatorios.
+      <p className="small mb-3 texto-tenue">
+        Los campos marcados con <span className="obligatorio">*</span> son obligatorios.
       </p>
 
       {intentoEnviar && tieneErrores && (
@@ -182,7 +181,7 @@ function FormularioContacto() {
         refTextarea={mensajeRef}
       />
 
-      <button type="submit" className="btn fw-bold" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
+      <button type="submit" className="btn btn-sonido w-100">
         Enviar
       </button>
 

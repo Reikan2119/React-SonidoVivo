@@ -32,51 +32,67 @@ function Navbar() {
     navegacion("/");
   };
 
+  const activo = (ruta: string) => (ubicacion.pathname === ruta ? "activo" : "");
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-1 px-3">
-      <Link className="navbar-brand logo" to="/" style={{ color: "#d98e2f", fontWeight: "bold" }}>
-        SonidoVivo
-      </Link>
+    <nav className="navbar navbar-expand-lg navbar-dark navbar-sonido">
+      <div className="container">
+        <Link className="navbar-brand" to="/">
+          SonidoVivo
+        </Link>
 
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-      <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul className="navbar-nav links">
-          <li className="nav-item"><Link className="nav-link" to="/">Inicio</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/productos">Productos</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/nosotros">Nosotros</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/contacto">Contacto</Link></li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/carrito">
-              Carrito {cantidad > 0 && (<span className="badge rounded-pill bg-danger ms-1">{cantidad}</span>)}
-            </Link>
-          </li>
-          {usuario && usuario.rol !== "ADMINISTRADOR" && (
-            <li className="nav-item"><Link className="nav-link" to="/mis-pedidos">Mis pedidos</Link></li>
-          )}
-          {esAdmin && (
-            <li className="nav-item"><Link className="nav-link fw-bold text-warning" to="/admin">Panel admin</Link></li>
-          )}
-          <li className="nav-item">
-            {usuario ? (
-              <a href="#logout" className="nav-link" onClick={(e) => { e.preventDefault(); cerrar(); }}>
-                Cerrar Sesión ({usuario.nombre})
-              </a>
-            ) : (
-              <Link className="nav-link" to="/login">Iniciar Sesión</Link>
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul className="navbar-nav links align-items-lg-center gap-lg-1">
+            <li className="nav-item">
+              <Link className={`nav-link ${activo("/")}`} to="/">Inicio</Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${activo("/productos")}`} to="/productos">Productos</Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${activo("/nosotros")}`} to="/nosotros">Nosotros</Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${activo("/contacto")}`} to="/contacto">Contacto</Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${activo("/carrito")}`} to="/carrito">
+                Carrito {cantidad > 0 && (<span className="badge rounded-pill ms-1">{cantidad}</span>)}
+              </Link>
+            </li>
+            {usuario && usuario.rol !== "ADMINISTRADOR" && (
+              <li className="nav-item">
+                <Link className={`nav-link ${activo("/mis-pedidos")}`} to="/mis-pedidos">Mis pedidos</Link>
+              </li>
             )}
-          </li>
-        </ul>
+            {esAdmin && (
+              <li className="nav-item">
+                <Link className="nav-link nav-link-dorado" to="/admin">Panel admin</Link>
+              </li>
+            )}
+            <li className="nav-item">
+              {usuario ? (
+                <a href="#logout" className="nav-link nav-link-salir" onClick={(e) => { e.preventDefault(); cerrar(); }}>
+                  Cerrar Sesión ({usuario.nombre})
+                </a>
+              ) : (
+                <Link className={`nav-link ${activo("/login")}`} to="/login">Iniciar Sesión</Link>
+              )}
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   );

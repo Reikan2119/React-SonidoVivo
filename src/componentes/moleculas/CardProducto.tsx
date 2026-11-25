@@ -30,16 +30,16 @@ function CardProducto({ id, titulo, descripcion, precio, imagen, stock = 0 }: Ca
   };
 
   return (
-    <div className="card" style={{ width: "100%", maxWidth: "21rem", backgroundColor: "#ffffff", border: "1px solid #b5731e", color: "#000000" }}>
-      <img src={imagen} className="card-img-top" alt={titulo} style={{ height: "200px", objectFit: "contain" }} />
-      <div className="card-body d-flex flex-column">
-        <h5 className="card-body">{titulo}</h5>
-        <p className="card-text">{descripcion}</p>
-        <p className="card-test" style={{ color: "#b5731e", fontWeight: "bold" }}>
-          ${precio.toLocaleString("es-CL")}
-        </p>
-        <p className="mb-2 small" style={{ color: "#555" }}>Stock: {stock}</p>
-        <div className="mt-auto d-flex gap-2">
+    <article className="tarjeta-producto" style={{ width: "100%", maxWidth: "21rem" }}>
+      <div className="tarjeta-imagen">
+        <img src={imagen} alt={titulo} />
+      </div>
+      <div className="tarjeta-cuerpo">
+        <h5 className="tarjeta-titulo">{titulo}</h5>
+        <p className="tarjeta-descripcion">{descripcion}</p>
+        <p className="tarjeta-precio">${precio.toLocaleString("es-CL")}</p>
+        <span className={`stock-pill ${stock <= 0 ? "agotado" : ""}`}>Stock: {stock}</span>
+        <div className="tarjeta-acciones">
           <Boton id={id} />
           <BotonComprar
             disabled={stock <= 0}
@@ -49,7 +49,7 @@ function CardProducto({ id, titulo, descripcion, precio, imagen, stock = 0 }: Ca
           </BotonComprar>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 export default CardProducto;

@@ -45,7 +45,7 @@ function CampoFormulario({
   return (
     <div className="mb-3">
       <label className="form-label" htmlFor={id}>
-        {etiqueta} {obligatorio && <span style={{ color: "#ff9b91" }}>*</span>}
+        {etiqueta} {obligatorio && <span className="obligatorio">*</span>}
       </label>
 
       {multilinea ? (
@@ -86,13 +86,13 @@ function CampoFormulario({
                 {error}
               </p>
             ) : ayuda ? (
-              <span id={idAyuda} className="small mt-1" style={{ color: "#c9bca8" }}>
+              <span id={idAyuda} className="small mt-1 texto-suave">
                 {ayuda}
               </span>
             ) : null}
           </div>
           {maxLength !== undefined && (
-            <span className="small mt-1" style={{ color: "#c9bca8" }}>
+            <span className="small mt-1 texto-suave">
               {valor.length}/{maxLength}
             </span>
           )}

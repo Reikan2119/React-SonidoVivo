@@ -20,26 +20,30 @@ function AdminProductos() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-3">Productos</h2>
-      <table className="table table-striped">
-        <thead><tr><th>ID</th><th>Título</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
-        <tbody>
-          {productos.map((p) => (
-            <tr key={p.id}>
-              <td>{p.id}</td>
-              <td>{p.titulo}</td>
-              <td>{p.categoria?.nombre}</td>
-              <td>${p.precio.toLocaleString("es-CL")}</td>
-              <td>{p.stock}</td>
-              <td>
-                <button className="btn btn-danger btn-sm" onClick={() => eliminar(p.id)}>Eliminar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="text-muted small">Categorías disponibles: {categorias.map((c) => c.nombre).join(", ")}</p>
+    <div className="pagina pagina-admin">
+      <div className="panel-sonido">
+        <h2 className="titulo-panel">Productos</h2>
+        <div className="table-responsive">
+          <table className="table tabla-sonido align-middle">
+            <thead><tr><th>ID</th><th>Título</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
+            <tbody>
+              {productos.map((p) => (
+                <tr key={p.id}>
+                  <td>{p.id}</td>
+                  <td>{p.titulo}</td>
+                  <td>{p.categoria?.nombre}</td>
+                  <td>${p.precio.toLocaleString("es-CL")}</td>
+                  <td>{p.stock}</td>
+                  <td>
+                    <button className="btn btn-outline-danger btn-sm" onClick={() => eliminar(p.id)}>Eliminar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="texto-tenue small mb-0 mt-3">Categorías disponibles: {categorias.map((c) => c.nombre).join(", ")}</p>
+      </div>
     </div>
   );
 }

@@ -57,7 +57,6 @@ describe("FormularioContacto", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "Enviar" }));
 
-    // esperar a que se resuelva la promesa
     await new Promise((r) => setTimeout(r, 0));
 
     expect(screen.getByText(/Mensaje enviado correctamente/)).toBeInTheDocument();

@@ -149,11 +149,10 @@ function FormularioRegistro() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="card p-4"
-      style={{ backgroundColor: "#2a241c", border: "1px solid #d98e2f", color: "#f5f0e1" }}
+      className="formulario-sonido"
     >
-      <p className="small mb-3" style={{ color: "#c9bca8" }}>
-        Los campos marcados con <span style={{ color: "#ff9b91" }}>*</span> son obligatorios.
+      <p className="small mb-3 texto-tenue">
+        Los campos marcados con <span className="obligatorio">*</span> son obligatorios.
       </p>
 
       {intentoEnviar && tieneErrores && (
@@ -231,11 +230,11 @@ function FormularioRegistro() {
         refInput={password2Ref}
       />
 
-      <button type="submit" className="btn w-100 fw-bold" style={{ backgroundColor: "#d98e2f", color: "#1c1a17" }}>
+      <button type="submit" className="btn btn-sonido w-100 mt-2">
         Registrarse
       </button>
       <p className="text-center mt-3 mb-0">
-        ¿Ya tienes cuenta? <Link to="/login" style={{ color: "#d98e2f" }}>Inicia sesión</Link>
+        ¿Ya tienes cuenta? <Link to="/login" className="enlace-dorado">Inicia sesión</Link>
       </p>
     </form>
   );

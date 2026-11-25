@@ -1,6 +1,4 @@
-// Manejo de la sesión del usuario.
-// Los datos vienen del microservicio de usuarios (nunca incluyen la contraseña).
-// Se guarda en sessionStorage (no localStorage) para no persistir credenciales en disco.
+
 
 export interface UsuarioSesion {
   id: number;

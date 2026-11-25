@@ -30,29 +30,33 @@ function AdminUsuarios() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-3">Usuarios</h2>
-      <table className="table table-striped">
-        <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Activo</th><th>Cambiar rol</th></tr></thead>
-        <tbody>
-          {usuarios.map((u) => (
-            <tr key={u.id}>
-              <td>{u.id}</td>
-              <td>{u.nombre} {u.apellido}</td>
-              <td>{u.email}</td>
-              <td>{u.rol}</td>
-              <td>{u.activo ? "Sí" : "No"}</td>
-              <td>
-                <select className="form-select form-select-sm" value={u.rol} onChange={(e) => cambiarRol(u.id, e.target.value)}>
-                  <option value="CLIENTE">CLIENTE</option>
-                  <option value="VENDEDOR">VENDEDOR</option>
-                  <option value="ADMINISTRADOR">ADMINISTRADOR</option>
-                </select>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="pagina pagina-admin">
+      <div className="panel-sonido">
+        <h2 className="titulo-panel">Usuarios</h2>
+        <div className="table-responsive">
+          <table className="table tabla-sonido align-middle">
+            <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Activo</th><th>Cambiar rol</th></tr></thead>
+            <tbody>
+              {usuarios.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.id}</td>
+                  <td>{u.nombre} {u.apellido}</td>
+                  <td>{u.email}</td>
+                  <td>{u.rol}</td>
+                  <td>{u.activo ? "Sí" : "No"}</td>
+                  <td>
+                    <select className="form-select form-select-sm" value={u.rol} onChange={(e) => cambiarRol(u.id, e.target.value)}>
+                      <option value="CLIENTE">CLIENTE</option>
+                      <option value="VENDEDOR">VENDEDOR</option>
+                      <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

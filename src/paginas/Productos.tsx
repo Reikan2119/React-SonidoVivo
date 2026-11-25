@@ -37,51 +37,63 @@ function Productos() {
     ? categorias.filter((c) => c.slug === hash)
     : categorias;
 
-  if (cargando) return <div className="container mt-5 text-center">Cargando...</div>;
-  if (error) return <div className="container mt-5 text-center text-danger">{error}</div>;
+  if (cargando) return <div className="pagina"><p className="estado-carga">Cargando catálogo...</p></div>;
+  if (error) return <div className="pagina"><p className="estado-carga text-danger">{error}</p></div>;
 
   return (
-    <div style={{ backgroundColor: "#1c1a17", color: "#f5f0e1" }}>
-      <section className="py-5">
+    <div className="pagina pagina-productos">
+      <header className="encabezado-pagina">
         <div className="container">
-          <h1 className="text-center fw-bold" style={{ color: "#d98e2f" }}>Productos</h1>
+          <h1>Productos</h1>
         </div>
-      </section>
+      </header>
 
       {visibles.map((cat) => {
         const items = productos.filter((p) => p.categoria?.slug === cat.slug && p.activo);
         if (items.length === 0) return null;
         return (
-          <div className="container mb-5" key={cat.slug} id={cat.slug}>
-            <h2 className="fw-normal text-center" style={{ color: "#f5f0e1" }}>{cat.nombre}</h2>
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mt-2">
-              {items.map((p) => {
-                const stockDisponible = p.stock - (enCarrito[p.id] || 0);
-                const precioMostrar = p.precioOferta ?? p.precio;
-                return (
-                  <div className="col" key={p.id}>
-                    <div className="card h-100">
-                      <img src={encodeURI(p.imagen)} className="card-img-top" alt={p.titulo} />
-                      <div className="card-body d-flex flex-column">
-                        <h5 className="card-title">{p.titulo}</h5>
-                        <p className="card-text small text-muted">{p.descripcion}</p>
-                        <p className="card-text fw-bold mt-auto">
-                          ${precioMostrar.toLocaleString("es-CL")}
-                          {p.precioOferta && (
-                            <span className="text-muted text-decoration-line-through ms-2 small">
-                              ${p.precio.toLocaleString("es-CL")}
-                            </span>
-                          )}
-                        </p>
-                        <p className="card-text small">Stock: {stockDisponible}</p>
-                        <a href={`/producto/${p.id}`} className="btn btn-sm btn-warning">Ver detalle</a>
-                      </div>
+          <section className="seccion-sonido" key={cat.slug} id={cat.slug}>
+            <div className="container">
+              <div className="encabezado-categoria">
+                <h2>{cat.nombre}</h2>
+              </div>
+              <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                {items.map((p) => {
+                  const stockDisponible = p.stock - (enCarrito[p.id] || 0);
+                  const precioMostrar = p.precioOferta ?? p.precio;
+                  return (
+                    <div className="col" key={p.id}>
+                      <article className="tarjeta-producto">
+                        <div className="tarjeta-imagen">
+                          <img src={encodeURI(p.imagen)} alt={p.titulo} />
+                        </div>
+                        <div className="tarjeta-cuerpo">
+                          <h5 className="tarjeta-titulo">{p.titulo}</h5>
+                          <p className="tarjeta-descripcion">{p.descripcion}</p>
+                          <p className="tarjeta-precio">
+                            ${precioMostrar.toLocaleString("es-CL")}
+                            {p.precioOferta && (
+                              <span className="tarjeta-precio-anterior">
+                                ${p.precio.toLocaleString("es-CL")}
+                              </span>
+                            )}
+                          </p>
+                          <span className={`stock-pill ${stockDisponible <= 0 ? "agotado" : ""}`}>
+                            Stock: {stockDisponible}
+                          </span>
+                          <div className="tarjeta-acciones">
+                            <a href={`/producto/${p.id}`} className="btn btn-warning">
+                              Ver detalle
+                            </a>
+                          </div>
+                        </div>
+                      </article>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          </section>
         );
       })}
     </div>

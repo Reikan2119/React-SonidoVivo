@@ -23,32 +23,36 @@ function AdminPedidos() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-3">Pedidos</h2>
-      <table className="table table-striped">
-        <thead><tr><th>N°</th><th>Usuario</th><th>Estado</th><th>Tipo</th><th>Total</th><th>Acciones</th></tr></thead>
-        <tbody>
-          {pedidos.map((p) => (
-            <tr key={p.id}>
-              <td>{p.id}</td>
-              <td>{p.usuarioId}</td>
-              <td>{p.estado}</td>
-              <td>{p.tipoEntrega}</td>
-              <td>${p.total.toLocaleString("es-CL")}</td>
-              <td className="d-flex gap-1">
-                <select className="form-select form-select-sm" value={p.estado} onChange={(e) => cambiar(p.id, e.target.value)}>
-                  <option value="EN_PREPARACION">EN_PREPARACION</option>
-                  <option value="DESPACHADO">DESPACHADO</option>
-                  <option value="ENTREGADO">ENTREGADO</option>
-                </select>
-                {p.estado === "EN_PREPARACION" && (
-                  <button className="btn btn-danger btn-sm" onClick={() => cancelar(p.id)}>Cancelar</button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="pagina pagina-admin">
+      <div className="panel-sonido">
+        <h2 className="titulo-panel">Pedidos</h2>
+        <div className="table-responsive">
+          <table className="table tabla-sonido align-middle">
+            <thead><tr><th>N°</th><th>Usuario</th><th>Estado</th><th>Tipo</th><th>Total</th><th>Acciones</th></tr></thead>
+            <tbody>
+              {pedidos.map((p) => (
+                <tr key={p.id}>
+                  <td>{p.id}</td>
+                  <td>{p.usuarioId}</td>
+                  <td>{p.estado}</td>
+                  <td>{p.tipoEntrega}</td>
+                  <td>${p.total.toLocaleString("es-CL")}</td>
+                  <td className="d-flex gap-1">
+                    <select className="form-select form-select-sm" value={p.estado} onChange={(e) => cambiar(p.id, e.target.value)}>
+                      <option value="EN_PREPARACION">EN_PREPARACION</option>
+                      <option value="DESPACHADO">DESPACHADO</option>
+                      <option value="ENTREGADO">ENTREGADO</option>
+                    </select>
+                    {p.estado === "EN_PREPARACION" && (
+                      <button className="btn btn-outline-danger btn-sm" onClick={() => cancelar(p.id)}>Cancelar</button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

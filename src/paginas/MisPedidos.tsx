@@ -15,41 +15,58 @@ function MisPedidos() {
       .finally(() => setCargando(false));
   }, [usuario?.id]);
 
-  if (!usuario) return <div className="container mt-5 text-center">Inicia sesión para ver tus pedidos.</div>;
+  if (!usuario) {
+    return (
+      <div className="pagina">
+        <p className="estado-carga">Inicia sesión para ver tus pedidos.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4 text-center fw-bold">Mis Pedidos</h2>
-      {cargando ? (
-        <p className="text-center">Cargando...</p>
-      ) : pedidos.length === 0 ? (
-        <p className="text-center">No tienes pedidos aún.</p>
-      ) : (
-        <div className="table-responsive">
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>N°</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Tipo entrega</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pedidos.map((p) => (
-                <tr key={p.id}>
-                  <td>{p.id}</td>
-                  <td>{new Date(p.fechaPedido).toLocaleString("es-CL")}</td>
-                  <td>{p.estado}</td>
-                  <td>{p.tipoEntrega}</td>
-                  <td>${p.total.toLocaleString("es-CL")}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className="pagina pagina-pedidos">
+      <header className="encabezado-pagina">
+        <div className="container">
+          <h1>Mis Pedidos</h1>
         </div>
-      )}
+      </header>
+
+      <div className="container pb-5">
+        {cargando ? (
+          <p className="estado-carga">Cargando...</p>
+        ) : pedidos.length === 0 ? (
+          <div className="panel-sonido panel-vacio">
+            <p className="mb-0">No tienes pedidos aún.</p>
+          </div>
+        ) : (
+          <div className="panel-sonido">
+            <div className="table-responsive">
+              <table className="table tabla-sonido align-middle">
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Tipo entrega</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pedidos.map((p) => (
+                    <tr key={p.id}>
+                      <td>{p.id}</td>
+                      <td>{new Date(p.fechaPedido).toLocaleString("es-CL")}</td>
+                      <td>{p.estado}</td>
+                      <td>{p.tipoEntrega}</td>
+                      <td>${p.total.toLocaleString("es-CL")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

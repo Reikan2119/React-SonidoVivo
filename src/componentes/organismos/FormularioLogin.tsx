@@ -46,7 +46,7 @@ function FormularioLogin() {
     <form onSubmit={manejarEnvio} noValidate>
       <CampoFormulario etiqueta="Correo electronico" tipo="email" id="login-email" valor={email} onCambio={setEmail} />
       <CampoFormulario etiqueta="Contraseña" tipo="password" id="login-password" valor={contraseña} onCambio={setContraseña} />
-      <button type="submit" className="btn btn-warning w-100 fw-bold mt-3" disabled={enviando}>
+      <button type="submit" className="btn btn-sonido w-100 mt-3" disabled={enviando}>
         {enviando ? "Ingresando..." : "Iniciar Sesión"}
       </button>
     </form>

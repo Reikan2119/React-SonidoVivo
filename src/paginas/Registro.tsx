@@ -1,17 +1,16 @@
 import FormularioRegistro from "../componentes/organismos/FormularioRegistro";
-import { Link } from "react-router-dom";
 
 function Registro() {
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-8 col-lg-6">
-          <div className="card shadow-sm p-4">
-            <h2 className="mb-4 text-center">Registro</h2>
-            <FormularioRegistro />
-            <p className="text-center mt-3 mb-0">
-              ¿Ya tienes cuenta? <Link to="/login" style={{ color: "#d98e2f" }}>Inicia sesión</Link>
-            </p>
+    <div className="pagina pagina-auth">
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-9 col-lg-7">
+            <div className="panel-formulario panel-auth">
+              <h1 className="titulo-formulario">Crear cuenta</h1>
+              <p className="subtitulo-formulario">Regístrate para comprar en SonidoVivo.</p>
+              <FormularioRegistro />
+            </div>
           </div>
         </div>
       </div>

@@ -29,7 +29,7 @@ function App() {
 
       <main className="flex-grow-1">
         <Routes>
-          {/* Públicas */}
+          {}
           <Route path="/" element={<Inicio />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
@@ -39,10 +39,10 @@ function App() {
           <Route path="/producto/:id" element={<DetalleProducto />} />
           <Route path="/carrito" element={<Carrito />} />
 
-          {/* Requieren haber iniciado sesión */}
+          {}
           <Route path="/mis-pedidos" element={<RutaProtegida><MisPedidos /></RutaProtegida>} />
 
-          {/* Panel de administración: solo ADMIN */}
+          {}
           <Route path="/admin" element={<RutaProtegida soloAdmin><LayoutAdmin /></RutaProtegida>}>
             <Route index element={<Admin />} />
             <Route path="productos" element={<AdminProductos />} />

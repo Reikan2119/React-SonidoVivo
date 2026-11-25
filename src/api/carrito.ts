@@ -1,5 +1,5 @@
-// Llamadas al microservicio de carrito (a través del Gateway).
-// El carrito se guarda en MySQL por usuario: no se pierde al cerrar el navegador ni al cambiar de equipo.
+
+
 import { API, leerError } from "./config";
 
 export interface ItemCarrito {

@@ -6,7 +6,7 @@ import { enviarContacto } from "../../api/contacto";
 const esCorreoValido = (valor: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
 
-type CampoContacto = "nombre" | "correo" | "mensaje";
+type CampoContacto = "nombre" | "correo" | "asunto" | "mensaje";
 
 type ValoresContacto = Record<CampoContacto, string>;
 type ErroresContacto = Partial<Record<CampoContacto, string>>;
@@ -15,10 +15,11 @@ type CamposTocados = Partial<Record<CampoContacto, boolean>>;
 const VALORES_INICIALES: ValoresContacto = {
   nombre: "",
   correo: "",
+  asunto: "Consulta general",
   mensaje: "",
 };
 
-const CAMPOS: CampoContacto[] = ["nombre", "correo", "mensaje"];
+const CAMPOS: CampoContacto[] = ["nombre", "correo", "asunto", "mensaje"];
 
 function validarCampo(campo: CampoContacto, valor: string): string {
   const limpio = valor.trim();
@@ -35,6 +36,10 @@ function validarCampo(campo: CampoContacto, valor: string): string {
 
   if (campo === "correo" && !esCorreoValido(limpio)) {
     return "Ingresa un correo válido, por ejemplo: nombre@correo.cl";
+  }
+
+  if (campo === "asunto" && !limpio) {
+    return "Selecciona un asunto para tu mensaje.";
   }
 
   if (campo === "mensaje" && limpio.length < 10) {
@@ -113,7 +118,7 @@ function FormularioContacto() {
       await enviarContacto({
         nombre: valores.nombre.trim(),
         email: valores.correo.trim(),
-        asunto: "Consulta general",
+        asunto: valores.asunto,
         mensaje: valores.mensaje.trim(),
       });
       setEnviado(true);
@@ -165,6 +170,27 @@ function FormularioContacto() {
         autoComplete="email"
         refInput={correoRef}
       />
+
+      <div className="mb-3">
+        <label className="form-label" htmlFor="contacto-asunto">Asunto</label>
+        <select
+          id="contacto-asunto"
+          className={`form-select${mostrarError("asunto") ? " campo-error" : ""}`}
+          value={valores.asunto}
+          onChange={(e) => handleChange("asunto", e.target.value)}
+          onBlur={() => handleBlur("asunto")}
+        >
+          <option value="Consulta general">Consulta general</option>
+          <option value="Disponibilidad de producto">Disponibilidad de producto</option>
+          <option value="Estado de mi pedido">Estado de mi pedido</option>
+          <option value="Reparación de instrumento">Reparación de instrumento</option>
+          <option value="Cotización">Cotización</option>
+          <option value="Otro">Otro</option>
+        </select>
+        {mostrarError("asunto") && (
+          <p className="mensaje-error mt-1 mb-0" role="alert">{errores.asunto}</p>
+        )}
+      </div>
 
       <CampoFormulario
         id="contacto-mensaje"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { mensajeError } from "../api/config";
 import { useParams, Link } from "react-router-dom";
-import { obtenerProducto, type Producto } from "../api/productos";
+import { obtenerProducto, obtenerOfertas, type Producto } from "../api/productos";
 import { agregarAlCarrito } from "../api/carrito";
 import { obtenerUsuario } from "../api/sesion";
 
@@ -10,6 +10,7 @@ function DetalleProducto() {
   const [producto, setProducto] = useState<Producto | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [agregando, setAgregando] = useState(false);
+  const [ofertaPrecio, setOfertaPrecio] = useState<number | null>(null);
 
   const usuario = obtenerUsuario();
 
@@ -18,12 +19,19 @@ function DetalleProducto() {
     obtenerProducto(Number(id))
       .then(setProducto)
       .catch((e) => setError(e.message));
+    obtenerOfertas()
+      .then((os) => {
+        const o = os.find((x) => (x.producto?.id ?? x.idProducto ?? x.id_producto) === Number(id));
+        setOfertaPrecio(o?.precioOferta ?? null);
+      })
+      .catch(() => {});
   }, [id]);
 
   if (error) return <div className="pagina"><p className="estado-carga text-danger">{error}</p></div>;
   if (!producto) return <div className="pagina"><p className="estado-carga">Cargando...</p></div>;
 
-  const precioMostrar = producto.precioOferta ?? producto.precio;
+  const precioOferta = ofertaPrecio ?? producto.precioOferta ?? null;
+  const precioMostrar = precioOferta ?? producto.precio;
 
   const handleAgregar = async () => {
     if (!usuario) {
@@ -57,7 +65,7 @@ function DetalleProducto() {
               <p className="detalle-descripcion">{producto.descripcion}</p>
               <p className="detalle-precio">
                 ${precioMostrar.toLocaleString("es-CL")}
-                {producto.precioOferta && (
+                {precioOferta && (
                   <span className="precio-anterior">
                     ${producto.precio.toLocaleString("es-CL")}
                   </span>

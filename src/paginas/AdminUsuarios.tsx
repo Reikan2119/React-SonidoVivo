@@ -21,10 +21,8 @@ function AdminUsuarios() {
   useEffect(() => { cargar(); }, []);
 
   const cambiarRol = async (id: number, rol: string) => {
-    const r = await fetch(`${API}/usuarios/${id}/rol`, {
+    const r = await fetch(`${API}/usuarios/${id}/rol?rol=${encodeURIComponent(rol)}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombreRol: rol }),
     });
     if (r.ok) cargar(); else alert(await leerError(r, "No se pudo cambiar el rol"));
   };

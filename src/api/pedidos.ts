@@ -13,7 +13,7 @@ export interface Pedido {
   tipoEntrega: string;
   direccionEntrega?: string | null;
   total: number;
-  detalles?: { productoId: number; nombreProducto: string; precioUnitario: number; cantidad: number; subtotal: number }[];
+  items: ItemPedido[];
 }
 
 export async function crearPedido(datos: {

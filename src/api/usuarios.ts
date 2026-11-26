@@ -29,20 +29,6 @@ export async function registrarUsuario(datos: {
   return r.json();
 }
 
-export async function actualizarUsuario(id: number, cambios: {
-  nombre?: string;
-  apellido?: string;
-  telefono?: string;
-  direccion?: string;
-}): Promise<UsuarioAPI> {
-  const r = await fetch(`${API}/usuarios/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(cambios),
-  });
-  if (!r.ok) throw new Error(await leerError(r, "No se pudo actualizar el perfil"));
-  return r.json();
-}
 export async function loginUsuario(email: string, password: string): Promise<UsuarioAPI> {
   const r = await fetch(`${API}/usuarios/login`, {
     method: "POST",

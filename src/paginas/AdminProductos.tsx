@@ -22,6 +22,7 @@ function AdminProductos() {
     }).catch(() => {});
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { cargar(); }, []);
 
   const eliminar = async (id: number) => {

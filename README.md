@@ -1,67 +1,40 @@
-# SonidoVivo
+# SonidoVivo — Frontend (React)
 
-Tienda de instrumentos musicales construida con **React**, **TypeScript** y **Vite**, organizada con **Atomic Design**.
+Aplicación web (SPA) para la tienda de instrumentos musicales SonidoVivo.
+Construida con React 19, TypeScript, Vite 8, React Router 7, Bootstrap 5 y Vitest + Testing Library.
 
-## Tecnologías
+## Estructura
 
-- React 19
-- TypeScript
-- Vite
-- React Router
-- Bootstrap 5
-- Vitest + Testing Library
-
-## Estructura del proyecto
+Organizada con Atomic Design:
 
 ```
 src/
+├── api/            # Llamadas al backend (Gateway en localhost:8080/api)
 ├── componentes/
-│   ├── atomos/        # Elementos mínimos: Alerta, Boton, BotonComprar, BotonVolver
-│   ├── moleculas/     # Combinaciones de átomos: CardProducto, CampoFormulario, TarjetaContenido...
-│   └── organismos/    # Secciones completas: Navbar, formularios, SeccionCatalogo
-│       └── nosotros/  # Organismos específicos de la página Nosotros
-├── datos/             # Catálogo de productos y contenido de Nosotros
-├── estilos/           # CSS por dominio: formularios.css, nosotros.css
-├── paginas/           # Composición de organismos por ruta
-├── servicios/         # Lógica de auth, carrito y stock sobre localStorage
-├── test/              # Pruebas unitarias y de componentes
-├── tipos/             # Interfaces y tipos compartidos
-└── utilidades/        # Funciones reutilizables (validación)
+│   ├── atomos/
+│   ├── moleculas/
+│   └── organismos/
+├── paginas/
+└── test/
 ```
 
-### Flujo de dependencias
+## Páginas
 
-`paginas → organismos → moléculas → átomos`
+Públicas: Inicio, Productos, Detalle de producto, Nosotros, Contacto, Carrito, Login, Registro.
+Protegidas: Mis pedidos, y Panel Admin (Productos, Pedidos, Mensajes, Usuarios).
 
-Las páginas solo componen organismos. Los organismos consumen datos y servicios, las moléculas reutilizan átomos y los átomos no dependen de otras capas.
+## Sesión
+
+Se guarda en `sessionStorage` (no `localStorage`).
 
 ## Scripts
 
-```bash
-npm run dev      # Servidor de desarrollo
-npm run build    # Compilación de TypeScript + build de Vite
-npm run test     # Pruebas con Vitest
-npm run lint     # Análisis con ESLint
-npm run preview  # Vista previa del build
-```
+- `npm run dev` — servidor de desarrollo (http://localhost:5173).
+- `npm run build` — compilación de producción.
+- `npm run test` — pruebas (7 tests en 3 archivos).
+- `npm run lint` — lint.
 
-## Rutas principales
+## Backend
 
-| Ruta | Descripción |
-| --- | --- |
-| `/` | Inicio, categorías y productos destacados |
-| `/productos` | Catálogo completo con filtros por sección |
-| `/producto/:id` | Detalle de producto |
-| `/nosotros` | Historia, valores, servicios y equipo |
-| `/contacto` | Formulario de contacto con validación |
-| `/carrito` | Carrito y compra |
-| `/login`, `/registro`, `/perfil` | Autenticación y perfil |
-| `/admin` | Panel de administración de stock |
-
-## Pruebas
-
-El proyecto cuenta con **20 pruebas** distribuidas en 6 archivos. Revisa `INFORME_TEST.md` y `TESTING_COVERAGE.md` para el detalle.
-
-```bash
-npm run test
-```
+El frontend consume los microservicios a través del API Gateway en `http://localhost:8080/api`.
+Ver el repositorio de backend para la guía de arranque.

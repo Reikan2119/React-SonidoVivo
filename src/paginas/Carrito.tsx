@@ -1,5 +1,4 @@
-import { API, leerError } from "../api/config";
-import { mensajeError } from "../api/config";
+import { API, leerError, mensajeError } from "../api/config";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { obtenerUsuario } from "../api/sesion";
@@ -102,16 +101,7 @@ function Carrito() {
     if (validacionStock) { alert(validacionStock); return; }
     if (tipoEntrega === "DESPACHO" && direccion.trim() === "") { alert("Debe ingresar la dirección de entrega"); return; }
     setPagando(true);
-    const descontados: ItemCarrito[] = [];
     try {
-      for (const p of items) {
-        const res = await fetch(`${API}/productos/${p.productoId}/descontar?cantidad=${p.cantidad}`, { method: "PUT" });
-        if (!res.ok) {
-          const msg = await leerError(res, `Stock insuficiente para ${p.nombre}: quedan 0`);
-          throw new Error(msg.includes("quedan") ? `El producto ${p.nombre} ya no tiene stock disponible. Elimínalo del carrito para continuar.` : msg);
-        }
-        descontados.push(p);
-      }
       const res = await fetch(`${API}/pedidos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -122,20 +112,20 @@ function Carrito() {
           items: items.map((p) => ({ productoId: p.productoId, cantidad: p.cantidad })),
         }),
       });
-      if (!res.ok) throw new Error(await leerError(res, "No se pudo registrar el pedido"));
+      if (!res.ok) {
+        const msg = await leerError(res, "No se pudo registrar el pedido");
+        throw new Error(msg.includes("quedan") || msg.toLowerCase().includes("stock insuficiente")
+          ? `El producto ya no tiene stock disponible. Elimínalo del carrito para continuar.`
+          : msg);
+      }
       const pedido = await res.json();
-      descontados.length = 0;
       await vaciarCarrito(usuarioId).catch((e) => console.error("No se pudo vaciar el carrito:", e));
       setCarrito({ usuarioId, items: [], total: 0 });
+      setValidacionStock(null);
       window.dispatchEvent(new Event("carritoActualizado"));
       alert(`La compra fue realizada con exito. Pedido N° ${pedido.id}`);
       navegacion("/mis-pedidos");
     } catch (error) {
-      await Promise.all(
-        descontados.map((p) =>
-          fetch(`${API}/productos/${p.productoId}/reponer?cantidad=${p.cantidad}`, { method: "PUT" }).catch(() => undefined)
-        )
-      );
       console.error("Error al pagar:", error);
       alert(mensajeError(error, "No se pudo conectar con el servidor. Intente nuevamente."));
     } finally {

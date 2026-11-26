@@ -109,6 +109,7 @@ function Carrito() {
           usuarioId,
           tipoEntrega,
           direccionEntrega: tipoEntrega === "DESPACHO" ? direccion.trim() : "",
+          metodoPago,
           items: items.map((p) => ({ productoId: p.productoId, cantidad: p.cantidad })),
         }),
       });
